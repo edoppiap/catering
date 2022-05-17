@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8" />
+		<link href="/css/my-style.css" rel="stylesheet">
+		<title>Lista chef</title>
+	</head>
+	<body>
+		<h4>Elenco chef</h4>
+		<ul>
+			<li th:each="chef:${listaChef}">
+				<a href="chef.html" th:href="@{'/chef' + '/' + ${chef.id}}" th:text="${chef.nome} + ' ' +${chef.cognome}">Mario Rossi</a>
+			</li>
+		</ul>
+	</body>
+</html>

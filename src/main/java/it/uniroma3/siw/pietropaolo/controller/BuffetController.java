@@ -21,12 +21,13 @@ import it.uniroma3.siw.pietropaolo.service.BuffetService;
 public class BuffetController {
 	
 	@Autowired BuffetService buffetService;
+	
 	@Autowired BuffetValidator buffetValidator;
 	
 	@GetMapping("/buffet/{id}")
 	private String getBuffet(@PathVariable("id") Long id, Model model) {
 		model.addAttribute("buffet", buffetService.findById(id));
-		return "buffet.html";
+		return "buffet";
 	}
 	
 	@GetMapping("/buffetForm")
@@ -43,7 +44,7 @@ public class BuffetController {
 	}
 	
 	@PostMapping("/buffet")
-	private String newBuffet(@Valid @ModelAttribute("buffet") Buffet buffet, BindingResult bindingResult, Model model) {
+	public String newBuffet(@Valid @ModelAttribute("buffet") Buffet buffet, BindingResult bindingResult, Model model) {
 		this.buffetValidator.validate(buffet, bindingResult);
 		
 		if(!bindingResult.hasErrors()) {

@@ -6,13 +6,14 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 import it.uniroma3.siw.pietropaolo.model.pojo.Buffet;
-import it.uniroma3.siw.pietropaolo.service.BuffetService;
+import it.uniroma3.siw.pietropaolo.model.pojo.Chef;
+import it.uniroma3.siw.pietropaolo.service.ChefService;
 
 @Component
-public class BuffetValidator implements Validator{
+public class ChefValidator implements Validator{
 	
-	@Autowired 
-	private BuffetService buffetService;
+	@Autowired
+	private ChefService chefService;
 
 	@Override
 	public boolean supports(Class<?> clazz) {
@@ -20,10 +21,11 @@ public class BuffetValidator implements Validator{
 	}
 
 	@Override
-	public void validate(Object other, Errors errors) {
-		if(this.buffetService.alreadyExists((Buffet)other)){
-			errors.reject("persona.duplicato");
-		}		
+	public void validate(Object target, Errors errors) {
+		if(this.chefService.alreadyExists((Chef)target)) {
+			errors.reject("chef.duplicato");
+		}
+		
 	}
 
 }

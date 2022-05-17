@@ -16,7 +16,7 @@ import lombok.Data;
 @Data
 public class Chef {
 	
-	private Chef() {
+	public Chef() {
 		
 	}
 	

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8" />
+		<link href="/css/my-style.css" rel="stylesheet">
+		<title>Inserimento chef</title>
+	</head>
+	<body>
+		<form th:action = "@{/chef}" method = "post" th:object = "${chef}">
+			<div>Nome:<input type = "text" th:field = "*{nome}"/></div>
+			<div>Cognome:<input type = "text" th:field = "*{cognome}"/></div>
+			<div>Nazionalità:<input type = "text" th:field = "*{nazionalita}"/></div>
+			<div><button type = "submit">Conferma</button></div>
+		</form>
+	</body>
+</html>
