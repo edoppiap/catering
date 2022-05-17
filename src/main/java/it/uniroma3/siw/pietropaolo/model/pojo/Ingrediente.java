@@ -28,7 +28,6 @@ public class Ingrediente {
 	@NotBlank
 	private String origine;
 	
-	@SuppressWarnings("unused")
 	private String descr;
 
 	@Override

@@ -17,7 +17,7 @@ import lombok.Data;
 @Data
 public class Buffet {
 	
-	private Buffet() {
+	public Buffet() {
 		
 	}
 	
@@ -28,7 +28,6 @@ public class Buffet {
 	@NotBlank
 	private String nome;
 	
-	@SuppressWarnings("unused")
 	private String descr;
 	
 	@ManyToOne

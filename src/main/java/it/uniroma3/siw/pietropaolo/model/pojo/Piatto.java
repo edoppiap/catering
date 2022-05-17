@@ -28,11 +28,13 @@ public class Piatto {
 	@NotBlank
 	private String nome;
 	
-	@SuppressWarnings("unused")
 	private String descrizione;
 	
 	@ManyToOne
 	private Buffet buffet;
+	
+	@ManyToOne
+	private Chef chef;
 	
 	@OneToMany
 	private List<Ingrediente> ingredienti;

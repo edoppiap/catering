@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8" />
+		<link href="/css/my-style.css" rel="stylesheet">
+		<title>Lista buffet</title>
+	</head>
+	<body>
+		<h4>Elenco buffet</h4>
+		<ul>
+			<li th:each="buffet:${listaBuffet}">
+				<a href="buffet.html" th:href="@{'/buffet' + '/' + ${buffet.id}}" th:text="${buffet.nome} + ' ' +${buffet.descr}">Rosa</a>
+			</li>
+		</ul>
+	</body>
+</html>

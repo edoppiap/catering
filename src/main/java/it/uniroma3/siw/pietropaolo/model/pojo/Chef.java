@@ -30,7 +30,6 @@ public class Chef {
 	@NotBlank
 	private String cognome;
 	
-	@SuppressWarnings("unused")
 	private String nazionalita;
 	
 	@OneToMany(mappedBy="chef")
