@@ -8,6 +8,7 @@ import it.uniroma3.siw.pietropaolo.repository.PiattoRepository;
 @Service
 public class PiattoService {
 	
-	@Autowired PiattoRepository piattoRepository;
+	@Autowired 
+	private PiattoRepository piattoRepository;
 
 }

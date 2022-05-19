@@ -35,4 +35,12 @@ public class BuffetService {
 		return listaBuffet;
 	}
 
+	public void deleteBuffetById(Long id){
+		this.buffetRepository.deleteById(id);
+	}
+
+	public void deleteAll(){
+		this.buffetRepository.deleteAll();
+	}
+
 }

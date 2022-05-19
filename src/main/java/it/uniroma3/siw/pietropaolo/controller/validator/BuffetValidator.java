@@ -22,7 +22,7 @@ public class BuffetValidator implements Validator{
 	@Override
 	public void validate(Object other, Errors errors) {
 		if(this.buffetService.alreadyExists((Buffet)other)){
-			errors.reject("persona.duplicato");
+			errors.reject("buffet.duplicato");
 		}		
 	}
 

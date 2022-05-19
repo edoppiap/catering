@@ -6,11 +6,27 @@
 		<title>Inserimento chef</title>
 	</head>
 	<body>
+		<h4>Aggiungi uno chef</h4>
 		<form th:action = "@{/chef}" method = "post" th:object = "${chef}">
-			<div>Nome:<input type = "text" th:field = "*{nome}"/></div>
-			<div>Cognome:<input type = "text" th:field = "*{cognome}"/></div>
-			<div>Nazionalità:<input type = "text" th:field = "*{nazionalita}"/></div>
+			<div>
+				<span>Nome:</span>
+				<span><input type = "text" th:field = "*{nome}"/></span>
+				<span th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></span>
+			</div>
+			<div>
+				<span>Cognome:</span>
+				<span><input type = "text" th:field = "*{cognome}"/></span>
+				<span th:if="${#fields.hasErrors('cognome')}" th:errors="*{cognome}"></span>
+			</div>
+			<div>
+				<span>Nazionalità:</span>
+				<span><input type = "text" th:field = "*{nazionalita}"/></span>
+				<span th:if="${#fields.hasErrors('nazionalita')}" th:errors="*{nazionalita}"></span>
+			</div>
 			<div><button type = "submit">Conferma</button></div>
+			<div th:if="${#fields.hasGlobalErrors()}">
+				<p th:each="err : ${#fields.globalErrors()}" th:text="${err}">...</p>
+			</div>
 		</form>
 	</body>
 </html>

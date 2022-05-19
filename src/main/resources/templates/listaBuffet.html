@@ -9,8 +9,21 @@
 		<h4>Elenco buffet</h4>
 		<ul>
 			<li th:each="buffet:${listaBuffet}">
-				<a href="buffet.html" th:href="@{'/buffet' + '/' + ${buffet.id}}" th:text="${buffet.nome} + ' ' +${buffet.descr}">Rosa</a>
+				<a href="buffet.html" 
+					th:href="@{'/buffet' + '/' + ${buffet.id}}" 
+					th:text="${buffet.nome}">Rosa</a>
+				<span th:text="${buffet.descr}">Tutte cose rosa</span>
+				<a href="listaBuffet.html" 
+					th:href="@{'/deleteBuffet'+'/'+${buffet.id}}" 
+					th:text="Cancella">Cancella</a>
 			</li>
 		</ul>
+		<div>
+			<a href="listaBuffet.html"
+				th:href="@{/deleteAllBuffet}">Cancella tutti i buffet</a>
+		</div>
+		<div>
+			<a href="/">Home</a>
+		</div>
 	</body>
 </html>

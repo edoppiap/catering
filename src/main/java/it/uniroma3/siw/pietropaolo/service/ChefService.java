@@ -20,7 +20,7 @@ public class ChefService {
 	}
 	
 	public boolean alreadyExists(Chef chef) {
-		return this.chefRepository.existsByNome(chef.getNome());
+		return this.chefRepository.existsByNomeAndCognome(chef.getNome(), chef.getCognome());
 	}
 	
 	public Chef findById(Long id) {
@@ -34,5 +34,9 @@ public class ChefService {
 		}
 		return listaChef;
 	}
+
+    public void deleteBuffetById(Long id) {
+		this.chefRepository.deleteById(id);
+    }
 
 }

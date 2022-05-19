@@ -8,5 +8,6 @@ import it.uniroma3.siw.pietropaolo.repository.IngredienteRepository;
 @Service
 public class IngredienteService {
 
-	@Autowired IngredienteRepository ingredienteRepository;
+	@Autowired 
+	private IngredienteRepository ingredienteRepository;
 }

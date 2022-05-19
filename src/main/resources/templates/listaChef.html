@@ -9,8 +9,16 @@
 		<h4>Elenco chef</h4>
 		<ul>
 			<li th:each="chef:${listaChef}">
-				<a href="chef.html" th:href="@{'/chef' + '/' + ${chef.id}}" th:text="${chef.nome} + ' ' +${chef.cognome}">Mario Rossi</a>
+				<span><a href="chef.html" 
+					th:href="@{'/chef' + '/' + ${chef.id}}" 
+					th:text="${chef.nome} + ' ' +${chef.cognome}">Mario Rossi</a></span>
+				<span><a href="listaChef.html"
+					th:href="@{'/deleteChef/'+${chef.id}}"
+					th:text="Cancella">Cancella</a></span>
 			</li>
 		</ul>
+		<div>
+			<a href="/">Home</a>
+		</div>
 	</body>
 </html>

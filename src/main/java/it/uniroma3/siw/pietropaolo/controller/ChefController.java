@@ -20,14 +20,23 @@ import it.uniroma3.siw.pietropaolo.service.ChefService;
 @Controller
 public class ChefController {
 	
-	@Autowired ChefService chefService;
+	@Autowired 
+	private ChefService chefService;
 	
-	@Autowired ChefValidator chefValidator;
+	@Autowired 
+	private ChefValidator chefValidator;
 	
 	@GetMapping("/chef/{id}")
 	private String getBuffet(@PathVariable("id") Long id, Model model) {
 		model.addAttribute("chef", chefService.findById(id));
 		return "chef";
+	}
+
+	@GetMapping("/deleteChef/{id}")
+	public String deleteBuffet(@PathVariable("id") Long id, Model model){
+		this.chefService.deleteBuffetById(id);
+		model.addAttribute("listaChef", this.chefService.findAll());
+		return "listaChef";
 	}
 	
 	@GetMapping("/chefForm")
