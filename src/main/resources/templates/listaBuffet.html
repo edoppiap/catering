@@ -6,24 +6,81 @@
 		<title>Lista buffet</title>
 	</head>
 	<body>
-		<h4>Elenco buffet</h4>
-		<ul>
-			<li th:each="buffet:${listaBuffet}">
-				<a href="buffet.html" 
-					th:href="@{'/buffet' + '/' + ${buffet.id}}" 
-					th:text="${buffet.nome}">Rosa</a>
-				<span th:text="${buffet.descr}">Tutte cose rosa</span>
-				<a href="listaBuffet.html" 
-					th:href="@{'/deleteBuffet'+'/'+${buffet.id}}" 
-					th:text="Cancella">Cancella</a>
-			</li>
-		</ul>
+		<h1>Elenco buffet</h1>
+		<div class="grid-element">
+			<div class="grid-block" th:each="buffet:${listaBuffet}">
+				<a class="buffet-clicable" href="buffet.html" th:href="@{'/buffet' + '/' + ${buffet.id}}"></a>
+				<div class="inner">
+					<h3 class="title" th:text="${buffet.nome}">Rosa</h3>
+					<a class="chef-link" href="chef.html" th:href="@{'chef/'+${buffet.chef.id}}" ><h4 class="chef-name" th:text="${buffet.chef.nome}+' '+${buffet.chef.cognome}">Mario Rossi</h4></a>
+					<p class="descr" th:text="${buffet.descr}">Tutte cose rosa</p>
+					<a class="edit-button" href=""><img src="/icons/edit_FILL0_wght400_GRAD0_opsz48.png"></a> 
+					<a class="delete-button" href="listaBuffet.html" 
+						th:href="@{'/deleteBuffet'+'/'+${buffet.id}}" 
+						><img src="/icons/delete_FILL0_wght400_GRAD0_opsz48.png"></a>
+				</div>
+			</div>
+			<div id="form-div" class="grid-block-add" onclick="openMyForm();">
+				<img id="myAddIcon" th:classappend="${#fields.hasErrors('${buffet}') ? 'disable' : 'enable'}" src="/icons/add_FILL0_wght400_GRAD0_opsz48.png">
+				<div class="buffet-form" id="myForm" th:classappend="${#fields.hasErrors('${buffet}') ? 'enable' : 'disable'}" >
+					<h4>Aggiungi un buffet</h4>
+					<form th:action = "@{/buffet}" method = "post" th:object = "${buffet}" >
+						<div>
+							<span>Nome:</span>
+							<span></span><input placeholder="Inserisci nome" type = "text" th:field = "*{nome}"/></span>
+							<span th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></span>
+						</div>
+						<div>
+							<span>Descrizione:</span>
+							<span><input placeholder="Descrivi il buffet" type = "text" th:field = "*{descr}"/></span>
+							<span th:if="${#fields.hasErrors('descr')}" th:errors="*{descr}"></span>
+						</div>
+						<p>
+							<select th:field="*{chef}">
+								<option value ="" hidden>Seleziona uno chef</option>
+								<option value ="1" disabled>Seleziona uno chef</option>
+								<option th:each="chef : ${listaChef}" th:value="${chef.id}" th:text="${chef.nome}+ ' ' +${chef.cognome}"></option>
+							</select>
+							<span th:if="${#fields.hasErrors('chef.id')}"th:errors="*{chef.id}"></span>
+						</p>
+						<div>
+							<button onclick="closeMyForm()" type = "submit">Conferma</button>
+							<button id="cancel-btn" type="reset" onclick="closeMyForm();" >Annulla</button>							
+						</div>
+						<div th:if="${#fields.hasGlobalErrors()}">
+							<p th:each="err : ${#fields.globalErrors()}" th:text="${err}">...</p>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
 		<div>
-			<a href="listaBuffet.html"
-				th:href="@{/deleteAllBuffet}">Cancella tutti i buffet</a>
+			<form th:action="@{/deleteAllBuffet}">
+				<button class="nice-button">Cancella tutti i buffet</button>
+			</form>
 		</div>
 		<div>
 			<a href="/">Home</a>
 		</div>
+		<script>
+			var isOpen = false;
+			function openMyForm(){
+				if(!isOpen){
+					document.getElementById("myForm").style.display="block";
+					document.getElementById("myAddIcon").style.display="none";
+					document.getElementById("form-div").onclick=null;
+					isOpen=true;
+				}else{
+					isOpen=false;
+				}
+			}
+
+			function closeMyForm(){
+				document.getElementById("myForm").style.display="none";
+				document.getElementById("myAddIcon").style.display="inline"
+				document.getElementById("form-div").onclick=openMyForm;
+				isOpen = isOpen ? true : true;
+			}
+		</script>
 	</body>
 </html>

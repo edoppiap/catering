@@ -44,6 +44,8 @@ public class BuffetController {
 	public String deleteBuffet(@PathVariable("id") Long id, Model model){
 		this.buffetService.deleteBuffetById(id);
 		model.addAttribute("listaBuffet", this.buffetService.findAll());
+		model.addAttribute("buffet", new Buffet());
+		model.addAttribute("listaChef", chefService.findAll());
 		return "listaBuffet";
 	}
 
@@ -51,6 +53,8 @@ public class BuffetController {
 	public String deleteAllBuffet(Model model){
 		this.buffetService.deleteAll();
 		model.addAttribute("listaBuffet", this.buffetService.findAll());
+		model.addAttribute("buffet", new Buffet());
+		model.addAttribute("listaChef", chefService.findAll());
 		return "listaBuffet";
 	}
 
@@ -71,6 +75,8 @@ public class BuffetController {
 	public String getAllBuffet(Model model) {
 		List<Buffet> listaBuffet = buffetService.findAll();
 		model.addAttribute("listaBuffet", listaBuffet);
+		model.addAttribute("buffet", new Buffet());
+		model.addAttribute("listaChef", chefService.findAll());
 		return "listaBuffet";
 	}
 	
@@ -81,10 +87,15 @@ public class BuffetController {
 		
 		if(!bindingResult.hasErrors()) {
 			this.buffetService.save(buffet);
-			model.addAttribute("buffet", buffet);
-			return "buffet";
-		}else
-			return "buffetForm";
+			model.addAttribute("listaBuffet", buffetService.findAll());
+			model.addAttribute("buffet", new Buffet());
+			model.addAttribute("listaChef", chefService.findAll());
+			return "listaBuffet";
+		}else{
+			model.addAttribute("listaBuffet", buffetService.findAll());
+			model.addAttribute("listaChef", chefService.findAll());
+			return "listaBuffet";
+		}
 	}
 
 }
