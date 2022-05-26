@@ -8,27 +8,29 @@
 	<body>
 		<h4>Aggiungi un buffet</h4>
 		<form th:action = "@{/buffet}" method = "post" th:object = "${buffet}">
-			<div>
-				<span>Nome:</span>
-				<span></span><input type = "text" th:field = "*{nome}"/></span>
-				<span th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></span>
-			</div>
-			<div>
-				<span>Descrizione:</span>
-				<span><input type = "text" th:field = "*{descr}"/></span>
-				<span th:if="${#fields.hasErrors('descr')}" th:errors="*{descr}"></span>
-			</div>
-			<p>
-				<select th:field="*{chef}">
-					<option value ="" hidden>Seleziona uno chef</option>
-					<option value ="1" disabled>Seleziona uno chef</option>
-					<option th:each="chef : ${listaChef}" th:value="${chef.id}" th:text="${chef.nome}+ ' ' +${chef.cognome}"></option>
-				</select>
-				<span th:if="${#fields.hasErrors('chef.id')}"th:errors="*{chef.id}"></span>
-			</p>
-			<div><button type = "submit">Conferma</button></div>
-			<div th:if="${#fields.hasGlobalErrors()}">
-				<p th:each="err : ${#fields.globalErrors()}" th:text="${err}">...</p>
+			<div th:fragment="formBuffet">
+				<div>
+					<span>Nome:</span>
+					<span></span><input type = "text" th:field = "*{nome}"/></span>
+					<span th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></span>
+				</div>
+				<div>
+					<span>Descrizione:</span>
+					<span><input type = "text" th:field = "*{descr}"/></span>
+					<span th:if="${#fields.hasErrors('descr')}" th:errors="*{descr}"></span>
+				</div>
+				<p>
+					<select th:field="*{chef}">
+						<option value ="" hidden>Seleziona uno chef</option>
+						<option value ="1" disabled>Seleziona uno chef</option>
+						<option th:each="chef : ${listaChef}" th:value="${chef.id}" th:text="${chef.nome}+ ' ' +${chef.cognome}"></option>
+					</select>
+					<span th:if="${#fields.hasErrors('chef.id')}"th:errors="*{chef.id}"></span>
+				</p>
+				<div><button type = "submit">Conferma</button></div>
+				<div th:if="${#fields.hasGlobalErrors()}">
+					<p th:each="err : ${#fields.globalErrors()}" th:text="${err}">...</p>
+				</div>
 			</div>
 		</form>
 	</body>

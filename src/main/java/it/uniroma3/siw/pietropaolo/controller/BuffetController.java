@@ -70,6 +70,13 @@ public class BuffetController {
 		model.addAttribute("listaChef", chefService.findAll());
 		return "buffetForm";
 	}
+
+	@GetMapping("/editBuffet/{id}")
+	public String editBuffet(@PathVariable("id") Long id, Model model){
+		model.addAttribute("buffet", buffetService.findById(id));
+		model.addAttribute("listaChef", chefService.findAll());
+		return "editBuffet";
+	}
 	
 	@GetMapping("/listaBuffet")
 	public String getAllBuffet(Model model) {
@@ -78,6 +85,15 @@ public class BuffetController {
 		model.addAttribute("buffet", new Buffet());
 		model.addAttribute("listaChef", chefService.findAll());
 		return "listaBuffet";
+	}
+
+	@PostMapping("/editBuffet/{id}")
+	public String editBuffet(@PathVariable("id") Long id,/*@Valid*/ @ModelAttribute("buffet") Buffet buffet, /*BindingResult bindingResult,*/ Model model) {
+		this.buffetService.updateBuffet(buffet);
+			model.addAttribute("listaBuffet", buffetService.findAll());
+			model.addAttribute("buffet", buffet);
+			model.addAttribute("listaChef", chefService.findAll());
+			return "listaBuffet";
 	}
 	
 	@PostMapping("/buffet")

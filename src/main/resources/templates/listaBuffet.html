@@ -2,102 +2,56 @@
 <html xmlns:th="http://www.thymeleaf.org">
 	<head>
 		<meta charset="UTF-8" />
-		<link href="/css/my-style.css" rel="stylesheet">
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" 
+		rel="stylesheet" 
+		integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" 
+		crossorigin="anonymous">
 		<title>Lista buffet</title>
 	</head>
 	<body>
 		<div th:replace="page-header :: header"></div>
-		<h1>Elenco buffet</h1>
-		<div class="grid-element">
-			<div class="grid-block" th:each="buffet:${listaBuffet}">
-				<a class="buffet-clicable" href="buffet.html" th:href="@{'/buffet' + '/' + ${buffet.id}}"></a>
-				<div class="inner">
-					<h3 class="title" th:text="${buffet.nome}">Rosa</h3>
-					<a class="chef-link" href="chef.html" th:href="@{'chef/'+${buffet.chef.id}}" ><h4 class="chef-name" th:text="${buffet.chef.nome}+' '+${buffet.chef.cognome}">Mario Rossi</h4></a>
-					<p class="descr" th:text="${buffet.descr}">Tutte cose rosa</p>
-					<a class="edit-button" href=""><img src="/icons/edit_FILL0_wght400_GRAD0_opsz48.png"></a> 
-					<a class="delete-button" onclick="openDeletePopup('${buffet.id}')"
-						><img src="/icons/delete_FILL0_wght400_GRAD0_opsz48.png"></a>
+
+		<section class="py-5 text-center container">
+			<div class="row py-lg-5">
+				<div class="col-lg-6 col-md-8 mx-auto">
+					<h1 class="fw-light">Elenco buffet</h1>
+					<p class="lead text-muted">Solo i migliori buffet, scelti e selezionati per portarti in tavola solo il meglio.</p>
 				</div>
 			</div>
-			<div id="form-div" class="grid-block-add" onclick="openMyForm();">
-				<img class="add-button" id="myAddIcon" th:classappend="${#fields.hasErrors('${buffet}') ? 'disable' : 'enable'}" src="/icons/add_FILL0_wght400_GRAD0_opsz48.png">
-				<div class="buffet-form" id="myForm" th:classappend="${#fields.hasErrors('${buffet}') ? 'enable' : 'disable'}" >
-					<h4>Aggiungi un buffet</h4>
-					<form th:action = "@{/buffet}" method = "post" th:object = "${buffet}" >
-						<div>
-							<span>Nome:</span>
-							<span></span><input placeholder="Inserisci nome" type = "text" th:field = "*{nome}"/></span>
-							<span th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></span>
+		</section>
+
+		<div class="album py-5 bg-light">
+			<div class="container">
+				<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+					<div class="col" th:each="buffet:${listaBuffet}">
+						<div class="card shadow-lg">
+							<a href="buffet.html" th:href="@{'/buffet' + '/' + ${buffet.id}}" style="text-decoration: none; color: inherit;">
+								<svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" 
+								aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
+									<title>Nome del buffet</title>
+									<rect width="100%" height="100%" fill="#55595c"></rect>
+									<text x="50%" y="50%" fill="#eceeef" text-anchor="middle" dy=".3em" th:text="${buffet.nome}">Thumbnail</text>
+								</svg>
+							</a>
+							<div class="card-body">
+								<a class="link-dark" href="chef.html" th:href="'/chef/'+${buffet.chef.id}" style="text-decoration: none;">
+									<h5 class="card-title" title="Nome chef" th:text="${buffet.chef.nome}+' '+${buffet.chef.cognome}">Mario Rossi</h5>
+								</a>
+								<p class="card-text text-truncate" title="Descrizione" th:text="${buffet.descr}">Descrizione</p>
+								<div class="d-flex justify-content-between align-items-center">
+									<div class="btn-group">
+										<button type="button" class="btn btn-sm btn-outline-secondary" th:data-url="@{'/deleteBuffet/'+${buffet.id}}" onclick="window.location = this.getAttribute('data-url')">Cancella</button>
+										<button type="button" class="btn btn-sm btn-outline-secondary" th:data-url="@{'/editBuffet/'+${buffet.id}}" onclick="window.location = this.getAttribute('data-url')">Modifica</button>
+									</div>
+								</div>
+							</div>
 						</div>
-						<div>
-							<span>Descrizione:</span>
-							<span><input placeholder="Descrivi il buffet" type = "text" th:field = "*{descr}"/></span>
-							<span th:if="${#fields.hasErrors('descr')}" th:errors="*{descr}"></span>
-						</div>
-						<p>
-							<select th:field="*{chef}">
-								<option value ="" hidden>Seleziona uno chef</option>
-								<option value ="1" disabled>Seleziona uno chef</option>
-								<option th:each="chef : ${listaChef}" th:value="${chef.id}" th:text="${chef.nome}+ ' ' +${chef.cognome}"></option>
-							</select>
-							<span th:if="${#fields.hasErrors('chef.id')}"th:errors="*{chef.id}"></span>
-						</p>
-						<div>
-							<button onclick="closeMyForm()" type = "submit">Conferma</button>
-							<button id="cancel-btn" type="reset" onclick="closeMyForm();" >Annulla</button>							
-						</div>
-						<div th:if="${#fields.hasGlobalErrors()}">
-							<p th:each="err : ${#fields.globalErrors()}" th:text="${err}">...</p>
-						</div>
-					</form>
+					</div>
 				</div>
 			</div>
 		</div>
-		<div class="delete-popup" id="myDeletePopup">
-			<p>Sei sicuro di voler cancellare questo elemento?</p>
-			<button onclick="closeDeletePopup()">Annulla</button>
-			<button id="confirm-button" onclick="closeDeletePopup()" href="listaBuffet.html" 
-			th:href="@{'/deleteBuffet'+'/'+${buffet.id}}">Conferma</button>
-		</div>
-		<div>
-			<form th:action="@{/deleteAllBuffet}">
-				<button class="nice-button">Cancella tutti i buffet</button>
-			</form>
-		</div>
-		<div>
-			<a href="/">Home</a>
-		</div>
-		<script th:inline="javascript">
-			/*<![CDATA[*/
-			var isOpen = false;
-			function openMyForm(){
-				if(!isOpen){
-					document.getElementById("myForm").style.display="block";
-					document.getElementById("myAddIcon").style.display="none";
-					document.getElementById("form-div").onclick=null;
-					isOpen=true;
-				}else{
-					isOpen=false;
-				}
-			}
-
-			function closeMyForm(){
-				document.getElementById("myForm").style.display="none";
-				document.getElementById("myAddIcon").style.display="inline"
-				document.getElementById("form-div").onclick=openMyForm;
-				isOpen = isOpen ? true : true;
-			}
-
-			function openDeletePopup(id){
-				var deleteLink = '/deleteBuffet/';
-				document.getElementById("myDeletePopup").style.display="block";
-				document.getElementById("confirm-button").html('<button href="'+deleteLink+id+'"></button>');
-			}
-			function closeDeletePopup(){
-				document.getElementById("myDeletePopup").style.display="none";
-			}
-			/*]]>*/
-		</script>
+		<div class="container">
+            <div th:replace="page-footer :: footer"></div>
+        </div>
 	</body>
 </html>

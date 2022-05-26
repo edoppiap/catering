@@ -2,27 +2,25 @@
 <html xmlns:th="http://www.thymeleaf.org">
     <head>
         <meta charset="UTF-8" />
-		<link href="/css/my-style.css" rel="stylesheet">
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
 		<title>Home</title>
     </head>
     <body>
-        <!-- <div th:replace="fragments/header :: header"> -->
-            <div class="navbar navbar-inverse navbar-fixed-top">
-                <div class="container">
-                    <div class="navbar-header">
-                        <a class="navbar-brand" href="#">Static header</a>
-                    </div>
-                    <div class="navbar-collapse collapse">
-                        <ul class=" nav navbar-nav">
-                            <li class="active"><a href="#">Home</a></li>
-                            <li><a href="/Operazioni">Operazioni</a></li>
-                            <li><a th:href="@{/listaBuffet}" href='#'>Tutti i buffet</a></li>
-                            <li><a th:href="@{/listaChef}" href='#'>Tutti gli chef</a></li>
-                        </ul>
-                    </div>
-                    <span>Non sei loggato</span>
+        <div>
+            <div th:replace="page-header :: header"></div>
+        </div>
+        <div class="px-4 pt-5 my-5 text-center border-bottom">
+            <h1 class="display-4 fw-bold">Catering</h1>
+            <div class="col-lg-6 mx-auto">
+                <p class="lead mb-4">Questo sito parla di catering!</p>
+                <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-5">
+                    <button type="button" class="btn btn-primary btn-lg px-4 me-sm-3">Primary button</button>
+                    <button type="button" class="btn btn-outline-secondary btn-lg px-4">Secondary</button>
                 </div>
             </div>
-        <!-- </div> -->
+        </div>
+        <div class="container">
+            <div th:replace="page-footer :: footer"></div>
+        </div>
     </body>
 </html>

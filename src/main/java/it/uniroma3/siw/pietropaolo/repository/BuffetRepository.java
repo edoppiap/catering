@@ -8,6 +8,8 @@ public interface BuffetRepository extends CrudRepository<Buffet, Long>{
 	
 	public boolean existsByNome(String nome);
 
+	public Buffet findByNome(String nome);
+
 	public void deleteById(Long id);
 
 }

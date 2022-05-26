@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8" />
+		<link href="/css/my-style.css" rel="stylesheet">
+		<title>Inserimento buffet</title>
+	</head>
+	<body>
+		<h4>Aggiorna buffet</h4>
+		<form th:action = "@{'/editBuffet/'+${buffet.id}}" method = "post" th:object = "${buffet}">
+			<div th:replace="buffetForm :: formBuffet"></div>
+		</form>
+	</body>
+</html>

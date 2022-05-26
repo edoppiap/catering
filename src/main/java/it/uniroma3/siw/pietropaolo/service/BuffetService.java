@@ -18,6 +18,14 @@ public class BuffetService {
 	public Buffet findById(Long id) {
 		return buffetRepository.findById(id).orElse(null);
 	}
+
+	public Buffet findByNome(String nome){
+		return buffetRepository.findByNome(nome);
+	}
+
+	public void updateBuffet(Buffet buffetAggiornato){
+		this.save(buffetAggiornato);
+	}
 	
 	public void save(Buffet buffet) {
 		this.buffetRepository.save(buffet);
