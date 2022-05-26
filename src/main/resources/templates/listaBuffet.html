@@ -6,6 +6,7 @@
 		<title>Lista buffet</title>
 	</head>
 	<body>
+		<div th:replace="page-header :: header"></div>
 		<h1>Elenco buffet</h1>
 		<div class="grid-element">
 			<div class="grid-block" th:each="buffet:${listaBuffet}">
@@ -15,13 +16,12 @@
 					<a class="chef-link" href="chef.html" th:href="@{'chef/'+${buffet.chef.id}}" ><h4 class="chef-name" th:text="${buffet.chef.nome}+' '+${buffet.chef.cognome}">Mario Rossi</h4></a>
 					<p class="descr" th:text="${buffet.descr}">Tutte cose rosa</p>
 					<a class="edit-button" href=""><img src="/icons/edit_FILL0_wght400_GRAD0_opsz48.png"></a> 
-					<a class="delete-button" href="listaBuffet.html" 
-						th:href="@{'/deleteBuffet'+'/'+${buffet.id}}" 
+					<a class="delete-button" onclick="openDeletePopup('${buffet.id}')"
 						><img src="/icons/delete_FILL0_wght400_GRAD0_opsz48.png"></a>
 				</div>
 			</div>
 			<div id="form-div" class="grid-block-add" onclick="openMyForm();">
-				<img id="myAddIcon" th:classappend="${#fields.hasErrors('${buffet}') ? 'disable' : 'enable'}" src="/icons/add_FILL0_wght400_GRAD0_opsz48.png">
+				<img class="add-button" id="myAddIcon" th:classappend="${#fields.hasErrors('${buffet}') ? 'disable' : 'enable'}" src="/icons/add_FILL0_wght400_GRAD0_opsz48.png">
 				<div class="buffet-form" id="myForm" th:classappend="${#fields.hasErrors('${buffet}') ? 'enable' : 'disable'}" >
 					<h4>Aggiungi un buffet</h4>
 					<form th:action = "@{/buffet}" method = "post" th:object = "${buffet}" >
@@ -54,6 +54,12 @@
 				</div>
 			</div>
 		</div>
+		<div class="delete-popup" id="myDeletePopup">
+			<p>Sei sicuro di voler cancellare questo elemento?</p>
+			<button onclick="closeDeletePopup()">Annulla</button>
+			<button id="confirm-button" onclick="closeDeletePopup()" href="listaBuffet.html" 
+			th:href="@{'/deleteBuffet'+'/'+${buffet.id}}">Conferma</button>
+		</div>
 		<div>
 			<form th:action="@{/deleteAllBuffet}">
 				<button class="nice-button">Cancella tutti i buffet</button>
@@ -62,7 +68,8 @@
 		<div>
 			<a href="/">Home</a>
 		</div>
-		<script>
+		<script th:inline="javascript">
+			/*<![CDATA[*/
 			var isOpen = false;
 			function openMyForm(){
 				if(!isOpen){
@@ -81,6 +88,16 @@
 				document.getElementById("form-div").onclick=openMyForm;
 				isOpen = isOpen ? true : true;
 			}
+
+			function openDeletePopup(id){
+				var deleteLink = '/deleteBuffet/';
+				document.getElementById("myDeletePopup").style.display="block";
+				document.getElementById("confirm-button").html('<button href="'+deleteLink+id+'"></button>');
+			}
+			function closeDeletePopup(){
+				document.getElementById("myDeletePopup").style.display="none";
+			}
+			/*]]>*/
 		</script>
 	</body>
 </html>
