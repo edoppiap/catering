@@ -28,7 +28,9 @@ public class ChefController {
 	
 	@GetMapping("/chef/{id}")
 	private String getBuffet(@PathVariable("id") Long id, Model model) {
-		model.addAttribute("chef", chefService.findById(id));
+		Chef chef = chefService.findById(id);
+		model.addAttribute("chef", chef);
+		model.addAttribute("listaBuffet", chef.getListaBuffet().parallelStream().sorted().toList());
 		return "chef";
 	}
 

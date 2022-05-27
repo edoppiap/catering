@@ -15,7 +15,7 @@ import lombok.Data;
 
 @Entity
 @Data
-public class Chef {
+public class Chef implements Comparable<Chef>{
 	
 	public Chef() {
 		
@@ -70,5 +70,10 @@ public class Chef {
 		builder.append(nazionalita);
 		builder.append("]");
 		return builder.toString();
+	}
+
+	@Override
+	public int compareTo(Chef that) {
+		return this.getCognome().compareTo(that.getCognome());
 	}
 }

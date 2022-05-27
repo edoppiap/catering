@@ -88,12 +88,20 @@ public class BuffetController {
 	}
 
 	@PostMapping("/editBuffet/{id}")
-	public String editBuffet(@PathVariable("id") Long id,/*@Valid*/ @ModelAttribute("buffet") Buffet buffet, /*BindingResult bindingResult,*/ Model model) {
-		this.buffetService.updateBuffet(buffet);
+	public String editBuffet(@PathVariable("id") Long id,@Valid @ModelAttribute("buffet") Buffet buffet, BindingResult bindingResult, Model model) {
+		this.buffetValidator.validate(buffet, bindingResult);
+
+		if(!bindingResult.hasErrors()){
+			this.buffetService.updateBuffet(buffet);
 			model.addAttribute("listaBuffet", buffetService.findAll());
 			model.addAttribute("buffet", buffet);
 			model.addAttribute("listaChef", chefService.findAll());
 			return "listaBuffet";
+		}else{
+			model.addAttribute("listaChef", chefService.findAll());
+			return "editBuffet";
+		}
+		
 	}
 	
 	@PostMapping("/buffet")
@@ -108,9 +116,8 @@ public class BuffetController {
 			model.addAttribute("listaChef", chefService.findAll());
 			return "listaBuffet";
 		}else{
-			model.addAttribute("listaBuffet", buffetService.findAll());
 			model.addAttribute("listaChef", chefService.findAll());
-			return "listaBuffet";
+			return "buffetForm";
 		}
 	}
 

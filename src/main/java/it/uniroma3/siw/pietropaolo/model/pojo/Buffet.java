@@ -15,7 +15,7 @@ import lombok.Data;
 
 @Entity
 @Data
-public class Buffet {
+public class Buffet implements Comparable<Buffet>{
 	
 	public Buffet() {
 		
@@ -68,4 +68,11 @@ public class Buffet {
 		builder.append("]");
 		return builder.toString();
 	}
+
+	@Override
+	public int compareTo(Buffet that) {
+		return this.getNome().compareTo(that.getNome());
+	}
+
+	
 }

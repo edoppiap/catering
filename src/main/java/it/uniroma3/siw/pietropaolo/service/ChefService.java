@@ -2,6 +2,7 @@ package it.uniroma3.siw.pietropaolo.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.StreamSupport;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,11 +29,8 @@ public class ChefService {
 	}
 	
 	public List<Chef> findAll(){
-		List<Chef> listaChef = new ArrayList<>();
-		for(Chef chef: this.chefRepository.findAll()) {
-			listaChef.add(chef);
-		}
-		return listaChef;
+		return StreamSupport.stream(chefRepository.findAll().spliterator(), true)
+			.sorted().toList();
 	}
 
     public void deleteBuffetById(Long id) {

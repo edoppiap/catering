@@ -2,31 +2,56 @@
 <html xmlns:th="http://www.thymeleaf.org">
 	<head>
 		<meta charset="UTF-8" />
-		<link href="/css/my-style.css" rel="stylesheet">
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" 
+		rel="stylesheet" 
+		integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" 
+		crossorigin="anonymous">
 		<title>Inserimento chef</title>
 	</head>
 	<body>
-		<h4>Aggiungi uno chef</h4>
+		<div th:replace="page-header :: header"></div>
+
+		<div class="container"><h4>Aggiungi uno chef</h4></div>
 		<form th:action = "@{/chef}" method = "post" th:object = "${chef}">
-			<div>
-				<span>Nome:</span>
-				<span><input type = "text" th:field = "*{nome}"/></span>
-				<span th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></span>
-			</div>
-			<div>
-				<span>Cognome:</span>
-				<span><input type = "text" th:field = "*{cognome}"/></span>
-				<span th:if="${#fields.hasErrors('cognome')}" th:errors="*{cognome}"></span>
-			</div>
-			<div>
-				<span>Nazionalità:</span>
-				<span><input type = "text" th:field = "*{nazionalita}"/></span>
-				<span th:if="${#fields.hasErrors('nazionalita')}" th:errors="*{nazionalita}"></span>
-			</div>
-			<div><button type = "submit">Conferma</button></div>
-			<div th:if="${#fields.hasGlobalErrors()}">
-				<p th:each="err : ${#fields.globalErrors()}" th:text="${err}">...</p>
+			<div class="container">
+				<div class="card col-auto">
+					<div class="card-header">
+						Chef
+					</div>
+					<div class="card-body">
+						<div class="row g-3">
+							<div class="form-group col-md-6">
+								<label for="input1">Nome:</label>
+								<input class="form-control" placeholder="Mario" type = "text" th:field = "*{nome}" th:classappend="${#fields.hasErrors('nome') ? 'is-invalid' : ' '}"/>
+								<span class="invalid-feedback" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></span>
+							</div>
+							<div class="form-group col-md-6">
+								<label for="input2">Cognome:</label>
+								<input class="form-control" placeholder="Rossi" type = "text" th:field = "*{cognome}" th:classappend="${#fields.hasErrors('cognome') ? 'is-invalid' : ' '}"/>
+								<span class="invalid-feedback" th:if="${#fields.hasErrors('cognome')}" th:errors="*{cognome}"></span>
+							</div>
+							<div>
+								<label for="input3">Nazionalità:</label>
+								<input class="form-control" placeholder="Italia" type = "text" th:field = "*{nazionalita}" th:classappend="${#fields.hasErrors('nazionalita') ? 'is-invalid' : ' '}"/>
+								<span  class="invalid-feedback" th:if="${#fields.hasErrors('nazionalita')}" th:errors="*{nazionalita}"></span>
+							</div>
+						</div>
+						<br>
+						<div><button class="btn btn-secondary" type = "submit">Conferma</button></div>
+						<div th:if="${#fields.hasGlobalErrors()}">
+							<br>
+							<div class="alert alert-danger alert-dismissible fade show" role="alert">
+								<h4 class="alert-heading">Arcipigna!</h4>
+								<div th:each="err : ${#fields.globalErrors()}" th:text="${err}">...</div>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</form>
+
+		<div class="container">
+            <div th:replace="page-footer :: footer"></div>
+        </div>
 	</body>
 </html>
