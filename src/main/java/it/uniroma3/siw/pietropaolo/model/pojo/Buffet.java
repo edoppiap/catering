@@ -7,8 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
 
 import lombok.Data;
@@ -33,7 +33,7 @@ public class Buffet implements Comparable<Buffet>{
 	@ManyToOne
 	private Chef chef;
 	
-	@OneToMany(mappedBy="buffet")
+	@ManyToMany
 	private List<Piatto> piatti;
 
 	@Override

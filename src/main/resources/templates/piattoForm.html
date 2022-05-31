@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8" />
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" 
+		rel="stylesheet" 
+		integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" 
+		crossorigin="anonymous">
+		<title>Inserimento piatto</title>
+	</head>
+    <body>
+        <div th:replace="page-header :: header"></div>
+
+        <div class="container"><h4>Aggiungi un piatto</h4></div>
+
+        <form th:action="@{/piatto}" method="post" th:object="${piatto}">
+            <div class="container">
+                <div class="card" th:fragment="formPiatto">
+                    <div class="card-header">
+                        Piatto
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="form-group col-md-4">
+								<label>Nome piatto:</label>
+								<input type="text" class="form-control" placeholder="Amatriciana" th:field = "${piatto.nome}" th:classappend="${#fields.hasErrors('nome') ? 'is-invalid' : ' '}"/>
+								<span class="invalid-feedback" th:if="${#fields.hasErrors('nome')}" th:errors="${piatto.nome}"></span>
+							</div>
+                            <div class="form-group col-md-8">
+								<label>Descrizione:</label>
+								<textarea type="text" class="form-control" placeholder="Scrivi qualcosa su questo piatto" th:field = "*{descrizione}" th:classappend="${#fields.hasErrors('descrizione') ? 'is-invalid' : ' '}"></textarea>
+								<div class="invalid-feedback" th:if="${#fields.hasErrors('descrizione')}" th:errors="*{descrizione}"></div>
+							</div>
+                        </div>
+                        
+						<div><button class="btn btn-secondary" type = "submit">Conferma</button></div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <div class="container">
+            <div th:replace="page-footer :: footer"></div>
+        </div>
+    </body>

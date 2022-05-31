@@ -1,5 +1,6 @@
 package it.uniroma3.siw.pietropaolo.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -17,8 +18,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import it.uniroma3.siw.pietropaolo.controller.validator.BuffetValidator;
 import it.uniroma3.siw.pietropaolo.model.pojo.Buffet;
+import it.uniroma3.siw.pietropaolo.model.pojo.Chef;
+import it.uniroma3.siw.pietropaolo.model.pojo.Piatto;
 import it.uniroma3.siw.pietropaolo.service.BuffetService;
 import it.uniroma3.siw.pietropaolo.service.ChefService;
+import it.uniroma3.siw.pietropaolo.service.PiattoService;
 
 @Controller
 public class BuffetController {
@@ -33,10 +37,15 @@ public class BuffetController {
 
 	@Autowired
 	private ChefService chefService;
+
+	@Autowired
+	private PiattoService piattoService;
 	
 	@GetMapping("/buffet/{id}")
 	public String getBuffet(@PathVariable("id") Long id, Model model) {
-		model.addAttribute("buffet", buffetService.findById(id));
+		Buffet buffet = buffetService.findById(id);
+		model.addAttribute("buffet", buffet);
+		model.addAttribute("piattiDelBuffet", buffet.getPiatti());
 		return "buffet";
 	}
 
@@ -44,9 +53,9 @@ public class BuffetController {
 	public String deleteBuffet(@PathVariable("id") Long id, Model model){
 		this.buffetService.deleteBuffetById(id);
 		model.addAttribute("listaBuffet", this.buffetService.findAll());
-		model.addAttribute("buffet", new Buffet());
 		model.addAttribute("listaChef", chefService.findAll());
 		return "listaBuffet";
+
 	}
 
 	@GetMapping("/deleteAllBuffet")
@@ -66,8 +75,13 @@ public class BuffetController {
 	
 	@GetMapping("/buffetForm")
 	public String getBuffetForm(Model model) {
-		model.addAttribute("buffet", new Buffet());
+		Buffet buffet = new Buffet();
+		buffet.setPiatti(new ArrayList<Piatto>());
+		model.addAttribute("buffet", buffet);
+		model.addAttribute("piatto", new Piatto());
 		model.addAttribute("listaChef", chefService.findAll());
+		model.addAttribute("chef", new Chef());
+		model.addAttribute("listaPiatti", piattoService.findAll());
 		return "buffetForm";
 	}
 
@@ -75,6 +89,13 @@ public class BuffetController {
 	public String editBuffet(@PathVariable("id") Long id, Model model){
 		model.addAttribute("buffet", buffetService.findById(id));
 		model.addAttribute("listaChef", chefService.findAll());
+		model.addAttribute("listaPiatti", piattoService.findAll());
+		
+		/**
+		 * Attributi per le due modali di inserimento all'interno della form
+		 */
+		model.addAttribute("chef", new Chef());
+		model.addAttribute("piatto", new Piatto());
 		return "editBuffet";
 	}
 	
@@ -82,8 +103,6 @@ public class BuffetController {
 	public String getAllBuffet(Model model) {
 		List<Buffet> listaBuffet = buffetService.findAll();
 		model.addAttribute("listaBuffet", listaBuffet);
-		model.addAttribute("buffet", new Buffet());
-		model.addAttribute("listaChef", chefService.findAll());
 		return "listaBuffet";
 	}
 
@@ -95,7 +114,6 @@ public class BuffetController {
 			this.buffetService.updateBuffet(buffet);
 			model.addAttribute("listaBuffet", buffetService.findAll());
 			model.addAttribute("buffet", buffet);
-			model.addAttribute("listaChef", chefService.findAll());
 			return "listaBuffet";
 		}else{
 			model.addAttribute("listaChef", chefService.findAll());
@@ -106,17 +124,18 @@ public class BuffetController {
 	
 	@PostMapping("/buffet")
 	public String newBuffet(@Valid @ModelAttribute("buffet") Buffet buffet, BindingResult bindingResult, Model model) {
-		logger.info(buffet.toString());
+		logger.info("nuovo buffet"+buffet.toString());
 		this.buffetValidator.validate(buffet, bindingResult);
 		
 		if(!bindingResult.hasErrors()) {
 			this.buffetService.save(buffet);
 			model.addAttribute("listaBuffet", buffetService.findAll());
-			model.addAttribute("buffet", new Buffet());
-			model.addAttribute("listaChef", chefService.findAll());
 			return "listaBuffet";
 		}else{
 			model.addAttribute("listaChef", chefService.findAll());
+			model.addAttribute("piatto", new Piatto());
+			model.addAttribute("chef", new Chef());
+			model.addAttribute("listaPiatti", piattoService.findAll());
 			return "buffetForm";
 		}
 	}

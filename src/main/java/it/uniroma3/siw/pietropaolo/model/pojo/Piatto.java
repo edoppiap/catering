@@ -7,8 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
 
 import lombok.Data;
@@ -17,7 +17,7 @@ import lombok.Data;
 @Data
 public class Piatto {
 	
-	private Piatto() {
+	public Piatto() {
 		
 	}
 	
@@ -30,13 +30,13 @@ public class Piatto {
 	
 	private String descrizione;
 	
-	@ManyToOne
-	private Buffet buffet;
+	@ManyToMany(mappedBy = "piatti")
+	private List<Buffet> listaBuffet;
 	
 	@ManyToOne
 	private Chef chef;
 	
-	@OneToMany
+	@ManyToMany
 	private List<Ingrediente> ingredienti;
 
 	@Override

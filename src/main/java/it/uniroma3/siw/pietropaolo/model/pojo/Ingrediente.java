@@ -1,11 +1,13 @@
 package it.uniroma3.siw.pietropaolo.model.pojo;
 
+import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotBlank;
 
 import lombok.Data;
@@ -29,6 +31,9 @@ public class Ingrediente {
 	private String origine;
 	
 	private String descr;
+
+	@ManyToMany(mappedBy = "ingredienti")
+	private List<Piatto> piatti;
 
 	@Override
 	public int hashCode() {

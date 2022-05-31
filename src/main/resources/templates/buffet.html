@@ -19,6 +19,12 @@
 					</div>
 				</div>
 			</section>
+		</div>
+		<div class="container">
+			<div th:each="piatto : ${piattiDelBuffet}">
+				<span th:text="${piatto.nome}">Piatto</span>
+			</div>
+		</div>
 		
 		<div class="container">
             <div th:replace="page-footer :: footer"></div>

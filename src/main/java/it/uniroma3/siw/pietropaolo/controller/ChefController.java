@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import it.uniroma3.siw.pietropaolo.controller.validator.ChefValidator;
+import it.uniroma3.siw.pietropaolo.model.pojo.Buffet;
 import it.uniroma3.siw.pietropaolo.model.pojo.Chef;
+import it.uniroma3.siw.pietropaolo.model.pojo.Piatto;
 import it.uniroma3.siw.pietropaolo.service.ChefService;
 
 @Controller
@@ -52,6 +54,22 @@ public class ChefController {
 		List<Chef> listaChef = this.chefService.findAll();
 		model.addAttribute("listaChef", listaChef);
 		return "listaChef";
+	}
+
+	@PostMapping("/chefFromBuffetForm")
+	public String newChefFromBuffetForm(@Valid @ModelAttribute("chef") Chef chef, @ModelAttribute("buffet") Buffet buffet, BindingResult bindingResult, Model model){
+		this.chefValidator.validate(chef, bindingResult);
+		
+		if(!bindingResult.hasErrors()) {
+			this.chefService.save(chef);
+			model.addAttribute("buffet", buffet);
+			model.addAttribute("piatto", new Piatto());
+			model.addAttribute("listaChef", chefService.findAll());
+			model.addAttribute("chef", new Chef());
+			return "buffetForm";
+		}else {
+			return "buffetForm";
+		}
 	}
 	
 	@PostMapping("/chef")
