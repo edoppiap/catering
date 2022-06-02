@@ -12,7 +12,7 @@
                 </nav>
             </div>
         </header>-->
-        <header th:fragment="header" class="p-3 bg-dark text-white">
+        <nav th:fragment="header" class="navbar navbar-expand-lg p-3 bg-dark text-white">
                 <div class="container">
                     <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
                         <a class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none" href="/">
@@ -20,17 +20,30 @@
                                 <path d="M11 39H18.5V26.5H29.5V39H37V19.5L24 9.75L11 19.5ZM11 42Q9.75 42 8.875 41.125Q8 40.25 8 39V19.5Q8 18.8 8.325 18.15Q8.65 17.5 9.2 17.1L22.2 7.35Q22.6 7.05 23.05 6.9Q23.5 6.75 24 6.75Q24.5 6.75 24.95 6.9Q25.4 7.05 25.8 7.35L38.8 17.1Q39.35 17.5 39.675 18.15Q40 18.8 40 19.5V39Q40 40.25 39.125 41.125Q38.25 42 37 42H26.5V29.5H21.5V42ZM24 24.35Z"/>
                             </svg>
                         </a>
-                        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0 dropdown">
-                            <li>
+                    </div>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item">
                                 <a class="nav-link px-2 text-secondary" href="/">Home</a>
                             </li>
-                            <li>
-                                <a class="nav-link px-2 text-white" href="/Operazioni">Operazioni</a>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle px-2 text-white" id="navbarDropdown" role="button" 
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    Operazioni
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li><a class="dropdown-item" th:href="@{/chefForm}" href='#'>Inserisci Chef</a></li>
+                                    <li><a class="dropdown-item" th:href="@{/buffetForm}" href='#'>Inserisci Buffet</a></li>
+                                    <li><a class="dropdown-item" th:href="@{/piattoForm}" href="#">Inserisci Piatto</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" th:href="@{/listaBuffet}" href='#'>Tutti i buffet</a></li>
+                                    <li><a class="dropdown-item" th:href="@{/listaChef}" href='#'>Tutti gli chef</a></li>
+                                </ul>
                             </li>
-                            <li>
+                            <li class="nav-item">
                                 <a class="nav-link px-2 text-white" th:href="@{/listaBuffet}" href='#'>Buffet</a>
                             </li>
-                            <li>
+                            <li class="nav-item">
                                 <a class="nav-link px-2 text-white" th:href="@{/listaChef}" href='#'>Chef</a>
                             </li>
                         </ul>
@@ -39,5 +52,7 @@
                         </div>
                     </div>
                 </div>
-            </header>
+            </nav>
     </body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</html>
