@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -29,6 +31,9 @@ public class Piatto {
 	private String nome;
 	
 	private String descrizione;
+
+	@Enumerated(EnumType.STRING)
+	private Classificazione classificazione;
 	
 	@ManyToMany(mappedBy = "piatti")
 	private List<Buffet> listaBuffet;

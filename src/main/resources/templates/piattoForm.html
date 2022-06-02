@@ -31,8 +31,17 @@
 								<textarea type="text" class="form-control" placeholder="Scrivi qualcosa su questo piatto" th:field = "*{descrizione}" th:classappend="${#fields.hasErrors('descrizione') ? 'is-invalid' : ' '}"></textarea>
 								<div class="invalid-feedback" th:if="${#fields.hasErrors('descrizione')}" th:errors="*{descrizione}"></div>
 							</div>
+                            <div class="form-group col-md-12">
+                                <br>
+                                <label>Seleziona il tipo di piatto:</label>
+                                <select class="form-select" th:field="*{classificazione}">
+                                    <option value="" hidden>Seleziona un opzione...</option>
+                                    <option value="" disabled>Seleziona un opzione...</option>
+                                    <option th:each="classificazione : ${T(it.uniroma3.siw.pietropaolo.model.pojo.Classificazione).values()}" th:value="${classificazione}" th:text="${classificazione.value}"></option>
+                                </select>
+                            </div>
                         </div>
-                        
+                        <br>
 						<div><button class="btn btn-secondary" type = "submit">Conferma</button></div>
                     </div>
                 </div>

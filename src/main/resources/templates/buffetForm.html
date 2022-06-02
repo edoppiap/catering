@@ -42,6 +42,7 @@
 									<label for="input3">Seleziona uno o più piatti:</label>
 									<br>
 									<select class="form-select" multiple th:field="*{piatti}">
+										<option value="">Nessun piatto</option>
 										<option th:each="piatto : ${listaPiatti}" th:value="${piatto.id}" th:text="${piatto.nome}"></option>
 									</select>
 								</div>

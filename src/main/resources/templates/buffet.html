@@ -19,11 +19,34 @@
 					</div>
 				</div>
 			</section>
-		</div>
-		<div class="container">
-			<div th:each="piatto : ${piattiDelBuffet}">
-				<span th:text="${piatto.nome}">Piatto</span>
+			<hr>
+			<div class="container row">
+				<div class="col">
+					<h3>Antipasti</h3>
+					<div th:each="piatto : ${piattiDelBuffet}">
+						<span th:if="${piatto.classificazione == T(it.uniroma3.siw.pietropaolo.model.pojo.Classificazione).ANTIPASTO}" th:text="${piatto.nome}">Piatto</span>
+					</div>
+					<h3>Primi</h3>
+					<div th:each="piatto : ${piattiDelBuffet}">
+						<span th:if="${piatto.classificazione == T(it.uniroma3.siw.pietropaolo.model.pojo.Classificazione).PRIMO}" th:text="${piatto.nome}">Piatto</span>
+					</div>
+				</div>
+				<div class="col">
+					<h3>Secondi</h3>
+					<div th:each="piatto : ${piattiDelBuffet}">
+						<span th:if="${piatto.classificazione == T(it.uniroma3.siw.pietropaolo.model.pojo.Classificazione).SECONDO}" th:text="${piatto.nome}">Piatto</span>
+					</div>
+					<h3>Contorni</h3>
+					<div th:each="piatto : ${piattiDelBuffet}">
+						<span th:if="${piatto.classificazione == T(it.uniroma3.siw.pietropaolo.model.pojo.Classificazione).CONTORNO}" th:text="${piatto.nome}">Piatto</span>
+					</div>
+					<h3>Dolci</h3>
+					<div th:each="piatto : ${piattiDelBuffet}">
+						<span th:if="${piatto.classificazione == T(it.uniroma3.siw.pietropaolo.model.pojo.Classificazione).DOLCE}" th:text="${piatto.nome}">Piatto</span>
+					</div>
+				</div>			
 			</div>
+			
 		</div>
 		
 		<div class="container">
