@@ -13,10 +13,10 @@
 		<ul>
 			<li th:each="chef:${listaChef}">
 				<span><a href="chef.html" 
-					th:href="@{'/chef' + '/' + ${chef.id}}" 
+					th:href="@{'/users/chef' + '/' + ${chef.id}}" 
 					th:text="${chef.nome} + ' ' +${chef.cognome}">Mario Rossi</a></span>
-				<span><a href="listaChef.html"
-					th:href="@{'/deleteChef/'+${chef.id}}"
+				<span sec:authorize="hasAuthority('ADMIN')"><a href="listaChef.html"
+					th:href="@{'/admin/deleteChef/'+${chef.id}}"
 					th:text="Cancella">Cancella</a></span>
 			</li>
 		</ul>

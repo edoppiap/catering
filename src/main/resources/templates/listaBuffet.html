@@ -26,7 +26,7 @@
 					<div class="col" th:each="buffet:${listaBuffet}">
 						<div th:fragment="listaBuffet">
 							<div class="card shadow-lg">
-								<a href="buffet.html" th:href="@{'/buffet' + '/' + ${buffet.id}}" style="text-decoration: none; color: inherit;">
+								<a href="buffet.html" th:href="@{'/users/buffet' + '/' + ${buffet.id}}" style="text-decoration: none; color: inherit;">
 									<svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" 
 									aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
 										<title>Nome del buffet</title>
@@ -39,10 +39,10 @@
 										<h5 class="card-title" title="Nome chef" th:text="${buffet.chef.nome}+' '+${buffet.chef.cognome}">Mario Rossi</h5>
 									</a>
 									<p class="card-text text-truncate" title="Descrizione" th:text="${buffet.descr}">Descrizione</p>
-									<div class="d-flex justify-content-between align-items-center">
+									<div class="d-flex justify-content-between align-items-center" sec:authorize="hasAuthority('ADMIN')">
 										<div class="btn-group">
-											<button type="button" class="btn btn-sm btn-outline-secondary" th:data-url="@{'/deleteBuffet/'+${buffet.id}}" onclick="window.location = this.getAttribute('data-url')">Cancella</button>
-											<button type="button" class="btn btn-sm btn-outline-secondary" th:data-url="@{'/editBuffet/'+${buffet.id}}" onclick="window.location = this.getAttribute('data-url')">Modifica</button>
+											<button type="button" class="btn btn-sm btn-outline-secondary" th:data-url="@{'/admin/deleteBuffet/'+${buffet.id}}" onclick="window.location = this.getAttribute('data-url')">Cancella</button>
+											<button type="button" class="btn btn-sm btn-outline-secondary" th:data-url="@{'/admin/editBuffet/'+${buffet.id}}" onclick="window.location = this.getAttribute('data-url')">Modifica</button>
 										</div>
 									</div>
 								</div>

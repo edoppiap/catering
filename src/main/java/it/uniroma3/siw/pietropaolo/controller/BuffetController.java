@@ -41,7 +41,7 @@ public class BuffetController {
 	@Autowired
 	private PiattoService piattoService;
 	
-	@GetMapping("/buffet/{id}")
+	@GetMapping("/users/buffet/{id}")
 	public String getBuffet(@PathVariable("id") Long id, Model model) {
 		Buffet buffet = buffetService.findById(id);
 		model.addAttribute("buffet", buffet);
@@ -49,7 +49,7 @@ public class BuffetController {
 		return "buffet";
 	}
 
-	@GetMapping("/deleteBuffet/{id}")
+	@GetMapping("/admin/deleteBuffet/{id}")
 	public String deleteBuffet(@PathVariable("id") Long id, Model model){
 		this.buffetService.deleteBuffetById(id);
 		model.addAttribute("listaBuffet", this.buffetService.findAll());
@@ -58,7 +58,7 @@ public class BuffetController {
 
 	}
 
-	@GetMapping("/deleteAllBuffet")
+	@GetMapping("/admin/deleteAllBuffet")
 	public String deleteAllBuffet(Model model){
 		this.buffetService.deleteAll();
 		model.addAttribute("listaBuffet", this.buffetService.findAll());
@@ -73,7 +73,7 @@ public class BuffetController {
 		return "listaBuffet";
 	}*/
 	
-	@GetMapping("/buffetForm")
+	@GetMapping("/admin/buffetForm")
 	public String getBuffetForm(Model model) {
 		Buffet buffet = new Buffet();
 		buffet.setPiatti(new ArrayList<Piatto>());
@@ -85,7 +85,7 @@ public class BuffetController {
 		return "buffetForm";
 	}
 
-	@GetMapping("/editBuffet/{id}")
+	@GetMapping("/admin/editBuffet/{id}")
 	public String editBuffet(@PathVariable("id") Long id, Model model){
 		model.addAttribute("buffet", buffetService.findById(id));
 		model.addAttribute("listaChef", chefService.findAll());
@@ -99,14 +99,14 @@ public class BuffetController {
 		return "editBuffet";
 	}
 	
-	@GetMapping("/listaBuffet")
+	@GetMapping("/users/listaBuffet")
 	public String getAllBuffet(Model model) {
 		List<Buffet> listaBuffet = buffetService.findAll();
 		model.addAttribute("listaBuffet", listaBuffet);
 		return "listaBuffet";
 	}
 
-	@PostMapping("/editBuffet/{id}")
+	@PostMapping("/admin/editBuffet/{id}")
 	public String editBuffet(@PathVariable("id") Long id,@Valid @ModelAttribute("buffet") Buffet buffet, BindingResult bindingResult, Model model) {
 		this.buffetValidator.validate(buffet, bindingResult);
 
@@ -122,7 +122,7 @@ public class BuffetController {
 		
 	}
 	
-	@PostMapping("/buffet")
+	@PostMapping("/admin/buffet")
 	public String newBuffet(@Valid @ModelAttribute("buffet") Buffet buffet, BindingResult bindingResult, Model model) {
 		logger.info("nuovo buffet"+buffet.toString());
 		this.buffetValidator.validate(buffet, bindingResult);

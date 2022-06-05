@@ -28,7 +28,7 @@ public class ChefController {
 	@Autowired 
 	private ChefValidator chefValidator;
 	
-	@GetMapping("/chef/{id}")
+	@GetMapping("/users/chef/{id}")
 	private String getBuffet(@PathVariable("id") Long id, Model model) {
 		Chef chef = chefService.findById(id);
 		model.addAttribute("chef", chef);
@@ -36,27 +36,27 @@ public class ChefController {
 		return "chef";
 	}
 
-	@GetMapping("/deleteChef/{id}")
+	@GetMapping("/admin/deleteChef/{id}")
 	public String deleteBuffet(@PathVariable("id") Long id, Model model){
 		this.chefService.deleteBuffetById(id);
 		model.addAttribute("listaChef", this.chefService.findAll());
 		return "listaChef";
 	}
 	
-	@GetMapping("/chefForm")
+	@GetMapping("/admin/chefForm")
 	public String getBuffetForm(Model model) {
 		model.addAttribute("chef", new Chef());
 		return "chefForm";
 	}
 	
-	@GetMapping("/listaChef")
+	@GetMapping("/users/listaChef")
 	public String getAllChef(Model model) {
 		List<Chef> listaChef = this.chefService.findAll();
 		model.addAttribute("listaChef", listaChef);
 		return "listaChef";
 	}
 
-	@PostMapping("/chefFromBuffetForm")
+	@PostMapping("/admin/chefFromBuffetForm")
 	public String newChefFromBuffetForm(@Valid @ModelAttribute("chef") Chef chef, @ModelAttribute("buffet") Buffet buffet, BindingResult bindingResult, Model model){
 		this.chefValidator.validate(chef, bindingResult);
 		
@@ -72,7 +72,7 @@ public class ChefController {
 		}
 	}
 	
-	@PostMapping("/chef")
+	@PostMapping("/admin/chef")
 	public String newChef(@Valid @ModelAttribute("chef") Chef chef, BindingResult bindingResult, Model model) {
 		this.chefValidator.validate(chef, bindingResult);
 		
