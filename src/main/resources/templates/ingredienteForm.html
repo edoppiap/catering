@@ -28,6 +28,9 @@
                                     <textarea type="text" class="form-control" placeholder="Da Marsala" th:field = "*{origine}" th:classappend="${#fields.hasErrors('origine') ? 'is-invalid' : ' '}"></textarea>
                                     <div class="invalid-feedback" th:if="${#fields.hasErrors('origine')}" th:errors="*{origine}"></div>
                                 </div>
+
+                                <!--Field nascosco così durante l'aggiornamento non perdo l'id-->
+								    <input hidden type="text" th:field="*{id}"/>
     
                                 <br>
                                 <div><button class="btn btn-secondary" type = "submit">Conferma</button></div>
