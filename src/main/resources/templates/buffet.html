@@ -21,7 +21,7 @@
 						<h3>Antipasti</h3>
 						<div th:each="piatto : ${piattiDelBuffet}">
 							<div th:if="${piatto.classificazione.equals(T(it.uniroma3.siw.pietropaolo.model.pojo.Classificazione).ANTIPASTO)}">
-								<h6 th:text="${piatto.nome}">Piatto</h6>
+								<a class="text-decoration-none" th:href="@{'/users/piatto/'+ ${piatto.id}}"><h6 th:text="${piatto.nome}">Piatto</h6></a>
 								<p th:text="${piatto.descrizione}">Descrizione</p>
 							</div>
 						</div>
@@ -29,7 +29,7 @@
 						<h3>Primi</h3>
 						<div th:each="piatto : ${piattiDelBuffet}">
 							<div th:if="${piatto.classificazione.equals(T(it.uniroma3.siw.pietropaolo.model.pojo.Classificazione).PRIMO)}">
-								<h6 th:text="${piatto.nome}">Piatto</h6>
+								<a class="text-decoration-none" th:href="@{'/users/piatto/'+ ${piatto.id}}"><h6 th:text="${piatto.nome}">Piatto</h6></a>
 								<p th:text="${piatto.descrizione}">Descrizione</p>
 							</div>
 						</div>
@@ -38,7 +38,7 @@
 						<h3>Secondi</h3>
 						<div th:each="piatto : ${piattiDelBuffet}">
 							<div th:if="${piatto.classificazione.equals(T(it.uniroma3.siw.pietropaolo.model.pojo.Classificazione).SECONDO)}">
-								<h6 th:text="${piatto.nome}">Piatto</h6>
+								<a class="text-decoration-none" th:href="@{'/users/piatto/'+ ${piatto.id}}"><h6 th:text="${piatto.nome}">Piatto</h6></a>
 								<p th:text="${piatto.descrizione}">Descrizione</p>
 							</div>
 						</div>
@@ -46,7 +46,7 @@
 						<h3>Contorni</h3>
 						<div th:each="piatto : ${piattiDelBuffet}">
 							<div th:if="${piatto.classificazione.equals(T(it.uniroma3.siw.pietropaolo.model.pojo.Classificazione).CONTORNO)}">
-								<h6 th:text="${piatto.nome}">Piatto</h6>
+								<a class="text-decoration-none" th:href="@{'/users/piatto/'+ ${piatto.id}}"><h6 th:text="${piatto.nome}">Piatto</h6></a>
 								<p th:text="${piatto.descrizione}">Descrizione</p>
 							</div>
 						</div>
@@ -54,7 +54,7 @@
 						<h3>Dolci</h3>
 						<div th:each="piatto : ${piattiDelBuffet}">
 							<div th:if="${piatto.classificazione.equals(T(it.uniroma3.siw.pietropaolo.model.pojo.Classificazione).DOLCE)}">
-								<h6 th:text="${piatto.nome}">Piatto</h6>
+								<a class="text-decoration-none" th:href="@{'/users/piatto/'+ ${piatto.id}}"><h6 th:text="${piatto.nome}">Piatto</h6></a>
 								<p class="secondary" th:text="${piatto.descrizione}">Descrizione</p>
 							</div>
 						</div>

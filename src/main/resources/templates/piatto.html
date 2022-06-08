@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head th:replace="fragments/base :: head(titolo='Dettagli piatto '+${piatto.nome})"></head>
+    <body>
+        <div th:replace="fragments/base :: header"></div>
+
+        <section th:replace="fragments/base :: up-section(mainText=|${piatto.nome}|, minorText=|${piatto.descrizione}|)"></section>
+
+        <div class="album py-5 bg-light">
+            <div class="container">
+                <div class="row">
+                    
+                </div>
+            </div>            
+        </div>
+
+        <div th:replace="fragments/base :: footer"></div>
+    </body>
+    <script th:replace="fragments/base :: script"></script>	
+</html>

@@ -16,7 +16,7 @@ import lombok.Data;
 @Data
 public class Ingrediente {
 	
-	private Ingrediente() {
+	public Ingrediente() {
 		
 	}
 	

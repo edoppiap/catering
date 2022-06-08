@@ -4,45 +4,46 @@
 	<body>
 		<div th:replace="fragments/base :: header"></div>
 
-		<div class="container"><h4>Aggiungi uno chef</h4></div>
-		<form th:action = "@{/admin/chef}" method = "post" th:object = "${chef}">
-			<div class="container" th:fragment="formChef">
-				<div class="card col-auto">
-					<div class="card-header">
-						Chef
+		<div class="modal modal-signin position-static d-block bg-secondary py-5" tabindex="-1" role="dialog">
+			<div class="modal-dialog modal-xl" role="document">
+				<div class="modal-content shadow rounded-4">
+					<div class="modal-header p-5 pb-4 border-bottom-0">
+						<h2 class="fw-bold mb-0">Inserisci nuovo chef</h2>
 					</div>
-					<div class="card-body">
-						<div class="row g-3">
-							<div class="form-group col-md-6">
-								<label for="input1">Nome:</label>
-								<input class="form-control" placeholder="Mario" type = "text" th:field = "*{nome}" th:classappend="${#fields.hasErrors('nome') ? 'is-invalid' : ' '}"/>
-								<span class="invalid-feedback" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></span>
+					<form th:action = "@{/admin/chef}" method = "post" th:object = "${chef}">
+						<div class="modal-body p-5 pt-0">
+							<div class="row g-3">
+								<div class="form-group col-md-6">
+									<label for="input1">Nome:</label>
+									<input class="form-control" placeholder="Mario" type = "text" th:field = "*{nome}" th:classappend="${#fields.hasErrors('nome') ? 'is-invalid' : ' '}"/>
+									<span class="invalid-feedback" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></span>
+								</div>
+								<div class="form-group col-md-6">
+									<label for="input2">Cognome:</label>
+									<input class="form-control" placeholder="Rossi" type = "text" th:field = "*{cognome}" th:classappend="${#fields.hasErrors('cognome') ? 'is-invalid' : ' '}"/>
+									<span class="invalid-feedback" th:if="${#fields.hasErrors('cognome')}" th:errors="*{cognome}"></span>
+								</div>
+								<div>
+									<label for="input3">Nazionalità:</label>
+									<input class="form-control" placeholder="Italia" type = "text" th:field = "*{nazionalita}" th:classappend="${#fields.hasErrors('nazionalita') ? 'is-invalid' : ' '}"/>
+									<span  class="invalid-feedback" th:if="${#fields.hasErrors('nazionalita')}" th:errors="*{nazionalita}"></span>
+								</div>
+								<input hidden type="text" th:field="*{id}"/>
 							</div>
-							<div class="form-group col-md-6">
-								<label for="input2">Cognome:</label>
-								<input class="form-control" placeholder="Rossi" type = "text" th:field = "*{cognome}" th:classappend="${#fields.hasErrors('cognome') ? 'is-invalid' : ' '}"/>
-								<span class="invalid-feedback" th:if="${#fields.hasErrors('cognome')}" th:errors="*{cognome}"></span>
-							</div>
-							<div>
-								<label for="input3">Nazionalità:</label>
-								<input class="form-control" placeholder="Italia" type = "text" th:field = "*{nazionalita}" th:classappend="${#fields.hasErrors('nazionalita') ? 'is-invalid' : ' '}"/>
-								<span  class="invalid-feedback" th:if="${#fields.hasErrors('nazionalita')}" th:errors="*{nazionalita}"></span>
-							</div>
-							<input hidden type="text" th:field="*{id}"/>
-						</div>
-						<br>
-						<div><button class="btn btn-secondary" type = "submit">Conferma</button></div>
-						<div th:if="${#fields.hasGlobalErrors()}">
 							<br>
-							<div class="alert alert-danger alert-dismissible fade show" role="alert">
-								<h4 class="alert-heading">Arcipigna!</h4>
-								<div th:each="err : ${#fields.globalErrors()}" th:text="${err}">...</div>
+							<div><button class="btn btn-secondary" type = "submit">Conferma</button></div>
+							<div th:if="${#fields.hasGlobalErrors()}">
+								<br>
+								<div class="alert alert-danger alert-dismissible fade show" role="alert">
+									<h4 class="alert-heading">Arcipigna!</h4>
+									<div th:each="err : ${#fields.globalErrors()}" th:text="${err}">...</div>
+								</div>
 							</div>
-						</div>
-					</div>
+						</div>						
+					</form>
 				</div>
 			</div>
-		</form>
+		</div>
 
 		<div th:replace="fragments/base :: footer"></div>
 	</body>

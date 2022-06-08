@@ -4,34 +4,33 @@
 	<body>
 		<div th:replace="fragments/base :: header"></div>
 		
-		<div class="container"><h4>Aggiungi un buffet</h4></div>
-		
-		<form th:action = "@{/admin/buffet}" method = "post" th:object = "${buffet}">
-			<div class="container">
-				<div class="card col-auto" th:fragment="formBuffet">
-					<div class="card-header">
-						Buffet
+		<div class="modal modal-signin position-static d-block bg-secondary py-5" tabindex="-1" role="dialog">
+			<div class="modal-dialog modal-xl" role="document">
+				<div class="modal-content shadow rounded-4">
+					<div class="modal-header p-5 pb-4 border-bottom-0">
+						<h2 class="fw-bold mb-0">Inserisci nuovo buffet</h2>
 					</div>
-					<div class="card-body">
-						<div class="row g-3">
-							<div class="form-group col-md-4">
-								<label for="input1">Nome:</label>
-								<input type="text" class="form-control" placeholder="Buffet al rosmarino" th:field = "*{nome}" th:classappend="${#fields.hasErrors('nome') ? 'is-invalid' : ' '}"/>
-								<span class="invalid-feedback" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></span>
-							</div>
-							<div class="form-group col-md-8">
-								<label for="input2">Descrizione:</label>
-								<textarea type="text" class="form-control" placeholder="Scrivi qualcosa su questo buffet" th:field = "*{descr}" th:classappend="${#fields.hasErrors('descr') ? 'is-invalid' : ' '}"></textarea>
-								<div class="invalid-feedback" th:if="${#fields.hasErrors('descr')}" th:errors="*{descr}"></div>
-							</div>
-							<br>
-							<div class="form-group col-mad-4" th:if="${not #lists.isEmpty(buffet.piatti)}">
-								<span>Piatti:</span>
-								<span th:each="piatto : ${buffet.piatti}" th:text="${piatto.nome}">Piatto</span>
-							</div>
-								<br>
+					<form th:action="@{/admin/buffet}" method="post" th:object="${buffet}">
+						<div class="modal-body p-5 pt-0">
+							<div class="row g-3">
 								<div class="form-group col-md-4">
-									<!--Piatto select-->
+									<label for="input1">Nome:</label>
+									<input type="text" class="form-control" placeholder="Buffet al rosmarino" th:field = "*{nome}" th:classappend="${#fields.hasErrors('nome') ? 'is-invalid' : ' '}"/>
+									<span class="invalid-feedback" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></span>
+								</div>
+								<div class="form-group col-md-8">
+									<label for="input2">Descrizione:</label>
+									<textarea type="text" class="form-control" placeholder="Scrivi qualcosa su questo buffet" th:field = "*{descr}" th:classappend="${#fields.hasErrors('descr') ? 'is-invalid' : ' '}"></textarea>
+									<div class="invalid-feedback" th:if="${#fields.hasErrors('descr')}" th:errors="*{descr}"></div>
+								</div>
+								<br>
+								<div class="form-group col-mad-4" th:if="${not #lists.isEmpty(buffet.piatti)}">
+									<span>Piatti:</span>
+									<span th:each="piatto : ${buffet.piatti}" th:text="${piatto.nome}">Piatto</span>
+								</div>
+								<br>
+								<div class="form-group col-md-6">
+									<!--Piatti checkbox-->
 									<label for="input3">Seleziona uno o più piatti:</label>
 									<br>
 									
@@ -42,91 +41,36 @@
 											<small class="d-block text-muted" th:text="${piatto.descrizione}"></small></span>
 										</div>
 									</div>
-									
-									<!--
-									<select class="form-select" multiple th:field="*{piatti}">
-										<option value="">Nessun piatto</option>
-										<option th:each="piatto : ${listaPiatti}" th:value="${piatto.id}" th:text="${piatto.nome}"></option>
-									</select>-->
 								</div>
-								<div class="form-group col-md-2">
-									<br>
-									<!--Piatto button-->
-									<button class="btn btn-light" type="button" data-bs-toggle="modal" data-bs-target="#piattoModal">Aggiungi un piatto</button>									
-								</div>
-							<div class="form-group col-md-4">
-								<!--Chef select-->
-								<label for="input4">Seleziona uno chef:</label>
-								<select class="form-select" th:field="*{chef}">
-									<option th:each="chef : ${listaChef}" th:value="${chef.id}" th:text="${chef.nome}+ ' ' +${chef.cognome}"></option>
-								</select>
-								<span th:if="${#fields.hasErrors('chef.id')}"th:errors="*{chef.id}"></span>
+	
+								<div class="form-group col-md-6">
+									<!--Chef checkbox-->
+									<label for="input4">Seleziona uno chef:</label>
+									<div class="list-group mx-0 w-auto overflow-auto" style="max-height: 200px;">
+										<label class="list-group-item d-flex gap-2" th:each="chef : ${listaChef}" >
+										  <input class="form-check-input flex-shrink-0" type="radio" th:value="${chef.id}" th:field="*{chef}">
+										  <span>
+											<div th:text="${chef.nome}+' '+${chef.cognome}"></div>
+											<small class="d-block text-muted" th:text="${chef.nazionalita}"></small>
+										  </span>
+										</label>
+									  </div>
+									</div>
+	
+								<!--Field nascosco così durante l'aggiornamento non perdo l'id-->
+								<input hidden type="text" th:field="*{id}"/>
 							</div>
-							<div class="form-group col-md-2">
-								<br>
-								<!--Chef button-->
-								<button class="btn btn-light" type="button" data-bs-toggle="modal" data-bs-target="#chefModal">Aggiungi uno chef</button>
-								
-							</div>
-							<!--Field nascosco così durante l'aggiornamento non perdo l'id-->
-							<input hidden type="text" th:field="*{id}"/>
-						</div>
-						<br>
-						<div><button class="btn btn-secondary" type = "submit">Conferma</button></div>
-						<div th:if="${#fields.hasGlobalErrors()}">
 							<br>
-							<div class="alert alert-danger alert-dismissible fade show" role="alert">
-								<h4 class="alert-heading">Arcipigna!</h4>
-								<div th:each="err : ${#fields.globalErrors()}" th:text="${err}">...</div>
+							<div><button class="btn btn-secondary" type = "submit">Conferma</button></div>
+							<div th:if="${#fields.hasGlobalErrors()}">
+								<br>
+								<div class="alert alert-danger alert-dismissible fade show" role="alert">
+									<h4 class="alert-heading">Arcipigna!</h4>
+									<div th:each="err : ${#fields.globalErrors()}" th:text="${err}">...</div>
+								</div>
 							</div>
 						</div>
-					</div>
-				</div>
-			</div>
-		</form>
-
-		<div th:fragment="modals">
-			<!--Chef modal-->
-			<div class="modal fade" id="chefModal" tabindex="-1" role="dialog" aria-labelledby="chefModal" aria-hidden="true">
-				<div class="modal-dialog">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h5 class="modal-title">Aggiungi chef</h5>
-							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-							</button>
-						</div>
-						<div class="modal-body">
-							<form th:action = "@{/chefFromBuffetForm}" method = "post" th:object = "${chef}">
-								<div th:replace="chefForm :: formChef"></div>
-							</form>
-						</div>
-						<div class="modal-footer">
-							Footer
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<!--Piatto modal-->
-			<div class="modal fade" id="piattoModal" tabindex="-1" role="dialog" aria-labelledby="piattoModal" aria-hidden="true">
-				<div class="modal-dialog">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h5 class="modal-title">Aggiungi piatto</h5>
-							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-							</button>
-						</div>
-						<div class="modal-body">
-							<div class="container">
-								<form th:action="@{/piattoFromModals}" method="post" th:object="${piatto}">
-									<div th:replace="piattoForm :: formPiatto"></div>
-								</form>
-							</div>
-						</div>
-						<div class="modal-footer">
-							Footer
-						</div>
-					</div>
+					</form>
 				</div>
 			</div>
 		</div>

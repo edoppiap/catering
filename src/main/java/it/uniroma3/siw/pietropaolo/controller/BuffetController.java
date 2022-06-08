@@ -98,7 +98,7 @@ public class BuffetController {
 		 */
 		model.addAttribute("chef", new Chef());
 		model.addAttribute("piatto", new Piatto());
-		return "editBuffet";
+		return "buffetForm";
 	}
 	
 	@GetMapping("/users/listaBuffet")
@@ -106,27 +106,6 @@ public class BuffetController {
 		List<Buffet> listaBuffet = buffetService.findAll();
 		model.addAttribute("listaBuffet", listaBuffet);
 		return "listaBuffet";
-	}
-
-	@PostMapping("/admin/editBuffet")
-	public String editBuffet(@Valid @ModelAttribute("buffet") Buffet buffet, BindingResult bindingResult, Model model) {
-		this.buffetValidator.validate(buffet, bindingResult);
-
-		logger.info("Prendo buffet aggiornato: "+buffet.toString());
-
-		if(!bindingResult.hasErrors()){
-			this.buffetService.updateBuffet(buffet);
-			model.addAttribute("listaBuffet", buffetService.findAll());
-			model.addAttribute("buffet", buffet);
-			return "listaBuffet";
-		}else{
-			model.addAttribute("listaChef", chefService.findAll());
-			model.addAttribute("piatto", new Piatto());
-			model.addAttribute("chef", new Chef());
-			model.addAttribute("listaPiatti", piattoService.findAll());
-			return "editBuffet";
-		}
-		
 	}
 	
 	@PostMapping("/admin/buffet")

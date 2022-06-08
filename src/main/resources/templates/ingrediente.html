@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head th:replace="fragments/base :: head(titolo='Dettagli ingrediente '+ ${ingrediente.nome})"></head>
+    <body>
+        <div th:replace="fragments/base :: header"></div>
+
+        <section th:replace="fragments/base :: up-section(mainText=|${ingrediente.nome}|, minorText=|${ingrediente.descr}|)"></section>
+
+        <div th:replace="fragments/base :: footer"></div>
+    </body>
+    <script th:replace="fragments/base :: script"></script>	
+</html>

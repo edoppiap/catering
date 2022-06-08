@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head th:replace="fragments/base :: head(titolo='Inserimento ingrediente')"></head>
+    <body>
+        <div th:replace="fragments/base :: header"></div>
+
+        <div class="modal modal-signin position-static d-block bg-secondary py-5" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-xl" role="document">
+                <div class="modal-content shadow rounded-4">
+                    <div class="modal-header p-5 pb-4 border-bottom-0">
+						<h2 class="fw-bold mb-0">Inserisci nuovo ingrediente</h2>
+					</div>
+                    <form th:action="@{/admin/ingrediente}" method="post" th:object="${ingrediente}">
+                        <div class="modal-body p-5 pt-0">
+                            <div class="row g-3">
+                                <div class="form-group col-md-4">
+                                    <label for="input1">Nome:</label>
+                                    <input type="text" class="form-control" placeholder="Sale" th:field = "*{nome}" th:classappend="${#fields.hasErrors('nome') ? 'is-invalid' : ' '}"/>
+                                    <span class="invalid-feedback" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></span>
+                                </div>
+                                <div class="form-group col-md-8">
+                                    <label for="input2">Descrizione:</label>
+                                    <textarea type="text" class="form-control" placeholder="Scrivi qualcosa su questo ingrediente" th:field = "*{descr}" th:classappend="${#fields.hasErrors('descr') ? 'is-invalid' : ' '}"></textarea>
+                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('descr')}" th:errors="*{descr}"></div>
+                                </div>
+                                <div class="form-group col-md-8">
+                                    <label for="input3">Origine:</label>
+                                    <textarea type="text" class="form-control" placeholder="Da Marsala" th:field = "*{origine}" th:classappend="${#fields.hasErrors('origine') ? 'is-invalid' : ' '}"></textarea>
+                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('origine')}" th:errors="*{origine}"></div>
+                                </div>
+    
+                                <br>
+                                <div><button class="btn btn-secondary" type = "submit">Conferma</button></div>
+                                <div th:if="${#fields.hasGlobalErrors()}">
+                                    <br>
+                                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                        <h4 class="alert-heading">Arcipigna!</h4>
+                                        <div th:each="err : ${#fields.globalErrors()}" th:text="${err}">...</div>
+                                    </div>
+                                </div>
+    
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div th:replace="fragments/base :: footer"></div>
+    </body>
+    <script th:replace="fragments/base :: script"></script>	
+</html>
