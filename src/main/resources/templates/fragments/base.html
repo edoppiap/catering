@@ -41,10 +41,10 @@
                         </a>
                         <ul class="dropdown-menu text-small mx-0 p-2 gap-1 rounded-2" aria-labelledby="dropdownUser" style="position: absolute; inset: 0px 0px auto auto; margin: 0px; transform: translate(0px, 34px);"
                             data-popper-placement="bottom-end">
-                            <li><a class="dropdown-item rounded-2">Profilo</a></li>
-                            <li><a class="dropdown-item" th:href="@{/admin/chefForm}" href='#'>Inserisci Chef</a></li>
-                            <li><a class="dropdown-item" th:href="@{/admin/buffetForm}" href='#'>Inserisci Buffet</a></li>
-                            <li><a class="dropdown-item" th:href="@{/piattoForm}" href="#">Inserisci Piatto</a></li>
+                            <li><a class="dropdown-item rounded-2" th:href="@{'/users/profilo/'+ ${#authentication.getPrincipal().getUsername()}}">Profilo</a></li>
+                            <li sec:authorize="hasAuthority('ADMIN')"><a class="dropdown-item" th:href="@{/admin/chefForm}" href='#'>Inserisci Chef</a></li>
+                            <li sec:authorize="hasAuthority('ADMIN')"><a class="dropdown-item" th:href="@{/admin/buffetForm}" href='#'>Inserisci Buffet</a></li>
+                            <li sec:authorize="hasAuthority('ADMIN')"><a class="dropdown-item" th:href="@{/piattoForm}" href="#">Inserisci Piatto</a></li>
                             <li><hr class="dropdwown-divider"></li>
                             <li><a class="dropdown-item rounded-2" href="/logout">Logout</a></li>
                         
@@ -54,6 +54,15 @@
             </div>
         </nav>
         <!--End navbar-->
+
+        <section th:fragment="up-section(mainText, minorText)" class="py-5 text-center container">
+			<div class="row py-lg-5">
+				<div class="col-lg-6 col-md-8 mx-auto">
+					<h1 class="fw-light" th:text="${mainText}">Nome Cognome</h1>
+					<p class="lead text-muted" th:text="${minorText}">Nazionalita</p>
+				</div>
+			</div>
+		</section>
 
         <!--Start footer-->
         <footer th:fragment="footer" class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top container">

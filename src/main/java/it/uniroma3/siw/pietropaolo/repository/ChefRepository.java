@@ -8,4 +8,6 @@ public interface ChefRepository extends CrudRepository<Chef, Long>{
 	
 	public boolean existsByNomeAndCognome(String nome, String cognome);
 
+    public Chef findByNomeAndCognome(String nome, String cognome);
+
 }

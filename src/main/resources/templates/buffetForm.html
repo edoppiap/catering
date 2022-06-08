@@ -58,6 +58,8 @@
 								<button class="btn btn-light" type="button" data-bs-toggle="modal" data-bs-target="#chefModal">Aggiungi uno chef</button>
 								
 							</div>
+							<!--Field nascosco così durante l'aggiornamento non perdo l'id-->
+							<input hidden type="text" th:field="*{id}"/>
 						</div>
 						<br>
 						<div><button class="btn btn-secondary" type = "submit">Conferma</button></div>

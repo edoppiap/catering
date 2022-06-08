@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,16 +19,22 @@ import it.uniroma3.siw.pietropaolo.controller.validator.ChefValidator;
 import it.uniroma3.siw.pietropaolo.model.pojo.Buffet;
 import it.uniroma3.siw.pietropaolo.model.pojo.Chef;
 import it.uniroma3.siw.pietropaolo.model.pojo.Piatto;
+import it.uniroma3.siw.pietropaolo.service.BuffetService;
 import it.uniroma3.siw.pietropaolo.service.ChefService;
 
 @Controller
 public class ChefController {
+
+	Logger logger = LoggerFactory.getLogger(ChefController.class);
 	
 	@Autowired 
 	private ChefService chefService;
 	
 	@Autowired 
 	private ChefValidator chefValidator;
+
+	@Autowired
+	private BuffetService buffetService;
 	
 	@GetMapping("/users/chef/{id}")
 	private String getBuffet(@PathVariable("id") Long id, Model model) {
@@ -46,6 +54,12 @@ public class ChefController {
 	@GetMapping("/admin/chefForm")
 	public String getBuffetForm(Model model) {
 		model.addAttribute("chef", new Chef());
+		return "chefForm";
+	}
+
+	@GetMapping("/admin/editChef/{id}")
+	public String editChef(@PathVariable("id") Long id, Model model){
+		model.addAttribute("chef", chefService.findById(id));
 		return "chefForm";
 	}
 	
@@ -71,6 +85,20 @@ public class ChefController {
 			return "buffetForm";
 		}
 	}
+
+	@PostMapping("/admin/updateChef")
+	public String newChef(@Valid @ModelAttribute("chef") Chef chef, @PathVariable Long id, BindingResult bindingResult, Model model) {
+		this.chefValidator.validate(chef, bindingResult);
+		
+		if(!bindingResult.hasErrors()) {
+			this.chefService.save(chef);
+			model.addAttribute("chef", chef);
+			model.addAttribute("listaBuffet", chef.getListaBuffet());
+			return "chef";
+		}else {
+			return "chefForm";
+		}
+	}
 	
 	@PostMapping("/admin/chef")
 	public String newChef(@Valid @ModelAttribute("chef") Chef chef, BindingResult bindingResult, Model model) {
@@ -79,6 +107,8 @@ public class ChefController {
 		if(!bindingResult.hasErrors()) {
 			this.chefService.save(chef);
 			model.addAttribute("chef", chef);
+			logger.info("Lista buffet da chef: "+ chef.toString());
+			model.addAttribute("listaBuffet", buffetService.findByChefId(chef.getId()));
 			return "chef";
 		}else {
 			return "chefForm";

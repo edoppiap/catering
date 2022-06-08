@@ -6,7 +6,7 @@
 
 		<div class="container"><h4>Aggiorna buffet</h4></div>
 		
-		<form th:action = "@{'/admin/editBuffet/'+${buffet.id}}" method = "post" th:object = "${buffet}">
+		<form th:action = "@{/admin/editBuffet/}" method = "post" th:object = "${buffet}">
 			<div class="container">
 				<div th:replace="buffetForm :: formBuffet"></div>
 			</div>

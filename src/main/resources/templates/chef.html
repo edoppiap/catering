@@ -4,14 +4,18 @@
 	<body>
 		<div th:replace="fragments/base :: header"></div>
 		
-		<section class="py-5 text-center container">
-			<div class="row py-lg-5">
-				<div class="col-lg-6 col-md-8 mx-auto">
-					<h1 class="fw-light" th:text="${chef.nome}+' '+${chef.cognome}">Nome Cognome</h1>
-					<p class="lead text-muted" th:text="${chef.nazionalita}">Nazionalita</p>
-				</div>
+
+		<section th:replace="fragments/base :: up-section(mainText=|${chef.nome} ${chef.cognome}|, minorText=|${chef.nazionalita}|)"></section>
+
+		<div class="container d-flex justify-content-between align-items-center" sec:authorize="hasAuthority('ADMIN')">
+			<div class="btn-group">
+				<button type="button" class="btn btn-sm btn-secondary" th:data-url="@{'/admin/deleteChef/'+${chef.id}}" onclick="window.location = this.getAttribute('data-url')">Cancella</button>
+				<button type="button" class="btn btn-sm btn-secondary" th:data-url="@{'/admin/editChef/'+${chef.id}}" onclick="window.location = this.getAttribute('data-url')">Modifica</button>
 			</div>
-		</section>
+		</div>
+		<br>
+
+		
 
 		<div class="album py-5 bg-light">
 			<div class="container">

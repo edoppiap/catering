@@ -20,7 +20,14 @@ public class ChefService {
 	}
 	
 	public boolean alreadyExists(Chef chef) {
-		return this.chefRepository.existsByNomeAndCognome(chef.getNome(), chef.getCognome());
+		if(chef.getId() == null){
+			return chefRepository.existsByNomeAndCognome(chef.getNome(), chef.getCognome());
+		}else if(chefRepository.existsByNomeAndCognome(chef.getNome(), chef.getCognome())){
+			Chef chefEsistente = chefRepository.findByNomeAndCognome(chef.getNome(), chef.getCognome());
+			return !(chefEsistente.getId().equals(chef.getId())); //se gli id sono uguali vuol dire che sto modificando lo stesso chef
+		}else {
+			return false;
+		}
 	}
 	
 	public Chef findById(Long id) {

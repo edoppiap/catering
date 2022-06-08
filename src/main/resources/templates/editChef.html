@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head th:replace="fragments/base :: head(titolo='Modifica chef '+ ${chef.nome})"></head>
+    <body>
+        <div th:replace="fragments/base :: header"></div>
+
+        <form th:action = "@{'/admin/editChef/'+${chef.id}}" method = "post" th:object = "${chef}">
+			<div class="container">
+				<div th:replace="chefForm :: formChef"></div>
+			</div>
+		</form>
+
+        <div th:replace="fragments/base :: footer"></div>
+    </body>
+    <script th:replace="fragments/base :: script"></script>
+</html>
