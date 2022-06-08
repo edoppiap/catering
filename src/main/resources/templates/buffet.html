@@ -1,15 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-	<head>
-		<meta charset="UTF-8" />
-		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" 
-		rel="stylesheet" 
-		integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" 
-		crossorigin="anonymous">
-		<title th:text="'Dettagli del buffet '+${buffet.nome}">Dettagli buffet</title>
-	</head>
+	<head th:replace="fragments/base :: head(titolo='Dettagli buffet '+ ${buffet.nome})"></head>
 	<body>
-		<div th:replace="page-header :: header"></div>
+		<div th:replace="fragments/base :: header"></div>
+
 		<div class="container">
 			<section class="py-5 text-center container">
 				<div class="row py-lg-5">
@@ -24,34 +18,47 @@
 				<div class="col">
 					<h3>Antipasti</h3>
 					<div th:each="piatto : ${piattiDelBuffet}">
-						<span th:if="${piatto.classificazione == T(it.uniroma3.siw.pietropaolo.model.pojo.Classificazione).ANTIPASTO}" th:text="${piatto.nome}">Piatto</span>
+						<div th:if="${piatto.classificazione == T(it.uniroma3.siw.pietropaolo.model.pojo.Classificazione).ANTIPASTO}">
+							<h6 th:text="${piatto.nome}">Piatto</h6>
+							<p th:text="${piatto.descrizione}">Descrizione</p>
+						</div>
 					</div>
 					<h3>Primi</h3>
 					<div th:each="piatto : ${piattiDelBuffet}">
-						<span th:if="${piatto.classificazione == T(it.uniroma3.siw.pietropaolo.model.pojo.Classificazione).PRIMO}" th:text="${piatto.nome}">Piatto</span>
+						<div th:if="${piatto.classificazione == T(it.uniroma3.siw.pietropaolo.model.pojo.Classificazione).PRIMO}">
+							<h6 th:text="${piatto.nome}">Piatto</h6>
+							<p th:text="${piatto.descrizione}">Descrizione</p>
+						</div>
 					</div>
 				</div>
 				<div class="col">
 					<h3>Secondi</h3>
 					<div th:each="piatto : ${piattiDelBuffet}">
-						<span th:if="${piatto.classificazione == T(it.uniroma3.siw.pietropaolo.model.pojo.Classificazione).SECONDO}" th:text="${piatto.nome}">Piatto</span>
+						<div th:if="${piatto.classificazione == T(it.uniroma3.siw.pietropaolo.model.pojo.Classificazione).SECONDO}">
+							<h6 th:text="${piatto.nome}">Piatto</h6>
+							<p th:text="${piatto.descrizione}">Descrizione</p>
+						</div>
 					</div>
 					<h3>Contorni</h3>
 					<div th:each="piatto : ${piattiDelBuffet}">
-						<span th:if="${piatto.classificazione == T(it.uniroma3.siw.pietropaolo.model.pojo.Classificazione).CONTORNO}" th:text="${piatto.nome}">Piatto</span>
+						<div th:if="${piatto.classificazione == T(it.uniroma3.siw.pietropaolo.model.pojo.Classificazione).CONTORNO}">
+							<h6 th:text="${piatto.nome}">Piatto</h6>
+							<p th:text="${piatto.descrizione}">Descrizione</p>
+						</div>
 					</div>
 					<h3>Dolci</h3>
 					<div th:each="piatto : ${piattiDelBuffet}">
-						<span th:if="${piatto.classificazione == T(it.uniroma3.siw.pietropaolo.model.pojo.Classificazione).DOLCE}" th:text="${piatto.nome}">Piatto</span>
+						<div th:if="${piatto.classificazione == T(it.uniroma3.siw.pietropaolo.model.pojo.Classificazione).DOLCE}">
+							<h6 th:text="${piatto.nome}">Piatto</h6>
+							<p class="secondary" th:text="${piatto.descrizione}">Descrizione</p>
+						</div>
 					</div>
 				</div>			
 			</div>
 			
 		</div>
 		
-		<div class="container">
-            <div th:replace="page-footer :: footer"></div>
-        </div>
+        <div th:replace="fragments/base :: footer"></div>
 	</body>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+	<script th:replace="fragments/base :: script"></script>	
 </html>
