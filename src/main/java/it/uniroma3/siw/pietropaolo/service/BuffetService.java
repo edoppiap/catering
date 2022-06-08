@@ -40,12 +40,11 @@ public class BuffetService {
 	}
 	
 	public boolean alreadyExists(Buffet buffet) {
-		logger.info("Esista già: "+ buffet.toString());
 		if(buffet.getId() == null){
 			return this.buffetRepository.existsByNome(buffet.getNome());
 		}else if(buffetRepository.existsByNome(buffet.getNome())){
 			Buffet buffetEsistente = buffetRepository.findByNome(buffet.getNome());
-			return !(buffet.getId() == buffetEsistente.getId());
+			return !(buffet.getId().equals(buffetEsistente.getId()));
 		}else{
 			return false;
 		}

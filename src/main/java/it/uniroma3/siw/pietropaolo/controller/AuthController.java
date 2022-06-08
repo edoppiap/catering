@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import it.uniroma3.siw.pietropaolo.controller.validator.CredentialsValidator;
 import it.uniroma3.siw.pietropaolo.service.CredentialsService;
-import it.uniroma3.siw.pietropaolo.service.UserService;
 import it.uniroma3.siw.pietropaolo.controller.validator.UserValidator;
 import it.uniroma3.siw.pietropaolo.model.pojo.Credentials;
 import it.uniroma3.siw.pietropaolo.model.pojo.User;
@@ -33,9 +32,6 @@ public class AuthController {
 
     @Autowired
     private CredentialsValidator credentialsValidator;
-
-    @Autowired
-    private UserService userService;
 
     @GetMapping("/users/profilo/{username}")
     public String getProfilo(@PathVariable("username") String username, Model model){

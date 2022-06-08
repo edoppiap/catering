@@ -121,6 +121,9 @@ public class BuffetController {
 			return "listaBuffet";
 		}else{
 			model.addAttribute("listaChef", chefService.findAll());
+			model.addAttribute("piatto", new Piatto());
+			model.addAttribute("chef", new Chef());
+			model.addAttribute("listaPiatti", piattoService.findAll());
 			return "editBuffet";
 		}
 		

@@ -6,7 +6,7 @@
 		
 		<div class="container"><h4>Aggiungi un buffet</h4></div>
 		
-		<form th:action = "@{/buffet}" method = "post" th:object = "${buffet}">
+		<form th:action = "@{/admin/buffet}" method = "post" th:object = "${buffet}">
 			<div class="container">
 				<div class="card col-auto" th:fragment="formBuffet">
 					<div class="card-header">
@@ -34,10 +34,20 @@
 									<!--Piatto select-->
 									<label for="input3">Seleziona uno o più piatti:</label>
 									<br>
+									
+									<div class="list-group mx-0 w-auto overflow-auto" style="height: 200px;">
+										<div th:each="piatto: ${listaPiatti}" class="list-group-item d-flex gap-2" >
+											<input class="form-check-input flex-shrink-0" type="checkbox" th:value="${piatto.id}" th:field="*{piatti}"/>
+											<span><div th:text="${piatto.nome}"></div>
+											<small class="d-block text-muted" th:text="${piatto.descrizione}"></small></span>
+										</div>
+									</div>
+									
+									<!--
 									<select class="form-select" multiple th:field="*{piatti}">
 										<option value="">Nessun piatto</option>
 										<option th:each="piatto : ${listaPiatti}" th:value="${piatto.id}" th:text="${piatto.nome}"></option>
-									</select>
+									</select>-->
 								</div>
 								<div class="form-group col-md-2">
 									<br>
