@@ -28,7 +28,7 @@ public class PiattoService {
 			return piattoRepository.existsByNome(piatto.getNome());
 		}else if(piattoRepository.existsByNome(piatto.getNome())){
 			Piatto piattoEsistente = piattoRepository.findByNome(piatto.getNome());
-			return !(piatto.getId() == piattoEsistente.getId());
+			return !(piatto.getId().equals(piattoEsistente.getId()));
 		}else{
 			return false;
 		}

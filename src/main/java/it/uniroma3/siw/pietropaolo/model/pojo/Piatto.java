@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import lombok.Data;
 
@@ -32,6 +33,7 @@ public class Piatto {
 	
 	private String descrizione;
 
+	@NotNull
 	@Enumerated(EnumType.STRING)
 	private Classificazione classificazione;
 	

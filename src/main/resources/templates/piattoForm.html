@@ -26,11 +26,12 @@
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label>Seleziona il tipo di piatto:</label>
-                                    <select class="form-select" th:field="*{classificazione}">
+                                    <select class="form-select" th:field="*{classificazione}" th:classappend="${#fields.hasErrors('classificazione') ? 'is-invalid' : ' '}">
                                         <option value="" hidden>Seleziona un opzione...</option>
                                         <option value="" disabled>Seleziona un opzione...</option>
                                         <option th:each="classificazione : ${T(it.uniroma3.siw.pietropaolo.model.pojo.Classificazione).values()}" th:value="${classificazione}" th:text="${classificazione.value}"></option>
                                     </select>
+                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('classificazione')}" th:errors="*{classificazione}"></div>
                                 </div>
                                 <div class="form-group col-md-8">
                                     <label for="ingrediente">Inserisci uno o più ingredienti..</label>
@@ -42,10 +43,20 @@
                                                 <small class="d-block text-muted" th:text="${ingrediente.descr}"></small></span>
                                         </div>
                                     </div>
+
+                                    <!--Field nascosco così durante l'aggiornamento non perdo l'id-->
+								    <input hidden type="text" th:field="*{id}"/>
                                 </div>
                             </div>
                             <br>
                             <div><button class="btn btn-secondary" type = "submit">Conferma</button></div>
+                            <div th:if="${#fields.hasGlobalErrors()}">
+                                <br>
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    <h4 class="alert-heading">Arcipigna!</h4>
+                                    <div th:each="err : ${#fields.globalErrors()}" th:text="${err}">...</div>
+                                </div>
+                            </div>
                         </div>
                     </form>
                 </div>

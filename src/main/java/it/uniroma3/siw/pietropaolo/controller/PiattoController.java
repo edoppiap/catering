@@ -48,6 +48,13 @@ public class PiattoController {
         return "piatto";
     }
 
+    @GetMapping("/admin/editPiatto/{id}")
+    public String editPiatto(@PathVariable("id") Long id, Model model){
+        model.addAttribute("piatto", piattoService.findById(id));
+        model.addAttribute("listaIngredienti", ingredienteService.findAll());
+        return "piattoForm";
+    }
+
     @GetMapping("/admin/piattoForm")
     public String getPiattoForm(Model model){
         model.addAttribute("piatto", new Piatto());

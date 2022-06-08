@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import lombok.Data;
 
@@ -30,6 +31,7 @@ public class Buffet implements Comparable<Buffet>{
 	
 	private String descr;
 	
+	@NotNull
 	@ManyToOne
 	private Chef chef;
 	

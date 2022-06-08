@@ -46,17 +46,18 @@
 								<div class="form-group col-md-6">
 									<!--Chef checkbox-->
 									<label for="input4">Seleziona uno chef:</label>
-									<div class="list-group mx-0 w-auto overflow-auto" style="max-height: 200px;">
-										<label class="list-group-item d-flex gap-2" th:each="chef : ${listaChef}" >
-										  <input class="form-check-input flex-shrink-0" type="radio" th:value="${chef.id}" th:field="*{chef}">
+									<div class="list-group mx-0 w-auto overflow-auto has-validation" style="max-height: 200px;">
+										<label class="list-group-item d-flex gap-2" th:each="chef : ${listaChef}" th:attr="style=${#fields.hasErrors('chef') ? 'border-color: #dc3545;' : ' '}">
+										  <input class="form-check-input flex-shrink-0" type="radio" th:value="${chef.id}" th:field="*{chef}" th:classappend="${#fields.hasErrors('chef') ? 'is-invalid' : ' '}">
 										  <span>
 											<div th:text="${chef.nome}+' '+${chef.cognome}"></div>
 											<small class="d-block text-muted" th:text="${chef.nazionalita}"></small>
 										  </span>
 										</label>
-									  </div>
 									</div>
-	
+									<div class="invalid-feedback" style="display: block;" th:if="${#fields.hasErrors('chef')}" th:errors="*{chef}"></div>
+								</div>
+									
 								<!--Field nascosco così durante l'aggiornamento non perdo l'id-->
 								<input hidden type="text" th:field="*{id}"/>
 							</div>
