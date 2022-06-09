@@ -3,6 +3,7 @@ package it.uniroma3.siw.pietropaolo.model.pojo;
 import java.util.List;
 import java.util.Objects;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -32,7 +33,7 @@ public class Ingrediente {
 	
 	private String descr;
 
-	@ManyToMany(mappedBy = "ingredienti")
+	@ManyToMany(mappedBy = "ingredienti", cascade = CascadeType.ALL)
 	private List<Piatto> piatti;
 
 	@Override

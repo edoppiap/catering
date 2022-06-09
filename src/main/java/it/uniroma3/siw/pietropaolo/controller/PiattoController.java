@@ -45,7 +45,7 @@ public class PiattoController {
     public String deletePiatto(@PathVariable("id") Long id, Model model){
         piattoService.deletePiattoById(id);
         model.addAttribute("listaPiatti", piattoService.findAll());
-        return "piatto";
+        return "listaPiatti";
     }
 
     @GetMapping("/admin/editPiatto/{id}")
