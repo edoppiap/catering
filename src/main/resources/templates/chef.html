@@ -5,17 +5,8 @@
 		<div th:replace="fragments/base :: header"></div>
 		
 
-		<section th:replace="fragments/base :: up-section(mainText=|${chef.nome} ${chef.cognome}|, minorText=|${chef.nazionalita}|)"></section>
-
-		<div class="container d-flex justify-content-between align-items-center" sec:authorize="hasAuthority('ADMIN')">
-			<div class="btn-group">
-				<button type="button" class="btn btn-sm btn-secondary" th:data-url="@{'/admin/deleteChef/'+${chef.id}}" onclick="window.location = this.getAttribute('data-url')">Cancella</button>
-				<button type="button" class="btn btn-sm btn-secondary" th:data-url="@{'/admin/editChef/'+${chef.id}}" onclick="window.location = this.getAttribute('data-url')">Modifica</button>
-			</div>
-		</div>
-		<br>
-
-		
+		<section th:replace="fragments/base :: up-details-section(mainText=|${chef.nome} ${chef.cognome}|, minorText=|${chef.nazionalita}|, src=#{buffet.listSrc},
+			deleteLink=|@{'/admin/deleteChef/'+${chef.id}}|, editLink=|@{'/admin/editChef/'+${chef.id}}|)"></section>		
 
 		<div class="album py-5 bg-light">
 			<div class="container">

@@ -5,39 +5,41 @@
     <body>
         <div th:replace="fragments/base :: header"></div>
 
-        <div class="modal modal-signin position-static d-block bg-secondary py-5" tabindex="-1" role="dialog">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content shadow rounded-4">
-                    <div class="modal-header p-5 pb-4 border-bottom-0">
-                        <h2 class="fw-bold mb-0">Registrati!</h2>
-                    </div>
-
-                    <form th:action="@{/register}" method="post">
-                        <div class="modal-body p-5 pt-0">
-                            <div class="form-floating mb-3">
-                                <input th:field="${user.nome}" class="form-control rounded-3" type="text" placeholder="Mario" id="floatingName" required autofocus/>
-                                <label for="floatingName">Il tuo nome</label>
-                            </div>
-                            <div class="form-floating mb-3">
-                                <input th:field="${user.cognome}" class="form-control rounded-3" type="text" placeholder="Mario" id="floatingName" required autofocus/>
-                                <label for="floatingName">Il tuo cognome</label>
-                            </div>
-                            <div class="form-floating mb-3">
-                                <input th:field="${credentials.username}" class="form-control rounded-3" type="email" placeholder="mario@esempio.com" id="floatingEmail" required autofocus/>
-                                <label for="floatingEmail">La tua email</label>
-                            </div>
-                            <div class="form-floating mb-3">
-                                <input th:field="${credentials.password}" class="form-control rounded-3" type="password" placeholder="La tua password" id="floatingPassword" required/>
-                                <label for="floatingPassword">La tua password</label>
-                           </div>
-                           <br>
-                            <div><button class="w-100 mb-2 btn btn-lg rounded-3 btn-secondary" type = "submit">Sign up</button></div>
+        <section style="background-image: url('/images/Ginevra_2018-115.jpg'); background-size: cover; background-position: center; ">
+            <div class="modal modal-signin position-static d-block py-5" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content shadow rounded-4">
+                        <div class="modal-header p-5 pb-4 border-bottom-0">
+                            <h2 class="fw-bold mb-0">Registrati!</h2>
                         </div>
-                    </form>
+    
+                        <form th:action="@{/register}" method="post">
+                            <div class="modal-body p-5 pt-0">
+                                <div class="form-floating mb-3">
+                                    <input th:field="${user.nome}" class="form-control rounded-3" type="text" placeholder="Mario" id="floatingName" required autofocus/>
+                                    <label for="floatingName">Il tuo nome</label>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input th:field="${user.cognome}" class="form-control rounded-3" type="text" placeholder="Mario" id="floatingName" required autofocus/>
+                                    <label for="floatingName">Il tuo cognome</label>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input th:field="${credentials.username}" class="form-control rounded-3" type="email" placeholder="mario@esempio.com" id="floatingEmail" required autofocus/>
+                                    <label for="floatingEmail">La tua email</label>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input th:field="${credentials.password}" class="form-control rounded-3" type="password" placeholder="La tua password" id="floatingPassword" required/>
+                                    <label for="floatingPassword">La tua password</label>
+                               </div>
+                               <br>
+                                <div><button class="w-100 mb-2 btn btn-lg rounded-3 btn-secondary" type = "submit">Sign up</button></div>
+                            </div>
+                        </form>
+                    </div>
+    
                 </div>
-
             </div>
-        </div>
+        </section>        
 
         <div th:replace="fragments/base :: footer"></div>
     </body>

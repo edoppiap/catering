@@ -4,17 +4,105 @@
     <body>
         <div th:replace="fragments/base :: header"></div>
 
-        <div class="px-4 pt-5 my-5 text-center border-bottom">
-            <h1 class="display-4 fw-bold">Catering</h1>
-            <div class="col-lg-6 mx-auto">
-                <p class="lead mb-4">Questo sito parla di catering!</p>
-                <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-5">
-                    <button type="button" class="btn btn-primary btn-lg px-4 me-sm-3">Primary button</button>
-                    <button type="button" class="btn btn-outline-secondary btn-lg px-4">Secondary</button>
+        <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+              <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+              <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+              <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+              <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="3" aria-label="Slide 4"></button>
+            </div>
+            <div class="carousel-inner">
+              <div class="carousel-item active" style="height: 50rem; background-color: black;">
+                <!--<svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></svg>-->
+                <img src="/images/Breakfast_Buffet_Top_Hero.png" style="opacity: .7;" class="bd-placeholder-img" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></img>
+                <div class="container">
+                  <div class="carousel-caption text-start">
+                    <h1 class="text-light" style="text-shadow: 2px 2px 4px black;" th:text="#{home.buffetCaroselTitle}"></h1>
+                    <p class="lead text-light" style="text-shadow: 2px 2px 2px black;" th:text="#{home.buffetCaroselLead}"></p>
+                    <p><a class="btn btn-lg btn-outline-light" href="/users/listaBuffet" th:text="#{home.scopri}"></a></p>
+                  </div>
+                </div>
+              </div>
+              <div class="carousel-item" style="height: 50rem; background-color: black;">
+                <!--<svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></svg>-->
+                <img src="/images/Acquolina_Group-Pasta-Paccheri-46.jpg" style="opacity: .7;" class="bd-placeholder-img" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></img>
+                <div class="container">
+                  <div class="carousel-caption">
+                    <h1 class="text-light" style="text-shadow: 2px 2px 4px black;" th:text="#{home.piattiCaroselTitle}"></h1>
+                    <p class="lead text-light" style="text-shadow: 2px 2px 2px black;" th:text="#{home.piattiCaroselLead}"></p>
+                    <p><a class="btn btn-lg btn-outline-light" href="/users/listaPiatti" th:text="#{home.scopri}"></a></p>
+                  </div>
+                </div>
+              </div>
+              <div class="carousel-item" style="height: 50rem; background-color: black;">
+                <!--<svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></svg>-->
+                <img src="/images/DinnerParty_3B.jpg" style="opacity: .7;" class="bd-placeholder-img" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></img>
+                <div class="container">
+                  <div class="carousel-caption">
+                    <h1 class="text-light" style="text-shadow: 2px 2px 4px black;" th:text="#{home.chefCaroselTitle}"></h1>
+                    <p class="lead text-light" style="text-shadow: 2px 2px 2px black;" th:text="#{home.chefCaroselLead}"></p>
+                    <p><a class="btn btn-lg btn-outline-light" href="/users/listaChef" th:text="#{home.scopri}"></a></p>
+                  </div>
+                </div>
+              </div>
+              <div class="carousel-item" style="height: 50rem; background-color: black;">
+                <!--<svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></svg>-->
+                <img src="/images/Acquolina_TextureShots-191.jpg" style="opacity: .7;" class="bd-placeholder-img" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></img>
+
+                <div class="container">
+                  <div class="carousel-caption text-end">
+                    <h1 class="text-light" style="text-shadow: 2px 2px 4px black;" th:text="#{home.ingredienteCaroselTitle}"></h1>
+                    <p class="lead text-light" style="text-shadow: 2px 2px 2px black;" th:text="#{home.ingredienteCaroselLead}"></p>
+                    <p><a class="btn btn-lg btn-outline-light" href="/users/listaIngredienti" th:text="#{home.scopri}"></a></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+
+        <div class="container col-xxl-8 px-4 py-5">
+            <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
+                <div class="col-10 col-sm-8 col-lg-6">
+                    <img src="/images/FUN00422.jpg" class="d-block mx-lg-auto img-fluid" width="500" height="700" loading="lazy">
+                </div>
+                <div class="col-lg-6">
+                    <h1 class="display-5 1h-1 mb-3" th:text="#{home.firstHeading}"></h1>
+                    <p class="lead" th:text="#{home.firstLead}"></p>
                 </div>
             </div>
         </div>
-        
+
+        <div class="divider"></div>
+
+        <div class="container col-xxl-8 px-4 py-5">
+            <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
+                <div class="col-lg-6">
+                    <h1 class="display-5 1h-1 mb-3" th:text="#{home.secondHeading}"></h1>
+                    <p class="lead" th:text="#{home.secondLead}"></p>
+                </div>
+                <div class="col-10 col-sm-8 col-lg-6">
+                    <img src="/images/Wedding_1B.jpg" class="d-block mx-lg-auto img-fluid" width="700" height="500" loading="lazy">
+                </div>
+            </div>
+        </div>
+
+        <div class="px-4 py-5 my-5 text-center">
+            <h1 class="display-5 1h-1 mb-3" th:text="#{home.thirdHeading}"></h1>
+            <div class="col-lg-6 mx-auto">
+              <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+                <p><a class="btn btn-outline-dark" href="/contactUs" th:text="#{index.contact}"></a></p>
+              </div>
+            </div>
+          </div>
+
         <div th:replace="fragments/base :: footer"></div>
     </body>
     <script th:replace="fragments/base :: script"></script>

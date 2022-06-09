@@ -4,7 +4,7 @@
 	<body>
 		<div th:replace="fragments/base :: header"></div>
 
-		<section th:replace="fragments/base :: up-section(mainText=|Lista chef|, minorText=|L'elenco dei migliori chef selezionati da noi|)"></section>
+		<section th:replace="fragments/base :: up-section(mainText=#{chef.listTitle}, minorText=#{chef.listLead}, src=#{chef.listSrc})"></section>
 
 		<div class="album py-5 bg-light">
 			<div class="container">

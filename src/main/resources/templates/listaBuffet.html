@@ -4,7 +4,7 @@
 	<body>
 		<div th:replace="fragments/base :: header"></div>
 
-		<section th:replace="fragments/base :: up-section(mainText=|Tutti i buffet|, minorText=|Solo i migliori buffet, scelti e selezionati per portarti in tavola solo il meglio.|)"></section>
+		<section th:replace="fragments/base :: up-section(mainText=#{buffet.listTitle}, minorText=#{buffet.listLead}, src=#{buffet.listSrc})"></section>
 
 		<div class="album py-5 bg-light">
 			<div class="container">

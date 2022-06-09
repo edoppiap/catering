@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head th:replace="fragments/base :: head(titolo='Chi sono')"></head>
+	<body>
+		<div th:replace="fragments/base :: header"></div>
+
+        <section style="background-image: url('/images/Ginevra_2018-115.jpg'); background-size: cover; background-position: center; ">
+            <div class="modal modal-lg position-static d-block py-5" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content shadow">
+                        <div class="modal-header p-5 pb-4 border-bottom-0">
+                            <h2 class="fw-bold mb-0">Chi sono</h2>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-4 text-center">
+                                    <img src="https://scontent.fcia4-1.fna.fbcdn.net/v/t39.30808-6/240933829_4636908699686134_5053913041044921576_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=nDbnnGx_5wQAX8ynYEX&_nc_ht=scontent.fcia4-1.fna&oh=00_AT9Nb-zFSQ6i_bfaTwBTj_CmYKBk4Oe_otkwy52y94sczg&oe=62A61CA1" alt="avatar"
+                                    class="rounded-2 img-fluid" style="width: 300px; height: 300px; object-fit: cover;">
+                                </div>
+                                <div class="col-8 d-flex align-items-center justify-content-center">Uno studente a cui piace molto mettersi in gioco!</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div th:replace="fragments/base :: footer"></div>
+    </body>
+    <script th:replace="fragments/base :: script"></script>
+</html>

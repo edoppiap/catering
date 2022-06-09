@@ -4,7 +4,7 @@
 	<body>
 		<div th:replace="fragments/base :: header"></div>
 
-		<section th:replace="fragments/base :: up-section(mainText=|Tutti i piatti|, minorText=|In questa pagina potrai vedere tutti i piatti che proponiamo.|)"></section>
+		<section th:replace="fragments/base :: up-section(mainText=#{piatto.listTitle}, minorText=#{piatto.listLead}, src=#{piatto.listSrc})"></section>
 
         <div class="album py-5 bg-light" th:fragment="listaPiatti">
             <div class="container">
