@@ -7,7 +7,17 @@
         <section th:replace="fragments/base :: up-details-section(mainText=|${ingrediente.nome}|, minorText=|${ingrediente.descr}|, src=#{ingrediente.listSrc},
             deleteLink=|@{'/admin/deleteIngrediente/'+${ingrediente.id}}|, editLink=|@{'/admin/editIngrediente/'+${ingrediente.id}}|)"></section>
 
-        <div th:replace="listaPiatti :: listaPiatti"></div>
+        <div class="album py-5 bg-light">
+            <div class="row">
+                <div class="col text-center">
+                    <img th:src="@{${ingrediente.immaginePath}}" class="rounded-circle" width="140" height="140" style="object-fit: cover;">
+                    <br>
+                    <h2>Tutti i piatti dove è presente</h2>
+                    <br>
+                </div>
+            </div>
+            <div th:replace="listaPiatti :: listaPiatti"></div>
+        </div>
 
         <div th:replace="fragments/base :: footer"></div>
     </body>

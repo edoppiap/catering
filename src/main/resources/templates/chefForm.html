@@ -10,7 +10,7 @@
 					<div class="modal-header p-5 pb-4 border-bottom-0">
 						<h2 class="fw-bold mb-0">Inserisci nuovo chef</h2>
 					</div>
-					<form th:action = "@{/admin/chef}" method = "post" th:object = "${chef}">
+					<form th:action = "@{/admin/chef}" method = "post" th:object = "${chef}" enctype="multipart/form-data">
 						<div class="modal-body p-5 pt-0">
 							<div class="row g-3">
 								<div class="form-group col-md-6">
@@ -30,6 +30,15 @@
 								</div>
 								<input hidden type="text" th:field="*{id}"/>
 							</div>
+
+							<br>
+							<div class="form-group col-md-6">
+								<label for="formFile" class="form-label">Carica una foto dello chef:</label>
+								  <input class="form-control" type="file" name="image" accept="image/png, image/jpg, image/jpeg">
+							</div>
+
+							<!--Field nascosco così durante l'aggiornamento non perdo l'id-->
+							<input hidden type="text" th:field="*{id}"/>
 							<br>
 							<div><button class="btn btn-secondary" type = "submit">Conferma</button></div>
 							<div th:if="${#fields.hasGlobalErrors()}">

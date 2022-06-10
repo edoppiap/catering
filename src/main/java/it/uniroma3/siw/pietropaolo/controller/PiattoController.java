@@ -1,5 +1,7 @@
 package it.uniroma3.siw.pietropaolo.controller;
 
+import java.io.IOException;
+
 import javax.validation.Valid;
 
 import org.jboss.logging.Logger;
@@ -7,14 +9,18 @@ import org.hibernate.annotations.common.util.impl.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import it.uniroma3.siw.pietropaolo.service.IngredienteService;
 import it.uniroma3.siw.pietropaolo.service.PiattoService;
+import it.uniroma3.siw.pietropaolo.upload.FileUploadUtil;
 import it.uniroma3.siw.pietropaolo.controller.validator.PiattoValidator;
 import it.uniroma3.siw.pietropaolo.model.pojo.Piatto;
 
@@ -69,12 +75,19 @@ public class PiattoController {
     }
 
     @PostMapping("/admin/piatto")
-    public String newPiatto(@Valid @ModelAttribute("piatto") Piatto piatto, BindingResult bindingResult, Model model){
+    public String newPiatto(@Valid @ModelAttribute("piatto") Piatto piatto, @RequestParam("image") MultipartFile multipartFile, BindingResult bindingResult, Model model) throws IOException{
         PiattoValidator.validate(piatto, bindingResult);
 
         if(!bindingResult.hasErrors()){
-            piattoService.save(piatto);
-            return "listaBuffet";
+            String nomeFoto = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+			piatto.setNomeFoto(nomeFoto);
+
+            Piatto piattoSalvato = piattoService.save(piatto);
+			String caricaCartella = "fotoPiatto/"+ piattoSalvato.getId();
+			FileUploadUtil.saveFile(caricaCartella, nomeFoto, multipartFile);
+
+            model.addAttribute("listaPiatti", piattoService.findAll());
+            return "listaPiatti";
         }else{
             model.addAttribute("listaIngredienti", ingredienteService.findAll());
             return "piattoForm";

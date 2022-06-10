@@ -1,5 +1,6 @@
 package it.uniroma3.siw.pietropaolo.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -9,11 +10,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import it.uniroma3.siw.pietropaolo.controller.validator.ChefValidator;
 import it.uniroma3.siw.pietropaolo.model.pojo.Buffet;
@@ -21,6 +25,7 @@ import it.uniroma3.siw.pietropaolo.model.pojo.Chef;
 import it.uniroma3.siw.pietropaolo.model.pojo.Piatto;
 import it.uniroma3.siw.pietropaolo.service.BuffetService;
 import it.uniroma3.siw.pietropaolo.service.ChefService;
+import it.uniroma3.siw.pietropaolo.upload.FileUploadUtil;
 
 @Controller
 public class ChefController {
@@ -101,11 +106,16 @@ public class ChefController {
 	}
 	
 	@PostMapping("/admin/chef")
-	public String newChef(@Valid @ModelAttribute("chef") Chef chef, BindingResult bindingResult, Model model) {
+	public String newChef(@Valid @ModelAttribute("chef") Chef chef,@RequestParam("image") MultipartFile multipartFile, BindingResult bindingResult, Model model) throws IOException {
 		this.chefValidator.validate(chef, bindingResult);
 		
 		if(!bindingResult.hasErrors()) {
-			this.chefService.save(chef);
+			String nomeFoto = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+			chef.setNomeFoto(nomeFoto);
+
+			Chef chefSalvato = this.chefService.save(chef);
+			String caricaCartella = "fotoChef/"+ chefSalvato.getId();
+			FileUploadUtil.saveFile(caricaCartella, nomeFoto, multipartFile);
 			model.addAttribute("chef", chef);
 			logger.info("Lista buffet da chef: "+ chef.toString());
 			model.addAttribute("listaBuffet", buffetService.findByChefId(chef.getId()));

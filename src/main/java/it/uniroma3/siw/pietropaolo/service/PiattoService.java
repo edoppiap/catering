@@ -19,8 +19,8 @@ public class PiattoService {
 		save(piattoAggiornato);
 	}
 
-	public void save(Piatto piatto){
-		piattoRepository.save(piatto);
+	public Piatto save(Piatto piatto){
+		return piattoRepository.save(piatto);
 	}
 
 	public boolean alreadyExists(Piatto piatto){

@@ -6,10 +6,18 @@
 		
 
 		<section th:replace="fragments/base :: up-details-section(mainText=|${chef.nome} ${chef.cognome}|, minorText=|${chef.nazionalita}|, src=#{buffet.listSrc},
-			deleteLink=|@{'/admin/deleteChef/'+${chef.id}}|, editLink=|@{'/admin/editChef/'+${chef.id}}|)"></section>		
+			deleteLink=|@{'/admin/deleteChef/'+${chef.id}}|, editLink=|@{'/admin/editChef/'+${chef.id}}|)"></section>
 
 		<div class="album py-5 bg-light">
 			<div class="container">
+				<div class="row">
+					<div class="col text-center">
+						<img th:src="@{${chef.immaginePath}}" alt="avatar"
+                                    class="rounded-circle img-fluid" style="width: 150px; height: 150px; object-fit: cover;">
+						<h2>Tutti i suoi buffet</h2>
+						<br>
+					</div>
+				</div>
 				<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
 					<div class="col" th:each="buffet:${listaBuffet}">
 						<div th:replace="listaBuffet :: listaBuffet">

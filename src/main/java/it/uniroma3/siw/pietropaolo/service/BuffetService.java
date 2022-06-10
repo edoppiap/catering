@@ -31,8 +31,8 @@ public class BuffetService {
 		this.save(buffetAggiornato);
 	}
 	
-	public void save(Buffet buffet) {
-		this.buffetRepository.save(buffet);
+	public Buffet save(Buffet buffet) {
+		return this.buffetRepository.save(buffet);
 	}
 
 	public List<Buffet> findByChefId(Long id){

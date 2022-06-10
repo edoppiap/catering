@@ -13,8 +13,10 @@
 						<div class="card-body">
 							<div class="row">
 								<div class="col-4 text-center">
-									<a href="#" th:href="@{'/users/chef' + '/' + ${chef.id}}"><img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar"
-											class="rounded-circle img-fluid" style="width: 150px;"></a>
+									<a href="#" th:href="@{'/users/chef' + '/' + ${chef.id}}">
+										<img th:src="@{${chef.immaginePath}}" alt="avatar"
+											class="rounded-circle img-fluid" style="width: 150px; height: 150px; object-fit: cover;">
+									</a>
 									<br>
 									<div class="d-flex justify-content-between align-items-center">
 										<div class="btn-group">

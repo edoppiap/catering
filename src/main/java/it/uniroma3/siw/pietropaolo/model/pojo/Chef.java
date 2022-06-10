@@ -32,9 +32,20 @@ public class Chef implements Comparable<Chef>{
 	private String cognome;
 	
 	private String nazionalita;
+
+	private String nomeFoto;
 	
 	@OneToMany(mappedBy="chef", cascade = CascadeType.ALL)
 	private List<Buffet> listaBuffet;
+
+	public String getImmaginePath(){
+		if(getNomeFoto() == null || getId() == null){
+			return null;
+		}
+		StringBuilder builder = new StringBuilder();
+		builder.append("/fotoChef/").append(getId()).append("/").append(getNomeFoto());
+		return builder.toString();
+	}
 
 	@Override
 	public int hashCode() {

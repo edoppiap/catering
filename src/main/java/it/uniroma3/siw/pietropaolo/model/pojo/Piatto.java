@@ -36,6 +36,8 @@ public class Piatto {
 	@NotNull
 	@Enumerated(EnumType.STRING)
 	private Classificazione classificazione;
+
+	private String nomeFoto;
 	
 	@ManyToMany(mappedBy = "piatti")
 	private List<Buffet> listaBuffet;
@@ -45,6 +47,15 @@ public class Piatto {
 	
 	@ManyToMany
 	private List<Ingrediente> ingredienti;
+
+	public String getImmaginePath(){
+		if(getNomeFoto() == null || getId() == null){
+			return null;
+		}
+		StringBuilder builder = new StringBuilder();
+		builder.append("/fotoPiatto/").append(getId()).append("/").append(getNomeFoto());
+		return builder.toString();
+	}
 
 	@Override
 	public int hashCode() {

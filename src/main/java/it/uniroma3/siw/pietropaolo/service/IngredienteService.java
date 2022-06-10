@@ -30,8 +30,8 @@ public class IngredienteService {
 		}
 	}
 
-	public void save(Ingrediente ingrediente){
-		ingredienteRepository.save(ingrediente);
+	public Ingrediente save(Ingrediente ingrediente){
+		return ingredienteRepository.save(ingrediente);
 	}
 
 	public void deleteIngredienteById(Long id){

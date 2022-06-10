@@ -1,5 +1,6 @@
 package it.uniroma3.siw.pietropaolo.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,11 +11,14 @@ import org.hibernate.annotations.common.util.impl.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import it.uniroma3.siw.pietropaolo.controller.validator.BuffetValidator;
 import it.uniroma3.siw.pietropaolo.model.pojo.Buffet;
@@ -23,6 +27,7 @@ import it.uniroma3.siw.pietropaolo.model.pojo.Piatto;
 import it.uniroma3.siw.pietropaolo.service.BuffetService;
 import it.uniroma3.siw.pietropaolo.service.ChefService;
 import it.uniroma3.siw.pietropaolo.service.PiattoService;
+import it.uniroma3.siw.pietropaolo.upload.FileUploadUtil;
 
 @Controller
 public class BuffetController {
@@ -92,12 +97,8 @@ public class BuffetController {
 		model.addAttribute("buffet", buffet);
 		model.addAttribute("listaChef", chefService.findAll());
 		model.addAttribute("listaPiatti", piattoService.findAll());
+
 		
-		/**
-		 * Attributi per le due modali di inserimento all'interno della form
-		 */
-		model.addAttribute("chef", new Chef());
-		model.addAttribute("piatto", new Piatto());
 		return "buffetForm";
 	}
 	
@@ -109,12 +110,17 @@ public class BuffetController {
 	}
 	
 	@PostMapping("/admin/buffet")
-	public String newBuffet(@Valid @ModelAttribute("buffet") Buffet buffet, BindingResult bindingResult, Model model) {
+	public String newBuffet(@Valid @ModelAttribute("buffet") Buffet buffet, @RequestParam("image") MultipartFile multipartFile, BindingResult bindingResult, Model model) throws IOException {
 		logger.info("nuovo buffet"+buffet.toString());
 		this.buffetValidator.validate(buffet, bindingResult);
 		
 		if(!bindingResult.hasErrors()) {
-			this.buffetService.save(buffet);
+			String nomeFoto = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+			buffet.setNomeFoto(nomeFoto);
+
+			Buffet buffetSalvato = this.buffetService.save(buffet);
+			String caricaCartella = "fotoBuffet/"+ buffetSalvato.getId();
+			FileUploadUtil.saveFile(caricaCartella, nomeFoto, multipartFile);
 			model.addAttribute("listaBuffet", buffetService.findAll());
 			return "listaBuffet";
 		}else{

@@ -33,8 +33,19 @@ public class Ingrediente {
 	
 	private String descr;
 
+	private String nomeFoto;
+
 	@ManyToMany(mappedBy = "ingredienti", cascade = CascadeType.ALL)
 	private List<Piatto> piatti;
+
+	public String getImmaginePath(){
+		if(getNomeFoto() == null || getId() == null){
+			return null;
+		}
+		StringBuilder builder = new StringBuilder();
+		builder.append("/fotoIngrediente/").append(getId()).append("/").append(getNomeFoto());
+		return builder.toString();
+	}
 
 	@Override
 	public int hashCode() {

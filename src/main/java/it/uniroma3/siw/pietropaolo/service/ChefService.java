@@ -15,8 +15,8 @@ public class ChefService {
 	@Autowired 
 	private ChefRepository chefRepository;
 	
-	public void save(Chef chef) {
-		this.chefRepository.save(chef);
+	public Chef save(Chef chef) {
+		return this.chefRepository.save(chef);
 	}
 	
 	public boolean alreadyExists(Chef chef) {

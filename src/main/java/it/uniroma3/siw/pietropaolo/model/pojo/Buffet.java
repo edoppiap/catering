@@ -30,6 +30,8 @@ public class Buffet implements Comparable<Buffet>{
 	private String nome;
 	
 	private String descr;
+
+	private String nomeFoto;
 	
 	@NotNull
 	@ManyToOne
@@ -41,6 +43,15 @@ public class Buffet implements Comparable<Buffet>{
 	@Override
 	public int hashCode() {
 		return Objects.hash(descr, nome);
+	}
+
+	public String getImmaginePath(){
+		if(getNomeFoto() == null || getId() == null){
+			return null;
+		}
+		StringBuilder builder = new StringBuilder();
+		builder.append("/fotoBuffet/").append(getId()).append("/").append(getNomeFoto());
+		return builder.toString();
 	}
 
 	@Override
