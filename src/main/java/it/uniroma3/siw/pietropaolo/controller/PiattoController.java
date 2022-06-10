@@ -75,23 +75,39 @@ public class PiattoController {
     }
 
     @PostMapping("/admin/piatto")
-    public String newPiatto(@Valid @ModelAttribute("piatto") Piatto piatto, @RequestParam("image") MultipartFile multipartFile, BindingResult bindingResult, Model model) throws IOException{
+    public String newPiatto(@Valid @ModelAttribute("piatto") Piatto piatto, BindingResult bindingResult, Model model) throws IOException{
         PiattoValidator.validate(piatto, bindingResult);
 
         if(!bindingResult.hasErrors()){
-            String nomeFoto = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-			piatto.setNomeFoto(nomeFoto);
 
-            Piatto piattoSalvato = piattoService.save(piatto);
-			String caricaCartella = "fotoPiatto/"+ piattoSalvato.getId();
-			FileUploadUtil.saveFile(caricaCartella, nomeFoto, multipartFile);
+            Piatto salvato = piattoService.save(piatto);
 
-            model.addAttribute("listaPiatti", piattoService.findAll());
-            return "listaPiatti";
+            model.addAttribute("actionLink", "/admin/uploadImagePiatto/"+salvato.getId());
+			model.addAttribute("text", "Carica un immagine del piatto'");
+			return "uploadImage";
         }else{
             model.addAttribute("listaIngredienti", ingredienteService.findAll());
             return "piattoForm";
         }
     }
+
+    @PostMapping("/admin/uploadImagePiatto/{id}")
+	public String uploadImage(@PathVariable("id") Long id, @RequestParam("image") MultipartFile multipartFile, Model model) throws IOException{
+		Piatto piatto = piattoService.findById(id);
+		if(multipartFile != null){
+			String nomeFoto = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+			piatto.setNomeFoto(nomeFoto);
+
+            piattoService.updatePiatto(piatto);
+
+			String caricaCartella = "fotoPiatto/"+ piatto.getId();
+			FileUploadUtil.saveFile(caricaCartella, nomeFoto, multipartFile);
+		}else{
+			ingredienteService.deleteIngredienteById(id);
+		}
+
+		model.addAttribute("listaPiatti", piattoService.findAll());
+        return "listaPiatti";
+	}
     
 }

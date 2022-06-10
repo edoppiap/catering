@@ -10,7 +10,7 @@
                     <div class="modal-header p-5 pb-4 border-bottom-0">
 						<h2 class="fw-bold mb-0">Inserisci nuovo piatto</h2>
 					</div>
-                    <form th:action="@{/admin/piatto}" method="post" th:object="${piatto}" enctype="multipart/form-data">
+                    <form th:action="@{/admin/piatto}" method="post" th:object="${piatto}">
                         <div class="modal-body p-5 pt-0">
                             <div class="row">
                                 <div class="form-group col-md-4">
@@ -42,17 +42,10 @@
                                             <span><div th:text="${ingrediente.nome}"></div>
                                                 <small class="d-block text-muted" th:text="${ingrediente.descr}"></small></span>
                                         </div>
-                                    </div>
-
-                                    
+                                    </div>                                    
 
                                     <!--Field nascosco così durante l'aggiornamento non perdo l'id-->
 								    <input hidden type="text" th:field="*{id}"/>
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <br>
-                                    <label for="formFile" class="form-label">Carica una foto del piatto:</label>
-                                      <input class="form-control" type="file" name="image" accept="image/png, image/jpg, image/jpeg">
                                 </div>
                             </div>
                             <br>

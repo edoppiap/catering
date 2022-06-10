@@ -110,26 +110,40 @@ public class BuffetController {
 	}
 	
 	@PostMapping("/admin/buffet")
-	public String newBuffet(@Valid @ModelAttribute("buffet") Buffet buffet, @RequestParam("image") MultipartFile multipartFile, BindingResult bindingResult, Model model) throws IOException {
+	public String newBuffet(@Valid @ModelAttribute("buffet") Buffet buffet, BindingResult bindingResult, Model model) {
 		logger.info("nuovo buffet"+buffet.toString());
 		this.buffetValidator.validate(buffet, bindingResult);
 		
 		if(!bindingResult.hasErrors()) {
-			String nomeFoto = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-			buffet.setNomeFoto(nomeFoto);
-
-			Buffet buffetSalvato = this.buffetService.save(buffet);
-			String caricaCartella = "fotoBuffet/"+ buffetSalvato.getId();
-			FileUploadUtil.saveFile(caricaCartella, nomeFoto, multipartFile);
-			model.addAttribute("listaBuffet", buffetService.findAll());
-			return "listaBuffet";
+			Buffet salvato = this.buffetService.save(buffet);			
+			
+			model.addAttribute("actionLink", "/admin/uploadImageBuffet/"+salvato.getId());
+			model.addAttribute("text", "Carica un immagine del buffet");
+			return "uploadImage";
 		}else{
 			model.addAttribute("listaChef", chefService.findAll());
-			model.addAttribute("piatto", new Piatto());
-			model.addAttribute("chef", new Chef());
 			model.addAttribute("listaPiatti", piattoService.findAll());
 			return "buffetForm";
 		}
+	}
+
+	@PostMapping("/admin/uploadImageBuffet/{id}")
+	public String uploadImage(@PathVariable("id") Long id, @RequestParam("image") MultipartFile multipartFile, Model model) throws IOException{
+		Buffet buffet = buffetService.findById(id);
+		if(multipartFile != null){
+			String nomeFoto = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+			buffet.setNomeFoto(nomeFoto);
+
+			buffetService.updateBuffet(buffet);
+
+			String caricaCartella = "fotoBuffet/"+ buffet.getId();
+			FileUploadUtil.saveFile(caricaCartella, nomeFoto, multipartFile);
+		}else{
+			buffetService.deleteBuffetById(id);
+		}
+
+		model.addAttribute("listaBuffet", buffetService.findAll());
+		return "listaBuffet";
 	}
 
 }

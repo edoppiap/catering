@@ -68,22 +68,38 @@ public class IngredienteController {
     }
 
     @PostMapping("/admin/ingrediente")
-    public String newIngrediente(@Valid @ModelAttribute("ingrediente") Ingrediente ingrediente, @RequestParam("image") MultipartFile multipartFile, BindingResult bindingResult, Model model) throws IOException{
+    public String newIngrediente(@Valid @ModelAttribute("ingrediente") Ingrediente ingrediente, BindingResult bindingResult, Model model) throws IOException{
         ingredienteValidator.validate(ingrediente, bindingResult);
 
         if(!bindingResult.hasErrors()){
-            String nomeFoto = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-			ingrediente.setNomeFoto(nomeFoto);
 
-            Ingrediente ingredienteSalvato = ingredienteService.save(ingrediente);
-			String caricaCartella = "fotoIngrediente/"+ ingredienteSalvato.getId();
-			FileUploadUtil.saveFile(caricaCartella, nomeFoto, multipartFile);
+            Ingrediente salvato = ingredienteService.save(ingrediente);
 
-            model.addAttribute("ingrediente", ingredienteSalvato);
-            return "ingrediente";
+            model.addAttribute("actionLink", "/admin/uploadImageIngrediente/"+salvato.getId());
+			model.addAttribute("text", "Carica un immagine dell'ingrediente'");
+			return "uploadImage";
         }else{
             return "ingredienteForm";
         }
     }
+
+    @PostMapping("/admin/uploadImageIngrediente/{id}")
+	public String uploadImage(@PathVariable("id") Long id, @RequestParam("image") MultipartFile multipartFile, Model model) throws IOException{
+		Ingrediente ingrediente = ingredienteService.findById(id);
+		if(multipartFile != null){
+			String nomeFoto = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+			ingrediente.setNomeFoto(nomeFoto);
+
+			ingredienteService.save(ingrediente); //chefService non ha il metodo updateChef perché è ridondante
+
+			String caricaCartella = "fotoIngrediente/"+ ingrediente.getId();
+			FileUploadUtil.saveFile(caricaCartella, nomeFoto, multipartFile);
+		}else{
+			ingredienteService.deleteIngredienteById(id);
+		}
+
+		model.addAttribute("ingrediente", ingrediente);
+            return "ingrediente";
+	}
     
 }

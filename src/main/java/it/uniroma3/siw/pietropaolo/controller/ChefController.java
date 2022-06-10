@@ -106,22 +106,38 @@ public class ChefController {
 	}
 	
 	@PostMapping("/admin/chef")
-	public String newChef(@Valid @ModelAttribute("chef") Chef chef,@RequestParam("image") MultipartFile multipartFile, BindingResult bindingResult, Model model) throws IOException {
+	public String newChef(@Valid @ModelAttribute("chef") Chef chef,BindingResult bindingResult, Model model) throws IOException {
 		this.chefValidator.validate(chef, bindingResult);
 		
 		if(!bindingResult.hasErrors()) {
-			String nomeFoto = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-			chef.setNomeFoto(nomeFoto);
 
-			Chef chefSalvato = this.chefService.save(chef);
-			String caricaCartella = "fotoChef/"+ chefSalvato.getId();
-			FileUploadUtil.saveFile(caricaCartella, nomeFoto, multipartFile);
-			model.addAttribute("chef", chef);
+			Chef salvato = this.chefService.save(chef);
 			logger.info("Lista buffet da chef: "+ chef.toString());
-			model.addAttribute("listaBuffet", buffetService.findByChefId(chef.getId()));
-			return "chef";
+			model.addAttribute("actionLink", "/admin/uploadImageChef/"+salvato.getId());
+			model.addAttribute("text", "Carica un immagine dello chef");
+			return "uploadImage";
 		}else {
 			return "chefForm";
 		}
+	}
+
+	@PostMapping("/admin/uploadImageChef/{id}")
+	public String uploadImage(@PathVariable("id") Long id, @RequestParam("image") MultipartFile multipartFile, Model model) throws IOException{
+		Chef chef = chefService.findById(id);
+		if(multipartFile != null){
+			String nomeFoto = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+			chef.setNomeFoto(nomeFoto);
+
+			chefService.save(chef); //chefService non ha il metodo updateChef perché è ridondante
+
+			String caricaCartella = "fotoChef/"+ chef.getId();
+			FileUploadUtil.saveFile(caricaCartella, nomeFoto, multipartFile);
+		}else{
+			buffetService.deleteBuffetById(id);
+		}
+
+		model.addAttribute("chef", chef);		
+		model.addAttribute("listaBuffet", buffetService.findByChefId(chef.getId()));
+		return "chef";
 	}
 }
