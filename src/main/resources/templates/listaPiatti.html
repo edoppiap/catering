@@ -9,27 +9,47 @@
         <div class="album py-5 bg-light" th:fragment="listaPiatti">
             <div class="container">
                 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-                    <div class="col text-center" th:each="piatto : ${listaPiatti}">
-                        <a th:href="@{'/users/piatto/'+${piatto.id}}">
-                            <!--<svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 140x140" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#777"/><text x="50%" y="50%" fill="#777" dy=".3em">140x140</text></svg>
-                            -->
-                            <img th:src="@{${piatto.immaginePath}}" class="rounded-circle" width="140" height="140" style="object-fit: cover;">
-                        </a>
-                        <h2 class="fw-normal" th:text="${piatto.nome}"></h2>
-                        <p th:text="${piatto.descrizione}"></p>
-                        <div class="btn-group">
-                            <button sec:authorize="hasAuthority('ADMIN')" type="button" class="btn btn-sm btn-outline-dark" th:data-url="@{'/admin/deletePiatto/'+${piatto.id}}" onclick="window.location = this.getAttribute('data-url')">Cancella</button>
-                            <button sec:authorize="hasAuthority('ADMIN')" type="button" class="btn btn-sm btn-outline-dark" th:data-url="@{'/admin/editPiatto/'+${piatto.id}}" onclick="window.location = this.getAttribute('data-url')">Modifica</button>
-                            <button type="button" class="btn btn-sm btn-outline-dark" th:data-url="'/users/piatto/'+${piatto.id}" onclick="window.location = this.getAttribute('data-url')">Vedi</button>
-                            <button type="button" class="btn btn-sm btn-outline-dark" >
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
-                                    <path fill-rule="evenodd" d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"></path>
-                                </svg>
-                                <!--<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
-                                    <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
-                                  </svg>-->
-                            </button>
-                        </div>
+                    <div class="col" th:each="piatto : ${listaPiatti}">
+                        <div class="text-center">
+                            <a th:href="@{'/users/piatto/'+${piatto.id}}">
+                                <!--<svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 140x140" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#777"/><text x="50%" y="50%" fill="#777" dy=".3em">140x140</text></svg>
+                                -->
+                                <img th:src="@{${piatto.immaginePath}}" class="rounded-circle" width="140" height="140" style="object-fit: cover;">
+                            </a>
+                            <h2 class="fw-normal" th:text="${piatto.nome}"></h2>
+                            <p th:text="${piatto.descrizione}"></p>
+                            <div class="btn-group">
+                                <button sec:authorize="hasAuthority('ADMIN')" type="button" class="btn btn-sm btn-outline-dark" data-bs-toggle="modal" th:data-bs-target="'#modal'+${piatto.id}">Elimina</button>
+                                <button sec:authorize="hasAuthority('ADMIN')" type="button" class="btn btn-sm btn-outline-dark" th:data-url="@{'/admin/editPiatto/'+${piatto.id}}" onclick="window.location = this.getAttribute('data-url')">Modifica</button>
+                                <button type="button" class="btn btn-sm btn-outline-dark" th:data-url="'/users/piatto/'+${piatto.id}" onclick="window.location = this.getAttribute('data-url')">Vedi</button>
+                                <button type="button" class="btn btn-sm btn-outline-dark" >
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd" d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"></path>
+                                    </svg>
+                                    <!--<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+                                      </svg>-->
+                                </button>
+                            </div>
+                        </div>                        
+
+                    <!--Delete Modal -->
+					<div class="modal fade" th:id="'modal'+${piatto.id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+						<div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Attenzione!</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body" th:text="'Sicuro di voler cancellare il piatto: '+${piatto.nome}+'?'"></div>
+                                <div class="modal-footer">
+                                <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Annulla</button>
+                                <button type="button" class="btn btn-dark" th:data-url="@{'/admin/deletePiatto/'+${piatto.id}}" onclick="window.location = this.getAttribute('data-url')">Elimina</button>
+                                </div>
+                            </div>
+						</div>
+					</div>
+
                     </div>
                 </div>
             </div>            

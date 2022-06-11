@@ -4,8 +4,11 @@
 	<body>
 		<div th:replace="fragments/base :: header"></div>
 
-		<section th:replace="fragments/base :: up-details-section(mainText=|${buffet.nome}|, minorText=|${buffet.descr}|, 
-			src='/images/Breakfast_Buffet_Top_Hero.png', deleteLink=|@{'/admin/deleteBuffet/'+${buffet.id}}|, editLink=|@{'/admin/editBuffet/'+${buffet.id}}|)"></section>
+		<section th:replace="fragments/base :: up-details-section(mainText=|${buffet.nome}|, 
+																	minorText=|${buffet.descr}|, 
+																	src='/images/Breakfast_Buffet_Top_Hero.png', 
+																	editLink=|@{'/admin/editBuffet/'+${buffet.id}}|, 
+																	modalLink=|#modal${buffet.id}|)"></section>
 			
 		<div class="album py-5 bg-light">
 			<div class="container">
@@ -63,6 +66,22 @@
 			</div>
 		</div>
 		
+		<!--Delete Modal -->
+		<div class="modal fade" th:id="'modal'+${buffet.id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Attenzione!</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body" th:text="'Sicuro di voler cancellare il buffet: '+${buffet.nome}+'?'"></div>
+				<div class="modal-footer">
+				<button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Annulla</button>
+				<button type="button" class="btn btn-dark"  th:data-url="@{'/admin/deleteBuffet/'+${buffet.id}}" onclick="window.location = this.getAttribute('data-url')">Elimina</button>
+				</div>
+			</div>
+			</div>
+		</div>
 		
         <div th:replace="fragments/base :: footer"></div>
 	</body>

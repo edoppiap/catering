@@ -5,8 +5,11 @@
 		<div th:replace="fragments/base :: header"></div>
 		
 
-		<section th:replace="fragments/base :: up-details-section(mainText=|${chef.nome} ${chef.cognome}|, minorText=|${chef.nazionalita}|, src=#{buffet.listSrc},
-			deleteLink=|@{'/admin/deleteChef/'+${chef.id}}|, editLink=|@{'/admin/editChef/'+${chef.id}}|)"></section>
+		<section th:replace="fragments/base :: up-details-section(mainText=|${chef.nome} ${chef.cognome}|, 
+																minorText=|${chef.nazionalita}|, 
+																src=#{buffet.listSrc},
+																editLink=|@{'/admin/editChef/'+${chef.id}}|, 
+																modalLink=|#modal${chef.id}|)"></section>
 
 		<div class="album py-5 bg-light">
 			<div class="container">
@@ -23,6 +26,25 @@
 						<div th:replace="listaBuffet :: listaBuffet">
 					</div>
 				</div>
+			</div>
+		</div>
+
+		<!--Delete Modal -->
+		<div class="modal fade shadow" th:id="'modal'+${chef.id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel" th:text="'Sicuro di voler cancellare lo chef: '+${chef.nome}+' '+${chef.cognome}+'?'">Sei sicuro di voler cancellare lo chef?</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+				Questo cancellerà anche tutti i suoi buffet presentati
+				</div>
+				<div class="modal-footer">
+				<button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Annulla</button>
+				<button type="button" class="btn btn-dark" th:data-url="@{'/admin/deleteChef/'+${chef.id}}" onclick="window.location = this.getAttribute('data-url')">Elimina</button>
+				</div>
+			</div>
 			</div>
 		</div>
 

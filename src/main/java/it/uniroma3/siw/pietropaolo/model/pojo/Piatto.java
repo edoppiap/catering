@@ -3,6 +3,7 @@ package it.uniroma3.siw.pietropaolo.model.pojo;
 import java.util.List;
 import java.util.Objects;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -39,7 +40,7 @@ public class Piatto {
 
 	private String nomeFoto;
 	
-	@ManyToMany(mappedBy = "piatti")
+	@ManyToMany(mappedBy = "piatti", cascade = CascadeType.ALL)
 	private List<Buffet> listaBuffet;
 	
 	@ManyToOne

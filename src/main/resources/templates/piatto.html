@@ -4,15 +4,20 @@
     <body>
         <div th:replace="fragments/base :: header"></div>
 
-        <section th:replace="fragments/base :: up-details-section(mainText=|${piatto.nome}|, minorText=|${piatto.descrizione}|, src=#{piatto.listSrc},
-			deleteLink=|@{'/admin/deletePiatto/'+${piatto.id}}|, editLink=|@{'/admin/editPiatto/'+${piatto.id}}|)"></section>
+        <section th:replace="fragments/base :: up-details-section(mainText=|${piatto.nome}|, 
+																	minorText=|${piatto.descrizione}|, 
+																	src=#{piatto.listSrc}, 
+																	editLink=|@{'/admin/editPiatto/'+${piatto.id}}|, 
+																	modalLink=|#modal${piatto.id}|)"></section>
 
         <div class="album py-5 bg-light">
 			<div class="container">
 				<div class="row">
-					<div class="col text-center">
-						<img th:src="@{${piatto.immaginePath}}" class="rounded-circle" width="140" height="140" style="object-fit: cover;">
-						<h2>Ingredienti:</h2>
+					<div class="col">
+						<div class="text-center">
+							<img th:src="@{${piatto.immaginePath}}" class="rounded-circle" width="140" height="140" style="object-fit: cover;">
+							<h2>Ingredienti:</h2>
+						</div>
 						<div th:replace="listaIngredienti :: ingredienti"></div>
 						<br>
 						<h2>Tutti i buffet dove è presente:</h2>
@@ -22,6 +27,23 @@
 				<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
 					<div class="col" th:each="buffet:${listaBuffet}">
 						<div th:replace="listaBuffet :: listaBuffet">
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!--Delete Modal -->
+		<div class="modal fade" th:id="'modal'+${piatto.id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Attenzione!</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body" th:text="'Sicuro di voler cancellare il piatto: '+${piatto.nome}+'?'"></div>
+					<div class="modal-footer">
+					<button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Annulla</button>
+					<button type="button" class="btn btn-dark" th:data-url="@{'/admin/deletePiatto/'+${piatto.id}}" onclick="window.location = this.getAttribute('data-url')">Elimina</button>
 					</div>
 				</div>
 			</div>

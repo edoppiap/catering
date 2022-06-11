@@ -7,7 +7,7 @@
 		<section th:replace="fragments/base :: up-section(mainText=#{chef.listTitle}, minorText=#{chef.listLead}, src=#{chef.listSrc})"></section>
 
 		<div class="album py-5 bg-light">
-			<div class="container">
+			<div class="container col-5">
 				<div th:each="chef : ${listaChef}">
 					<div class="card shadow-lg">
 						<div class="card-body">
@@ -18,21 +18,6 @@
 											class="rounded-circle img-fluid" style="width: 150px; height: 150px; object-fit: cover;">
 									</a>
 									<br>
-									<div class="d-flex justify-content-between align-items-center">
-										<div class="btn-group">
-											<button sec:authorize="hasAuthority('ADMIN')" type="button" class="btn btn-sm btn-outline-dark" th:data-url="@{'/admin/deleteChef/'+${chef.id}}" onclick="window.location = this.getAttribute('data-url')">Cancella</button>
-											<button sec:authorize="hasAuthority('ADMIN')" type="button" class="btn btn-sm btn-outline-dark" th:data-url="@{'/admin/editChef/'+${chef.id}}" onclick="window.location = this.getAttribute('data-url')">Modifica</button>
-											<button type="button" class="btn btn-sm btn-outline-dark" th:data-url="@{'/users/chef' + '/' + ${chef.id}}" onclick="window.location = this.getAttribute('data-url')">Vedi</button>
-											<button type="button" class="btn btn-sm btn-outline-dark" >
-												<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
-													<path fill-rule="evenodd" d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"></path>
-												</svg>
-												<!--<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
-													<path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
-												  </svg>-->
-											</button>
-										</div>
-									</div>
 								</div>
 								<div class="col-8">
 									<div class="row">
@@ -59,13 +44,64 @@
 									</div>
 								</div>
 							</div>
+							<div class="text-center">
+								<div class="btn-group">
+									<button sec:authorize="hasAuthority('ADMIN')" type="button" class="btn btn-sm btn-outline-dark" data-bs-toggle="modal" th:data-bs-target="'#modal'+${chef.id}">Elimina</button>
+									<button sec:authorize="hasAuthority('ADMIN')" type="button" class="btn btn-sm btn-outline-dark" th:data-url="@{'/admin/editChef/'+${chef.id}}" onclick="window.location = this.getAttribute('data-url')">Modifica</button>
+									<button type="button" class="btn btn-sm btn-outline-dark" th:data-url="@{'/users/chef' + '/' + ${chef.id}}" onclick="window.location = this.getAttribute('data-url')">Vedi</button>
+									<button type="button" class="btn btn-sm btn-outline-dark" >
+										<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+											<path fill-rule="evenodd" d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"></path>
+										</svg>
+										<!--<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+											<path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+										  </svg>-->
+									</button>
+								</div>
+							</div>
 						</div>
 					</div>
 					<br>
+					<!--Delete Modal -->
+					<div class="modal fade" th:id="'modal'+${chef.id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+						<div class="modal-dialog modal-dialog-centered">
+						<div class="modal-content">
+							<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLabel" th:text="'Sicuro di voler cancellare lo chef: '+${chef.nome}+' '+${chef.cognome}+'?'">Sei sicuro di voler cancellare lo chef?</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+							</div>
+							<div class="modal-body">
+							Questo cancellerà anche tutti i suoi buffet presentati
+							</div>
+							<div class="modal-footer">
+							<button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Annulla</button>
+							<button type="button" class="btn btn-dark" th:data-url="@{'/admin/deleteChef/'+${chef.id}}" onclick="window.location = this.getAttribute('data-url')">Elimina</button>
+							</div>
+						</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>	
 		
+		<!-- Modal -->
+		<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Sei sicuro di voler cancellare lo chef?</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+				Questo cancellerà anche tutti i buffet presentati dallo chef
+				</div>
+				<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Elimina</button>
+				<button type="button" class="btn btn-primary">Save changes</button>
+				</div>
+			</div>
+			</div>
+		</div>
 
 		<div th:replace="fragments/base :: footer"></div>
 	</body>
