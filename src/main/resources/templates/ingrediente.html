@@ -10,6 +10,7 @@
         <div class="album py-5 bg-light">
             <div class="row">
                 <div class="col text-center">
+                    <p class="lead" th:text="${ingrediente.origine}">Tutti i piatti dove è presente</p>
                     <img th:src="@{${ingrediente.immaginePath}}" class="rounded-circle" width="140" height="140" style="object-fit: cover;">
                     <br>
                     <h2>Tutti i piatti dove è presente</h2>

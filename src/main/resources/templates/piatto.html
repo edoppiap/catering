@@ -12,8 +12,10 @@
 				<div class="row">
 					<div class="col text-center">
 						<img th:src="@{${piatto.immaginePath}}" class="rounded-circle" width="140" height="140" style="object-fit: cover;">
+						<h2>Ingredienti:</h2>
+						<div th:replace="listaIngredienti :: ingredienti"></div>
 						<br>
-						<h2>Tutti i buffet dove è presente</h2>
+						<h2>Tutti i buffet dove è presente:</h2>
 						<br>
 					</div>
 				</div>
