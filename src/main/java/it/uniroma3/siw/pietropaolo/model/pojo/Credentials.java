@@ -1,13 +1,14 @@
 package it.uniroma3.siw.pietropaolo.model.pojo;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 import lombok.Data;
 
@@ -31,11 +32,15 @@ public class Credentials {
 	private Long id;
 
     @NotBlank
-    @Column(unique = true)
+    @Size(min=4, max=40)
     String username;
 
     @NotBlank
+    @Size(min=6)
     String password;
+
+    @Transient
+    String confirmPassword;
 
     String role;
 

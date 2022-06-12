@@ -21,7 +21,7 @@ public class CredentialsService {
      * @param id
      * @return Credenziali or null
      */
-    public Credentials getCredentials(Long id){
+    public Credentials findById(Long id){
         return credentialsRepository.findById(id).orElse(null);
     }
 
@@ -30,7 +30,7 @@ public class CredentialsService {
      * @param username
      * @return Credenziali or null
      */
-    public Credentials getCredentials(String username){
+    public Credentials findByUsername(String username){
         return credentialsRepository.findByUsername(username).orElse(null);
     }
 
@@ -38,5 +38,9 @@ public class CredentialsService {
         credentials.setRole(Credentials.DEFAULT_ROLE);
         credentials.setPassword(passwordEncoder.encode(credentials.getPassword()));
         return credentialsRepository.save(credentials);
+    }
+
+    public boolean alreadyExists(Credentials credentials) {
+        return credentialsRepository.existsByUsername(credentials.getUsername());
     }
 }

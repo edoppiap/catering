@@ -16,6 +16,7 @@ public class MvcConfig implements WebMvcConfigurer{
         getCartella("fotoChef", registry);
         getCartella("fotoPiatto", registry);
         getCartella("fotoIngrediente", registry);
+        getCartella("fotoUtente", registry);
     }
 
     private void getCartella(String nomeCartella, ResourceHandlerRegistry registry){

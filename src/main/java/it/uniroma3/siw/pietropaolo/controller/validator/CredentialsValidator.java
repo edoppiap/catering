@@ -2,7 +2,6 @@ package it.uniroma3.siw.pietropaolo.controller.validator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
@@ -20,9 +19,6 @@ public class CredentialsValidator implements Validator{
     @Autowired
     private CredentialsService credentialsService;
 
-    public void validate(Credentials credentials, BindingResult credentialsBindingResult) {
-    }
-
     @Override
     public boolean supports(Class<?> clazz) {
         return Credentials.class.equals(clazz);
@@ -31,26 +27,13 @@ public class CredentialsValidator implements Validator{
     @Override
     public void validate(Object target, Errors errors) {
         Credentials credentials = (Credentials) target;
-        String username = credentials.getUsername().trim();
-        String password = credentials.getPassword().trim();
-
-        if(username.isEmpty()){
-            errors.rejectValue("username", "required");
-        }
-        else if(username.length() < MIN_USERNAME_LENGTH || username.length() > MAX_USERNAME_LENGTH){
-            errors.rejectValue("username", "size");
-        }
-        else if(credentialsService.getCredentials(username) != null){
-            errors.rejectValue("username", "duplicate");
+        if(credentialsService.alreadyExists(credentials)){
+            errors.reject("credentials.duplicato");
         }
 
-        if(password.isEmpty()){
-            errors.rejectValue("password", "required");
+        if(!credentials.getPassword().equals(credentials.getConfirmPassword())){
+            errors.reject("credentials.passwordConfirm.wrong");
         }
-        else if(password.length() < MIN_PASSWORD_LENGTH || password.length() > MAX_PASSWORD_LENGTH){
-            errors.rejectValue("password", "size");
-        }
-        
     }
     
 }

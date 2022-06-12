@@ -16,23 +16,57 @@
                         <form th:action="@{/register}" method="post">
                             <div class="modal-body p-5 pt-0">
                                 <div class="form-floating mb-3">
-                                    <input th:field="${user.nome}" class="form-control rounded-3" type="text" placeholder="Mario" id="floatingName" required autofocus/>
+                                    <input th:field="${user.nome}" class="form-control rounded-3" type="text" 
+                                        placeholder="Mario" id="floatingName" autofocus
+                                        th:classappend="${#fields.hasErrors('user.nome') ? 'is-invalid' : ' '}"/>
                                     <label for="floatingName">Il tuo nome</label>
+                                    <span class="invalid-feedback" th:if="${#fields.hasErrors('user.nome')}" th:errors="${user.nome}"></span>
                                 </div>
                                 <div class="form-floating mb-3">
-                                    <input th:field="${user.cognome}" class="form-control rounded-3" type="text" placeholder="Mario" id="floatingName" required autofocus/>
+                                    <input th:field="${user.cognome}" class="form-control rounded-3" type="text" 
+                                        placeholder="Mario" id="floatingName" autofocus
+                                        th:classappend="${#fields.hasErrors('user.cognome') ? 'is-invalid' : ' '}"/>
                                     <label for="floatingName">Il tuo cognome</label>
+                                    <span class="invalid-feedback" th:if="${#fields.hasErrors('user.cognome')}" th:errors="${user.cognome}"></span>
                                 </div>
                                 <div class="form-floating mb-3">
-                                    <input th:field="${credentials.username}" class="form-control rounded-3" type="email" placeholder="mario@esempio.com" id="floatingEmail" required autofocus/>
-                                    <label for="floatingEmail">La tua email</label>
+                                    <input th:field="${user.email}" class="form-control rounded-3" type="email" 
+                                        placeholder="Mario" id="floatingName" autofocus
+                                        th:classappend="${#fields.hasErrors('user.email') ? 'is-invalid' : ' '}"/>
+                                    <label for="floatingName">La tua email</label>
+                                    <span class="invalid-feedback" th:if="${#fields.hasErrors('user.email')}" th:errors="${user.email}"></span>
                                 </div>
                                 <div class="form-floating mb-3">
-                                    <input th:field="${credentials.password}" class="form-control rounded-3" type="password" placeholder="La tua password" id="floatingPassword" required/>
+                                    <input th:field="${credentials.username}" class="form-control rounded-3" type="text" 
+                                        placeholder="mario@esempio.com" id="floatingEmail" autofocus
+                                        th:classappend="${#fields.hasErrors('credentials.username') ? 'is-invalid' : ' '}"/>
+                                    <label for="floatingEmail">Il tuo username</label>
+                                    <span class="invalid-feedback" th:if="${#fields.hasErrors('credentials.username')}" th:errors="${credentials.username}"></span>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input th:field="${credentials.password}" class="form-control rounded-3" type="password" 
+                                        placeholder="La tua password" id="floatingPassword"
+                                        th:classappend="${#fields.hasErrors('credentials.password') ? 'is-invalid' : ' '}"/>
                                     <label for="floatingPassword">La tua password</label>
+                                    <span class="invalid-feedback" th:if="${#fields.hasErrors('credentials.password')}" th:errors="${credentials.password}"></span>
                                </div>
+                               <div class="form-floating mb-3">
+                                    <input th:field="${credentials.confirmPassword}" class="form-control rounded-3" type="password" 
+                                        placeholder="La tua password" id="floatingPassword"
+                                        th:classappend="${#fields.hasErrors('credentials.confirmPassword') ? 'is-invalid' : ' '}"/>
+                                    <label for="floatingPassword">Conferma la tua password</label>
+                                    <span class="invalid-feedback" th:if="${#fields.hasErrors('credentials.confirmPassword')}" th:errors="${credentials.confirmPassword}"></span>
+                                </div>
                                <br>
                                 <div><button class="w-100 mb-2 btn btn-lg rounded-3 btn-dark" type = "submit">Sign up</button></div>
+                                <div th:if="${userErrors != null} OR ${credentialsErrors != null}">
+                                    <br>
+                                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                        <h4 class="alert-heading">Arcipigna!</h4>
+                                        <div th:each="userErr : ${userErrors}" th:text="#{${userErr}}">...</div>
+                                        <div th:each="credentialsErr : ${credentialsErrors}" th:text="#{${credentialsErr}}">...</div>
+                                    </div>
+                                </div>
                             </div>
                         </form>
                     </div>

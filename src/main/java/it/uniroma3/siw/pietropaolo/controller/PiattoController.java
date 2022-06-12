@@ -79,7 +79,6 @@ public class PiattoController {
         PiattoValidator.validate(piatto, bindingResult);
 
         if(!bindingResult.hasErrors()){
-
             Piatto salvato = piattoService.save(piatto);
 
             model.addAttribute("actionLink", "/admin/uploadImagePiatto/"+salvato.getId());
@@ -94,6 +93,7 @@ public class PiattoController {
     @PostMapping("/admin/uploadImagePiatto/{id}")
 	public String uploadImage(@PathVariable("id") Long id, @RequestParam("image") MultipartFile multipartFile, Model model) throws IOException{
 		Piatto piatto = piattoService.findById(id);
+        FileUploadUtil.deleteFile(piatto.getImmaginePath());
 		if(multipartFile != null){
 			String nomeFoto = StringUtils.cleanPath(multipartFile.getOriginalFilename());
 			piatto.setNomeFoto(nomeFoto);

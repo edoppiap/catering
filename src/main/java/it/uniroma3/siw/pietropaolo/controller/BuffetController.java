@@ -22,7 +22,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import it.uniroma3.siw.pietropaolo.controller.validator.BuffetValidator;
 import it.uniroma3.siw.pietropaolo.model.pojo.Buffet;
-import it.uniroma3.siw.pietropaolo.model.pojo.Chef;
 import it.uniroma3.siw.pietropaolo.model.pojo.Piatto;
 import it.uniroma3.siw.pietropaolo.service.BuffetService;
 import it.uniroma3.siw.pietropaolo.service.ChefService;
@@ -83,9 +82,7 @@ public class BuffetController {
 		Buffet buffet = new Buffet();
 		buffet.setPiatti(new ArrayList<Piatto>());
 		model.addAttribute("buffet", buffet);
-		model.addAttribute("piatto", new Piatto());
 		model.addAttribute("listaChef", chefService.findAll());
-		model.addAttribute("chef", new Chef());
 		model.addAttribute("listaPiatti", piattoService.findAll());
 		return "buffetForm";
 	}
@@ -130,6 +127,7 @@ public class BuffetController {
 	@PostMapping("/admin/uploadImageBuffet/{id}")
 	public String uploadImage(@PathVariable("id") Long id, @RequestParam("image") MultipartFile multipartFile, Model model) throws IOException{
 		Buffet buffet = buffetService.findById(id);
+		FileUploadUtil.deleteFile(buffet.getImmaginePath());
 		if(multipartFile != null){
 			String nomeFoto = StringUtils.cleanPath(multipartFile.getOriginalFilename());
 			buffet.setNomeFoto(nomeFoto);

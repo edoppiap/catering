@@ -19,4 +19,15 @@ public class UserService {
     public User saveUser(User utente){
         return userRepository.save(utente);
     }
+
+    public boolean alreadyExists(User user) {
+        if(user.getId() == null){
+			return userRepository.existsByNomeAndCognome(user.getNome(), user.getCognome());
+		}else if(userRepository.existsByNomeAndCognome(user.getNome(), user.getCognome())){
+			User userEsistente = userRepository.findByNomeAndCognome(user.getNome(), user.getCognome());
+			return !(userEsistente.getId().equals(user.getId())); //se gli id sono uguali vuol dire che sto modificando lo stesso user
+		}else {
+			return false;
+		}
+    }
 }

@@ -31,6 +31,20 @@ public class User {
     @NotBlank
     String cognome;
 
+    @NotBlank
+    String email;
+
+    String nomeFoto;
+
+    public String getImmaginePath(){
+		if(getNomeFoto() == null || getId() == null){
+			return null;
+		}
+		StringBuilder builder = new StringBuilder();
+		builder.append("/fotoUtente/").append(getId()).append("/").append(getNomeFoto());
+		return builder.toString();
+	}
+
     @Override
     public boolean equals(Object other){
         return this.getId().equals(((User)other).getId());

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sf="http://www.w3.org/1999/xhtml" >
     <head th:replace="fragments/base :: head(titolo='Login')"></head>
 
     <body>
@@ -16,16 +16,27 @@
                         <form th:action="@{/login}" method="post">
                             <div th:fragment="usernameAndPasswordForm" class="modal-body p-5 pt-0">
                                 <div class="form-floating mb-3">
-                                    <input name="username" class="form-control rounded-3" type="email" placeholder="mario@esempio.com" id="floatingEmail" required autofocus/>
+                                    <input name="username" class="form-control rounded-3" type="text" 
+                                        placeholder="mario@esempio.com" id="floatingEmail" autofocus
+                                        th:classappend="${errorMessage != null} ? 'is-invalid' : ' '"/>
                                     <label for="floatingEmail">La tua email</label>
                                 </div>
                                 <div class="form-floating mb-3">
-                                     <input name="password" class="form-control rounded-3" type="password" placeholder="La tua password" id="floatingPassword" required/>
+                                     <input name="password" class="form-control rounded-3" type="password" 
+                                        placeholder="La tua password" id="floatingPassword"
+                                        th:classappend="${errorMessage != null} ? 'is-invalid' : ' '"/>
                                      <label for="floatingPassword">La tua password</label>
                                 </div>
                                 <br>
                                 <div><button class="w-100 mb-2 btn btn-lg rounded-3 btn-dark" type = "submit">Login</button></div>
-                            </div>                        
+                                <div th:if="${errorMessage != null}">
+                                    <br>
+                                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                        <h4 class="alert-heading">Arcipigna!</h4>
+                                        <div>Username e/o password sono sbagliati!</div>
+                                    </div>
+                                </div>
+                            </div>             
                         </form>
                     </div>
                 </div>

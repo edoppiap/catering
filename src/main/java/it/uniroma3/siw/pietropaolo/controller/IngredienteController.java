@@ -86,6 +86,7 @@ public class IngredienteController {
     @PostMapping("/admin/uploadImageIngrediente/{id}")
 	public String uploadImage(@PathVariable("id") Long id, @RequestParam("image") MultipartFile multipartFile, Model model) throws IOException{
 		Ingrediente ingrediente = ingredienteService.findById(id);
+        FileUploadUtil.deleteFile(ingrediente.getImmaginePath());
 		if(multipartFile != null){
 			String nomeFoto = StringUtils.cleanPath(multipartFile.getOriginalFilename());
 			ingrediente.setNomeFoto(nomeFoto);

@@ -124,6 +124,7 @@ public class ChefController {
 	@PostMapping("/admin/uploadImageChef/{id}")
 	public String uploadImage(@PathVariable("id") Long id, @RequestParam("image") MultipartFile multipartFile, Model model) throws IOException{
 		Chef chef = chefService.findById(id);
+		FileUploadUtil.deleteFile(chef.getImmaginePath());
 		if(multipartFile != null){
 			String nomeFoto = StringUtils.cleanPath(multipartFile.getOriginalFilename());
 			chef.setNomeFoto(nomeFoto);

@@ -14,8 +14,21 @@
                         <div class="modal-body">
                             <div class="row">
                                 <div class="col-4 text-center">
-                                    <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar"
-                                    class="rounded-circle img-fluid" style="width: 150px;">
+                                    <div th:if="${user.nomeFoto == null}">
+                                        <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar"
+                                        class="rounded-circle img-fluid" style="width: 150px;">
+                                    </div>
+                                    <div th:unless="${user.nomeFoto == null}">
+                                        <img th:src="@{${user.immaginePath}}" alt="avatar" class="rounded-circle img-fluid" style="width: 150px; height: 150px; object-fit: cover;">
+                                    </div>
+                                    <br>
+                                    <div class="btn-group">
+                                        <button th:unless="${user.nomeFoto == null}" type="button" class="btn btn-outline-dark btn-sm"
+                                            data-bs-toggle="modal" data-bs-target="#deleteModal">Elimina</button>
+                                        <button class="btn btn-dark btn-sm" type="button" 
+                                            th:data-url="@{'/users/uploadImageUser/'+${user.id}}" 
+                                            onclick="window.location = this.getAttribute('data-url')">Carica</button>
+                                    </div>
                                 </div>
                                 <div class="col-8">
                                     <div class="row">
@@ -34,6 +47,13 @@
                                         </div>
                                         <hr>
                                         <div class="col-4">                                    
+                                            <p>E-mail</p>
+                                        </div>
+                                        <div class="col-8">
+                                            <p class="text-muted" th:text="${user.email}"></p>
+                                        </div>
+                                        <hr>
+                                        <div class="col-4">                                    
                                             <p>Username</p>
                                         </div>
                                         <div class="col-8">
@@ -46,14 +66,39 @@
                                         <div class="col-8">
                                             <p class="text-muted" th:text="${#authentication.getPrincipal().getAuthorities()}"></p>
                                         </div>
-                                    </div>                                    
+                                    </div>                                 
                                 </div>
+                                <br>
+                                <div class="text-center">
+                                    <button class="btn btn-dark" type="button"
+                                    th:data-url="@{'/users/editUser/'+${#authentication.getPrincipal().getUsername()}}" onclick="window.location = this.getAttribute('data-url')">Modifica</button>
+                                </div>   
                             </div>
+
                         </div>
                     </div>
                 </div>
             </div>
         </section>
+
+        <!--Delete Modal -->
+		<div class="modal fade shadow" th:id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Attenzione!</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+                    Sei sicuro di voler eliminare l'immagine?
+				</div>
+				<div class="modal-footer">
+				<button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Annulla</button>
+				<button type="button" class="btn btn-dark" th:data-url="@{'/users/deleteImageUser/'+${user.id}}" onclick="window.location = this.getAttribute('data-url')">Elimina</button>
+				</div>
+			</div>
+			</div>
+		</div>
 
         <div th:replace="fragments/base :: footer"></div>
     </body>
