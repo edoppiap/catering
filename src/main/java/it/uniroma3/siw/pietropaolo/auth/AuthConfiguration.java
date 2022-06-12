@@ -42,6 +42,11 @@ public class AuthConfiguration extends WebSecurityConfigurerAdapter{
                         //
                         .anyRequest().authenticated()
 
+                        //login con OAuth2
+                        .and().oauth2Login()
+                        .loginPage("/login")
+                        .defaultSuccessUrl("/oauthDefault")
+
                         //login paragraph: qui definiamo come è gestita l'autenticazione
                         //usiamo il protocollo formlogin
                         .and().formLogin()
@@ -51,7 +56,12 @@ public class AuthConfiguration extends WebSecurityConfigurerAdapter{
                         //se il login ha successo, si viene rediretti al path /default
                         .defaultSuccessUrl("/default")
 
+                        //in caso di login fallito
                         .failureUrl("/login-error")
+
+                        //per la funzione "ricordati di me"
+                        .and()
+                        .rememberMe().key("uniqueAndSecret").tokenValiditySeconds(604800)//una settimana
 
                         //logou paragraph: qui definiamo il logout
                         .and().logout()

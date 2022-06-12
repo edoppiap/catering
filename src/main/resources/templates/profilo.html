@@ -57,21 +57,21 @@
                                             <p>Username</p>
                                         </div>
                                         <div class="col-8">
-                                            <p class="text-muted" th:text="${#authentication.getPrincipal().getUsername()}"></p>
+                                            <p class="text-muted" th:text="${credentials.username}"></p>
                                         </div>
                                         <hr>
                                         <div class="col-4">
                                             <p>Role</p>
                                         </div>
                                         <div class="col-8">
-                                            <p class="text-muted" th:text="${#authentication.getPrincipal().getAuthorities()}"></p>
+                                            <p class="text-muted" th:text="${credentials.role}"></p>
                                         </div>
                                     </div>                                 
                                 </div>
                                 <br>
                                 <div class="text-center">
                                     <button class="btn btn-dark" type="button"
-                                    th:data-url="@{'/users/editUser/'+${#authentication.getPrincipal().getUsername()}}" onclick="window.location = this.getAttribute('data-url')">Modifica</button>
+                                    th:data-url="@{'/users/editUser/'+${credentials.username}}" onclick="window.location = this.getAttribute('data-url')">Modifica</button>
                                 </div>   
                             </div>
 

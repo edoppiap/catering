@@ -37,12 +37,19 @@
                                     <br>
                                     <div class="text-center">
                                         <br>
-                                        
                                         <!--Field nascosco così durante l'aggiornamento non perdo l'id-->
-								        <input hidden type="text" th:field="${user.id}"/>
-                                        <button class="btn btn-outline-dark" type="button"
+                                        <input hidden type="text" th:field="${user.id}"/>
+                                        <span th:if="${#authentication.getPrincipal().getClass() == T(org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser)}">
+                                            <button class="btn btn-outline-dark" type="button" 
+                                            th:data-url="@{'/users/profilo/'+${#authentication.getPrincipal().getAttributes().given_name}}" onclick="window.location = this.getAttribute('data-url')">Annulla</button>
+                                        </span>
+
+                                        <span th:if="${#authentication.getPrincipal().getClass() == T(org.springframework.security.core.userdetails.User)}">
+                                            <button class="btn btn-outline-dark" type="button" th:if="${#authentication.getPrincipal().getClass() == T(org.springframework.security.core.userdetails.User)}"
                                             th:data-url="@{'/users/profilo/'+${#authentication.getPrincipal().getUsername()}}" onclick="window.location = this.getAttribute('data-url')">Annulla</button>
-                                        <button class="btn btn-dark" type="submit">Conferma</button>
+                                        </span>                                       
+                                        
+                                        <button class="btn btn-dark" type="submit">Conferma</button>                             
                                     </div>    
                                 </div>
                             </form>  

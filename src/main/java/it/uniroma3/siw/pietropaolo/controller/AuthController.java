@@ -3,6 +3,7 @@ package it.uniroma3.siw.pietropaolo.controller;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -11,9 +12,16 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.web.WebAttributes;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,6 +33,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import it.uniroma3.siw.pietropaolo.controller.validator.CredentialsValidator;
@@ -52,9 +61,14 @@ public class AuthController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private OAuth2AuthorizedClientService authorizedClientService;
+
     @GetMapping("/users/profilo/{username}")
     public String getProfilo(@PathVariable("username") String username, Model model){
-        model.addAttribute("user", credentialsService.findByUsername(username).getUser());
+        Credentials credentials = credentialsService.findByUsername(username);
+        model.addAttribute("user", credentials.getUser());
+        model.addAttribute("credentials", credentials);
         return "profilo";
     }
 
@@ -95,8 +109,44 @@ public class AuthController {
         UserDetails userDetails =(UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Credentials credentials = credentialsService.findByUsername(userDetails.getUsername());
         if(credentials.getRole().equals(Credentials.ADMIN_ROLE)){
-            return "home";
+            return "index";
         }
+        return "home";
+    }
+
+    @GetMapping("/oauthDefault")
+    public String defaultAfterOAuthLogin(Model model, OAuth2AuthenticationToken authentication){
+        OAuth2AuthorizedClient client = authorizedClientService.loadAuthorizedClient(authentication.getAuthorizedClientRegistrationId(), authentication.getName());
+
+        String userInfoEndpointUri = client.getClientRegistration().getProviderDetails().getUserInfoEndpoint().getUri();
+
+        if(!userInfoEndpointUri.isEmpty()){
+            RestTemplate restTemplate = new RestTemplate();
+            HttpHeaders headers = new HttpHeaders();
+            headers.add(HttpHeaders.AUTHORIZATION, "Bearer "+client.getAccessToken().getTokenValue());
+            HttpEntity<String> entity = new HttpEntity<>("", headers);
+            ResponseEntity<Map> response = restTemplate.exchange(userInfoEndpointUri, HttpMethod.GET, entity, Map.class);
+            Map userAttributes = response.getBody();
+            Credentials userCredentials = credentialsService.findByUsername((String) userAttributes.get("given_name"));
+
+            logger.info("Ecco l'userAttributes: "+userAttributes.toString());
+            
+            if(userCredentials == null){
+                Credentials oauthCredentials = new Credentials();
+                User oauthUser = new User();
+                String[] nomeCompleto = ((String) userAttributes.get("name")).split(" ");
+                logger.info("Controller1: "+nomeCompleto[0]+" "+nomeCompleto[1]);
+                oauthUser.setNome(nomeCompleto[0]);
+                oauthUser.setCognome(nomeCompleto[1]);
+                oauthUser.setEmail((String) userAttributes.get("email"));
+                oauthCredentials.setUser(oauthUser);
+                logger.info("Controller2: "+(String) userAttributes.get("given_name"));
+                oauthCredentials.setUsername((String) userAttributes.get("given_name"));
+                credentialsService.saveCredentials(oauthCredentials);
+            }
+        }
+
+
         return "home";
     }
 
@@ -108,6 +158,7 @@ public class AuthController {
             userService.saveUser(user); //questo si usa anche per aggiornare
 
             model.addAttribute("user", user);
+            model.addAttribute("credentials", credentialsService.findByUser(user));
             return "profilo";
         }else{
             return "editUser";
@@ -163,6 +214,7 @@ public class AuthController {
         userService.saveUser(user);
 
         model.addAttribute("user", user);
+        model.addAttribute("credentials", credentialsService.findByUser(user));
         return "profilo";
     }
 
@@ -195,6 +247,7 @@ public class AuthController {
 		}
 
         model.addAttribute("user", user);
+        model.addAttribute("credentials", credentialsService.findByUser(user));
 		return "profilo";
 	}
     
