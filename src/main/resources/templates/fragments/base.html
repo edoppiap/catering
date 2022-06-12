@@ -60,6 +60,9 @@
                             
                             <span th:if="${#authentication.getPrincipal().getClass() == T(org.springframework.security.core.userdetails.User)}" 
                                 th:text="${#authentication.getPrincipal().getUsername()}"></span>
+
+                            <span th:if="${#authentication.getPrincipal().getClass() == T(org.springframework.security.oauth2.core.user.DefaultOAuth2User)}" 
+                                th:text="${#authentication.getPrincipal().getAttributes().login}"></span>
                             <span sec:authorize="hasAuthority('ADMIN')">[ADMIN]</span>
                         </a>
                         <ul class="dropdown-menu text-small mx-0 p-2 gap-1 rounded-2" aria-labelledby="dropdownUser" style="position: absolute; inset: 0px 0px auto auto; margin: 0px; transform: translate(0px, 34px);"
@@ -69,6 +72,9 @@
                             </li>
                             <li th:if="${#authentication.getPrincipal().getClass() == T(org.springframework.security.core.userdetails.User)}">
                                 <a class="dropdown-item rounded-2" th:href="@{'/users/profilo/'+ ${#authentication.getPrincipal().getUsername()}}">Profilo</a>
+                            </li>
+                            <li th:if="${#authentication.getPrincipal().getClass() == T(org.springframework.security.oauth2.core.user.DefaultOAuth2User)}">
+                                <a class="dropdown-item rounded-2" th:href="@{'/users/profilo/'+ ${#authentication.getPrincipal().getAttributes().login}}">Profilo</a>
                             </li>
                             <li><hr class="dropdwown-divider"></li>
                             <li sec:authorize="hasAuthority('ADMIN')"><a class="dropdown-item rounded-2" th:href="@{/index}" href='#'><strong>Tutte le operazioni</strong></a></li>

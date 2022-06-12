@@ -127,21 +127,48 @@ public class AuthController {
             HttpEntity<String> entity = new HttpEntity<>("", headers);
             ResponseEntity<Map> response = restTemplate.exchange(userInfoEndpointUri, HttpMethod.GET, entity, Map.class);
             Map userAttributes = response.getBody();
-            Credentials userCredentials = credentialsService.findByUsername((String) userAttributes.get("given_name"));
+
+            Credentials userCredentials;
+            String username = ((String) userAttributes.get("given_name"));
+            if(username != null){
+                userCredentials = credentialsService.findByUsername((String) userAttributes.get("given_name"));
+            }else{
+                userCredentials = credentialsService.findByUsername((String) userAttributes.get("login"));
+            }
 
             logger.info("Ecco l'userAttributes: "+userAttributes.toString());
             
             if(userCredentials == null){
                 Credentials oauthCredentials = new Credentials();
                 User oauthUser = new User();
-                String[] nomeCompleto = ((String) userAttributes.get("name")).split(" ");
-                logger.info("Controller1: "+nomeCompleto[0]+" "+nomeCompleto[1]);
-                oauthUser.setNome(nomeCompleto[0]);
-                oauthUser.setCognome(nomeCompleto[1]);
-                oauthUser.setEmail((String) userAttributes.get("email"));
+                
+                String[] nomeCompleto;
+                String nome = ((String) userAttributes.get("name"));
+                if(nome!=null){
+                    nomeCompleto = nome.split((" "));
+                    oauthUser.setNome(nomeCompleto[0]);
+                    oauthUser.setCognome(nomeCompleto[1]);
+                }else{
+                    Integer id = (Integer) userAttributes.get("id");
+                    oauthUser.setNome("nomeGitHub"+id);
+                    oauthUser.setCognome("cognomeGitHub"+id);
+                }
+
+                String email = ((String) userAttributes.get("email"));
+                if(email!=null){
+                    oauthUser.setEmail(email);
+                }else{
+                    Integer id = (Integer) userAttributes.get("id");
+                    oauthUser.setEmail("email"+id+"@github.com");
+                }
                 oauthCredentials.setUser(oauthUser);
                 logger.info("Controller2: "+(String) userAttributes.get("given_name"));
-                oauthCredentials.setUsername((String) userAttributes.get("given_name"));
+
+                if(((String) userAttributes.get("given_name")) != null){
+                    oauthCredentials.setUsername((String) userAttributes.get("given_name"));
+                }else{
+                    oauthCredentials.setUsername((String) userAttributes.get("login"));
+                }
                 credentialsService.saveCredentials(oauthCredentials);
             }
         }
