@@ -12,7 +12,7 @@ public class HomeController {
         return "home";
     }
 
-    @GetMapping("/Operazioni")
+    @GetMapping("/index")
     private String getOperazioni(Model model){
         return "index";
     }

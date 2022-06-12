@@ -4,24 +4,28 @@
 	<body>
 		<div th:replace="fragments/base :: header"></div>
 
-		<div>
-			<h4>Operazioni</h4>
-			<div>
-				<a th:href="@{/buffetForm}" href='#'>Inserisci Buffet</a>
+		<section style="background-image: url('/images/Ginevra_2018-115.jpg'); background-size: cover; background-position: center;">
+			<div class="modal modal-signin position-static d-block py-5" tabindex="-1">
+				<div class="modal-dialog">
+					<div class="modal-content shadow rounded-4">
+						<div class="modal-header p-5 pb-4 border-bottom-0">
+                            <h2 class="fw-bold mb-0">Operazioni</h2>
+                        </div>
+						<div class="modal-body p-5 pt-0">
+							<div class="row text-center mb-3">
+								<div class="text-center">
+									<p><a class="w-100 py-2 mb-2 btn btn-dark rounded-3" th:href="@{/admin/buffetForm}">Inserisci Buffet</a></p>
+									<p><a class="w-100 py-2 mb-2 btn btn-dark rounded-3" th:href="@{/admin/chefForm}">Inserisci Chef</a></p>
+									<p><a class="w-100 py-2 mb-2 btn btn-dark rounded-3" th:href="@{/admin/piattoForm}">Inserisci Piatto</a></p>
+									<p><a class="w-100 py-2 mb-2 btn btn-dark rounded-3" th:href="@{/admin/ingredienteForm}">Inserisci Ingrediente</a></p>
+								</div>
+							</div>
+								
+						</div>
+					</div>
+				</div>
 			</div>
-			<div>
-				<a th:href="@{/chefForm}" href='#'>Inserisci Chef</a>
-			</div>
-			<div>
-				<a th:href="@{/piattoForm}" href="#">Inserisci Piatto</a>
-			</div>
-			<div>
-				<a th:href="@{/listaBuffet}" href='#'>Tutti i buffet</a>
-			</div>
-			<div>
-				<a th:href="@{/listaChef}" href='#'>Tutti gli chef</a>
-			</div>
-		</div>
+		</section>
 		
         <div th:replace="fragments/base :: footer"></div>
 	</body>
