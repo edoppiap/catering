@@ -20,8 +20,15 @@ public class UserService {
         return userRepository.save(utente);
     }
 
-    public boolean existsByEmail(String email){
-        return userRepository.existsByEmail(email);
+    public boolean existsByEmail(User user){
+        if(user.getId() == null){
+            return userRepository.existsByEmail(user.getEmail());
+        }else if(userRepository.existsByEmail(user.getEmail())){
+            User userEsistente = userRepository.findByEmail(user.getEmail()).get();
+            return !(userEsistente.getId().equals(user.getId())); //se gli id sono uguali vuol dire che sto modificando lo stesso user
+        }else{
+            return false;
+        }
     }
 
     public boolean alreadyExists(User user) {

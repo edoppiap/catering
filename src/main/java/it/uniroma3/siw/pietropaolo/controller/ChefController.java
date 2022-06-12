@@ -50,7 +50,8 @@ public class ChefController {
 	}
 
 	@GetMapping("/admin/deleteChef/{id}")
-	public String deleteBuffet(@PathVariable("id") Long id, Model model){
+	public String deleteBuffet(@PathVariable("id") Long id, Model model) throws IOException{
+		FileUploadUtil.deleteFile(chefService.findById(id).getImmaginePath());
 		this.chefService.deleteBuffetById(id);
 		model.addAttribute("listaChef", this.chefService.findAll());
 		return "listaChef";

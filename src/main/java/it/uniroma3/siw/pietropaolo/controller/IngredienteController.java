@@ -40,7 +40,8 @@ public class IngredienteController {
     }
 
     @GetMapping("/admin/deleteIngrediente/{id}")
-    public String deleteIngrediente(@PathVariable("id") Long id, Model model){
+    public String deleteIngrediente(@PathVariable("id") Long id, Model model) throws IOException{
+		FileUploadUtil.deleteFile(ingredienteService.findById(id).getImmaginePath());
         this.ingredienteService.deleteIngredienteById(id);
         model.addAttribute("listaIngredienti", ingredienteService.findAll());
         return "listaIngredienti";

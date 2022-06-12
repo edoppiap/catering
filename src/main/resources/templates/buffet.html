@@ -20,45 +20,47 @@
 				</div>
 				<br>
 				<div class="container row">
-					<div class="col">
+					<div class="col text-center">
 						<h3>Antipasti</h3>
+						<hr width="70%" style="margin: auto;">
 						<div th:each="piatto : ${piattiDelBuffet}">
 							<div th:if="${piatto.classificazione.equals(T(it.uniroma3.siw.pietropaolo.model.pojo.Classificazione).ANTIPASTO)}">
-								<a class="text-decoration-none" th:href="@{'/users/piatto/'+ ${piatto.id}}"><h6 th:text="${piatto.nome}">Piatto</h6></a>
-								<p th:text="${piatto.descrizione}">Descrizione</p>
+								<a class="text-decoration-none link-dark" th:href="@{'/users/piatto/'+ ${piatto.id}}"><h5 th:text="${piatto.nome}">Piatto</h5></a>
+								<p  class="text-muted" th:text="${piatto.descrizione}">Descrizione</p>
 							</div>
 						</div>
-						<hr>
 						<h3>Primi</h3>
+						<hr width="70%" style="margin: auto;">
 						<div th:each="piatto : ${piattiDelBuffet}">
 							<div th:if="${piatto.classificazione.equals(T(it.uniroma3.siw.pietropaolo.model.pojo.Classificazione).PRIMO)}">
-								<a class="text-decoration-none" th:href="@{'/users/piatto/'+ ${piatto.id}}"><h6 th:text="${piatto.nome}">Piatto</h6></a>
-								<p th:text="${piatto.descrizione}">Descrizione</p>
+								<a class="text-decoration-none link-secondary" th:href="@{'/users/piatto/'+ ${piatto.id}}"><h5 th:text="${piatto.nome}">Piatto</h5></a>
+								<p class="text-muted" th:text="${piatto.descrizione}">Descrizione</p>
 							</div>
 						</div>
 					</div>
-					<div class="col">
+					<div class="col text-center">
 						<h3>Secondi</h3>
+						<hr width="70%" style="margin: auto;">
 						<div th:each="piatto : ${piattiDelBuffet}">
 							<div th:if="${piatto.classificazione.equals(T(it.uniroma3.siw.pietropaolo.model.pojo.Classificazione).SECONDO)}">
-								<a class="text-decoration-none" th:href="@{'/users/piatto/'+ ${piatto.id}}"><h6 th:text="${piatto.nome}">Piatto</h6></a>
-								<p th:text="${piatto.descrizione}">Descrizione</p>
+								<a class="text-decoration-none" th:href="@{'/users/piatto/'+ ${piatto.id}}"><h5 th:text="${piatto.nome}">Piatto</h5></a>
+								<p class="text-muted" th:text="${piatto.descrizione}">Descrizione</p>
 							</div>
 						</div>
-						<hr>
 						<h3>Contorni</h3>
+						<hr width="70%" style="margin: auto;">
 						<div th:each="piatto : ${piattiDelBuffet}">
 							<div th:if="${piatto.classificazione.equals(T(it.uniroma3.siw.pietropaolo.model.pojo.Classificazione).CONTORNO)}">
-								<a class="text-decoration-none" th:href="@{'/users/piatto/'+ ${piatto.id}}"><h6 th:text="${piatto.nome}">Piatto</h6></a>
-								<p th:text="${piatto.descrizione}">Descrizione</p>
+								<a class="text-decoration-none" th:href="@{'/users/piatto/'+ ${piatto.id}}"><h5 th:text="${piatto.nome}">Piatto</h5></a>
+								<p class="text-muted" th:text="${piatto.descrizione}">Descrizione</p>
 							</div>
 						</div>
-						<hr>
 						<h3>Dolci</h3>
+						<hr width="70%" style="margin: auto;">
 						<div th:each="piatto : ${piattiDelBuffet}">
 							<div th:if="${piatto.classificazione.equals(T(it.uniroma3.siw.pietropaolo.model.pojo.Classificazione).DOLCE)}">
-								<a class="text-decoration-none" th:href="@{'/users/piatto/'+ ${piatto.id}}"><h6 th:text="${piatto.nome}">Piatto</h6></a>
-								<p class="secondary" th:text="${piatto.descrizione}">Descrizione</p>
+								<a class="text-decoration-none" th:href="@{'/users/piatto/'+ ${piatto.id}}"><h5 th:text="${piatto.nome}">Piatto</h5></a>
+								<p class="text-muted" th:text="${piatto.descrizione}">Descrizione</p>
 							</div>
 						</div>
 					</div>			

@@ -54,28 +54,14 @@ public class BuffetController {
 	}
 
 	@GetMapping("/admin/deleteBuffet/{id}")
-	public String deleteBuffet(@PathVariable("id") Long id, Model model){
+	public String deleteBuffet(@PathVariable("id") Long id, Model model) throws IOException{
+		FileUploadUtil.deleteFile(buffetService.findById(id).getImmaginePath());
 		this.buffetService.deleteBuffetById(id);
 		model.addAttribute("listaBuffet", this.buffetService.findAll());
 		model.addAttribute("listaChef", chefService.findAll());
 		return "listaBuffet";
 
 	}
-
-	@GetMapping("/admin/deleteAllBuffet")
-	public String deleteAllBuffet(Model model){
-		this.buffetService.deleteAll();
-		model.addAttribute("listaBuffet", this.buffetService.findAll());
-		model.addAttribute("buffet", new Buffet());
-		model.addAttribute("listaChef", chefService.findAll());
-		return "listaBuffet";
-	}
-
-	/*@PostMapping("/deleteBuffet")
-	public String deleteBuffet(@ModelAttribute("buffet") Buffet buffet, Model model){
-		this.buffetService.deleteBuffet(buffet);
-		return "listaBuffet";
-	}*/
 	
 	@GetMapping("/admin/buffetForm")
 	public String getBuffetForm(Model model) {

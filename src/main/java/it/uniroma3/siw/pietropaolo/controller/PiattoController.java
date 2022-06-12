@@ -48,7 +48,8 @@ public class PiattoController {
     }
 
     @GetMapping("/admin/deletePiatto/{id}")
-    public String deletePiatto(@PathVariable("id") Long id, Model model){
+    public String deletePiatto(@PathVariable("id") Long id, Model model) throws IOException{
+		FileUploadUtil.deleteFile(piattoService.findById(id).getImmaginePath());
         piattoService.deletePiattoById(id);
         model.addAttribute("listaPiatti", piattoService.findAll());
         return "listaPiatti";

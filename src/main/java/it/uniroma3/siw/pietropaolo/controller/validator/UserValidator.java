@@ -28,7 +28,7 @@ public class UserValidator implements Validator{
         if(userService.alreadyExists(user)){
             errors.reject("user.duplicato");
         }
-        if(userService.existsByEmail(user.getEmail())){
+        if(userService.existsByEmail(user)){
             errors.reject("user.email.duplicato");
         }
         
