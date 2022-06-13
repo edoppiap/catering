@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-	<head th:replace="fragments/base :: head(titolo='Dettagli piatto '+${piatto.nome})"></head>
+	<head th:replace="fragments/base :: head(titolo=#{title.piatto}+' '+${piatto.nome})"></head>
     <body>
         <div th:replace="fragments/base :: header"></div>
 
