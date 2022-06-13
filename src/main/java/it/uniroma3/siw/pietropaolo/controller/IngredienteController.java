@@ -18,7 +18,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import it.uniroma3.siw.pietropaolo.controller.validator.IngredienteValidator;
+import it.uniroma3.siw.pietropaolo.model.pojo.Buffet;
 import it.uniroma3.siw.pietropaolo.model.pojo.Ingrediente;
+import it.uniroma3.siw.pietropaolo.model.pojo.Piatto;
+import it.uniroma3.siw.pietropaolo.service.BuffetService;
 import it.uniroma3.siw.pietropaolo.service.IngredienteService;
 import it.uniroma3.siw.pietropaolo.upload.FileUploadUtil;
 
@@ -31,6 +34,9 @@ public class IngredienteController {
     @Autowired
     private IngredienteValidator ingredienteValidator;
 
+    @Autowired
+    private BuffetService buffetService;
+
     @GetMapping("/users/ingrediente/{id}")
     public String getIngredienteById(@PathVariable("id") Long id, Model model){
         Ingrediente ingrediente = ingredienteService.findById(id);
@@ -41,8 +47,23 @@ public class IngredienteController {
 
     @GetMapping("/admin/deleteIngrediente/{id}")
     public String deleteIngrediente(@PathVariable("id") Long id, Model model) throws IOException{
-		FileUploadUtil.deleteFile(ingredienteService.findById(id).getImmaginePath());
-        this.ingredienteService.deleteIngredienteById(id);
+        Ingrediente ingrediente = ingredienteService.findById(id);
+		FileUploadUtil.deleteFile(ingrediente.getImmaginePath());
+
+        for(Piatto piatto : ingrediente.getPiatti()) {
+            FileUploadUtil.deleteFile(piatto.getImmaginePath()); //in questo modo non vengono tenute le immagini inutilmente
+
+            for(Buffet buffet : piatto.getBuffets()){
+                buffet.getPiatti().remove(piatto);
+                
+                if(buffet.getPiatti().size() == 0){ //se il buffet rimane senza piatti viene eliminato                    
+                    FileUploadUtil.deleteFile(buffet.getImmaginePath());
+                    buffetService.deleteById(buffet.getId());
+                }
+            }
+        }
+
+        this.ingredienteService.deleteById(id);
         model.addAttribute("listaIngredienti", ingredienteService.findAll());
         return "listaIngredienti";
     }
@@ -77,7 +98,7 @@ public class IngredienteController {
             Ingrediente salvato = ingredienteService.save(ingrediente);
 
             model.addAttribute("actionLink", "/admin/uploadImageIngrediente/"+salvato.getId());
-			model.addAttribute("text", "Carica un immagine dell'ingrediente'");
+			model.addAttribute("text", "Carica un immagine dell'ingrediente "+salvato.getNome());
 			return "uploadImage";
         }else{
             return "ingredienteForm";
@@ -97,7 +118,7 @@ public class IngredienteController {
 			String caricaCartella = "fotoIngrediente/"+ ingrediente.getId();
 			FileUploadUtil.saveFile(caricaCartella, nomeFoto, multipartFile);
 		}else{
-			ingredienteService.deleteIngredienteById(id);
+			ingredienteService.deleteById(id);
 		}
 
 		model.addAttribute("ingrediente", ingrediente);

@@ -1,7 +1,5 @@
 package it.uniroma3.siw.pietropaolo.service;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,8 +11,6 @@ import it.uniroma3.siw.pietropaolo.repository.BuffetRepository;
 
 @Service
 public class BuffetService {
-
-	Logger logger = LoggerFactory.getLogger(BuffetService.class);
 	
 	@Autowired 
 	private BuffetRepository buffetRepository;
@@ -56,7 +52,7 @@ public class BuffetService {
 			.toList();
 	}
 
-	public void deleteBuffetById(Long id){
+	public void deleteById(Long id){
 		this.buffetRepository.deleteById(id);
 	}
 

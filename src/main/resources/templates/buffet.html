@@ -26,7 +26,11 @@
 						<div th:each="piatto : ${piattiDelBuffet}">
 							<div th:if="${piatto.classificazione.equals(T(it.uniroma3.siw.pietropaolo.model.pojo.Classificazione).ANTIPASTO)}">
 								<a class="text-decoration-none link-dark" th:href="@{'/users/piatto/'+ ${piatto.id}}"><h5 th:text="${piatto.nome}">Piatto</h5></a>
-								<p  class="text-muted" th:text="${piatto.descrizione}">Descrizione</p>
+								<div  class="text-muted" th:text="${piatto.descrizione}">Descrizione</div>
+								<p><small class="text-muted">(
+									<span th:each="ingrediente, itemStat : ${piatto.ingredienti}" 
+										th:text="!${itemStat.last} ? ${ingrediente.nome}+', ' : ${ingrediente.nome}+' )'"></span>
+								</small></p>
 							</div>
 						</div>
 						<h3>Primi</h3>
@@ -34,7 +38,11 @@
 						<div th:each="piatto : ${piattiDelBuffet}">
 							<div th:if="${piatto.classificazione.equals(T(it.uniroma3.siw.pietropaolo.model.pojo.Classificazione).PRIMO)}">
 								<a class="text-decoration-none link-secondary" th:href="@{'/users/piatto/'+ ${piatto.id}}"><h5 th:text="${piatto.nome}">Piatto</h5></a>
-								<p class="text-muted" th:text="${piatto.descrizione}">Descrizione</p>
+								<div class="text-muted" th:text="${piatto.descrizione}">Descrizione</div>
+								<p><small class="text-muted">(
+									<span th:each="ingrediente, itemStat : ${piatto.ingredienti}" 
+										th:text="!${itemStat.last} ? ${ingrediente.nome}+', ' : ${ingrediente.nome}+' )'"></span>
+								</small></p>
 							</div>
 						</div>
 					</div>
@@ -44,7 +52,11 @@
 						<div th:each="piatto : ${piattiDelBuffet}">
 							<div th:if="${piatto.classificazione.equals(T(it.uniroma3.siw.pietropaolo.model.pojo.Classificazione).SECONDO)}">
 								<a class="text-decoration-none" th:href="@{'/users/piatto/'+ ${piatto.id}}"><h5 th:text="${piatto.nome}">Piatto</h5></a>
-								<p class="text-muted" th:text="${piatto.descrizione}">Descrizione</p>
+								<div class="text-muted" th:text="${piatto.descrizione}">Descrizione</div>
+								<p><small class="text-muted">(
+									<span th:each="ingrediente, itemStat : ${piatto.ingredienti}" 
+										th:text="!${itemStat.last} ? ${ingrediente.nome}+', ' : ${ingrediente.nome}+' )'"></span>
+								</small></p>
 							</div>
 						</div>
 						<h3>Contorni</h3>
@@ -52,7 +64,11 @@
 						<div th:each="piatto : ${piattiDelBuffet}">
 							<div th:if="${piatto.classificazione.equals(T(it.uniroma3.siw.pietropaolo.model.pojo.Classificazione).CONTORNO)}">
 								<a class="text-decoration-none" th:href="@{'/users/piatto/'+ ${piatto.id}}"><h5 th:text="${piatto.nome}">Piatto</h5></a>
-								<p class="text-muted" th:text="${piatto.descrizione}">Descrizione</p>
+								<div class="text-muted" th:text="${piatto.descrizione}">Descrizione</div>
+								<p><small class="text-muted">(
+									<span th:each="ingrediente, itemStat : ${piatto.ingredienti}" 
+										th:text="!${itemStat.last} ? ${ingrediente.nome}+', ' : ${ingrediente.nome}+' )'"></span>
+								</small></p>
 							</div>
 						</div>
 						<h3>Dolci</h3>
@@ -60,7 +76,11 @@
 						<div th:each="piatto : ${piattiDelBuffet}">
 							<div th:if="${piatto.classificazione.equals(T(it.uniroma3.siw.pietropaolo.model.pojo.Classificazione).DOLCE)}">
 								<a class="text-decoration-none" th:href="@{'/users/piatto/'+ ${piatto.id}}"><h5 th:text="${piatto.nome}">Piatto</h5></a>
-								<p class="text-muted" th:text="${piatto.descrizione}">Descrizione</p>
+								<div class="text-muted" th:text="${piatto.descrizione}">Descrizione</div>
+								<p><small class="text-muted">(
+									<span th:each="ingrediente, itemStat : ${piatto.ingredienti}" 
+										th:text="!${itemStat.last} ? ${ingrediente.nome}+', ' : ${ingrediente.nome}+' )'"></span>
+								</small></p>
 							</div>
 						</div>
 					</div>			

@@ -6,8 +6,6 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import org.jboss.logging.Logger;
-import org.hibernate.annotations.common.util.impl.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,8 +28,6 @@ import it.uniroma3.siw.pietropaolo.upload.FileUploadUtil;
 
 @Controller
 public class BuffetController {
-
-	Logger logger = LoggerFactory.logger(BuffetController.class);
 	
 	@Autowired 
 	private BuffetService buffetService;
@@ -48,6 +44,7 @@ public class BuffetController {
 	@GetMapping("/users/buffet/{id}")
 	public String getBuffet(@PathVariable("id") Long id, Model model) {
 		Buffet buffet = buffetService.findById(id);
+
 		model.addAttribute("buffet", buffet);
 		model.addAttribute("piattiDelBuffet", buffet.getPiatti());
 		return "buffet";
@@ -56,7 +53,7 @@ public class BuffetController {
 	@GetMapping("/admin/deleteBuffet/{id}")
 	public String deleteBuffet(@PathVariable("id") Long id, Model model) throws IOException{
 		FileUploadUtil.deleteFile(buffetService.findById(id).getImmaginePath());
-		this.buffetService.deleteBuffetById(id);
+		this.buffetService.deleteById(id);
 		model.addAttribute("listaBuffet", this.buffetService.findAll());
 		model.addAttribute("listaChef", chefService.findAll());
 		return "listaBuffet";
@@ -76,7 +73,7 @@ public class BuffetController {
 	@GetMapping("/admin/editBuffet/{id}")
 	public String editBuffet(@PathVariable("id") Long id, Model model){
 		Buffet buffet = buffetService.findById(id);
-		logger.info("Prendo buffet da modificare: "+buffet.toString());
+		
 		model.addAttribute("buffet", buffet);
 		model.addAttribute("listaChef", chefService.findAll());
 		model.addAttribute("listaPiatti", piattoService.findAll());
@@ -94,11 +91,10 @@ public class BuffetController {
 	
 	@PostMapping("/admin/buffet")
 	public String newBuffet(@Valid @ModelAttribute("buffet") Buffet buffet, BindingResult bindingResult, Model model) {
-		logger.info("nuovo buffet"+buffet.toString());
 		this.buffetValidator.validate(buffet, bindingResult);
 		
 		if(!bindingResult.hasErrors()) {
-			Buffet salvato = this.buffetService.save(buffet);			
+			Buffet salvato = this.buffetService.save(buffet);
 			
 			model.addAttribute("actionLink", "/admin/uploadImageBuffet/"+salvato.getId());
 			model.addAttribute("text", "Carica un immagine del buffet");
@@ -117,13 +113,12 @@ public class BuffetController {
 		if(multipartFile != null){
 			String nomeFoto = StringUtils.cleanPath(multipartFile.getOriginalFilename());
 			buffet.setNomeFoto(nomeFoto);
-
 			buffetService.updateBuffet(buffet);
 
 			String caricaCartella = "fotoBuffet/"+ buffet.getId();
 			FileUploadUtil.saveFile(caricaCartella, nomeFoto, multipartFile);
 		}else{
-			buffetService.deleteBuffetById(id);
+			buffetService.deleteById(id);
 		}
 
 		model.addAttribute("listaBuffet", buffetService.findAll());

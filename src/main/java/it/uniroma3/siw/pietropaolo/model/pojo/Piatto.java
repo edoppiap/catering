@@ -3,15 +3,14 @@ package it.uniroma3.siw.pietropaolo.model.pojo;
 import java.util.List;
 import java.util.Objects;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -40,13 +39,18 @@ public class Piatto {
 
 	private String nomeFoto;
 	
-	@ManyToMany(mappedBy = "piatti", cascade = CascadeType.ALL)
-	private List<Buffet> listaBuffet;
+	/**
+	 * La Fetch la lascio di default (Lazy) perché quando chiamo la pagina per la lista piatti
+	 * non devo leggere anche i dati dei buffet
+	 */
+	@ManyToMany(mappedBy = "piatti")
+	private List<Buffet> buffets;
 	
-	@ManyToOne
-	private Chef chef;
-	
-	@ManyToMany
+	/**
+	 * La Fetch la cambio dal default (Lazy) e la metto Eager perché quando chiamo la pagina per la lista piatti
+	 * leggo anche la lista di ingredienti
+	 */
+	@ManyToMany(fetch = FetchType.EAGER)
 	private List<Ingrediente> ingredienti;
 
 	public String getImmaginePath(){

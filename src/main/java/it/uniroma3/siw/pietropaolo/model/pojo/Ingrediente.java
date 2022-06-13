@@ -35,7 +35,14 @@ public class Ingrediente {
 
 	private String nomeFoto;
 
-	@ManyToMany(mappedBy = "ingredienti", cascade = CascadeType.ALL)
+	/**
+	 * La Fetch la lascio di default (Lazy) perché quando chiamo la pagina per la lista ingredienti
+	 * non devo leggere anche i dati dei piatti
+	 * 
+	 * Aggiungo una politica cascade per eliminare anche i piatti che utilizzavano l'ingrediente
+	 * eliminato
+	 */
+	@ManyToMany(mappedBy = "ingredienti", cascade = CascadeType.REMOVE)
 	private List<Piatto> piatti;
 
 	public String getImmaginePath(){

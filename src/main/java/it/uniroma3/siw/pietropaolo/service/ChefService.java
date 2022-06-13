@@ -39,7 +39,7 @@ public class ChefService {
 			.sorted().toList();
 	}
 
-    public void deleteBuffetById(Long id) {
+    public void deleteById(Long id) {
 		this.chefRepository.deleteById(id);
     }
 

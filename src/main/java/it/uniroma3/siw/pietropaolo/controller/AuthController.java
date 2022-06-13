@@ -9,8 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -46,8 +44,6 @@ import it.uniroma3.siw.pietropaolo.model.pojo.User;
 
 @Controller
 public class AuthController {
-
-    Logger logger = LoggerFactory.getLogger(AuthController.class);
     
     @Autowired
     private CredentialsService credentialsService;
@@ -135,8 +131,6 @@ public class AuthController {
             }else{
                 userCredentials = credentialsService.findByUsername((String) userAttributes.get("login"));
             }
-
-            logger.info("Ecco l'userAttributes: "+userAttributes.toString());
             
             if(userCredentials == null){
                 Credentials oauthCredentials = new Credentials();
@@ -162,7 +156,6 @@ public class AuthController {
                     oauthUser.setEmail("email"+id+"@github.com");
                 }
                 oauthCredentials.setUser(oauthUser);
-                logger.info("Controller2: "+(String) userAttributes.get("given_name"));
 
                 if(((String) userAttributes.get("given_name")) != null){
                     oauthCredentials.setUsername((String) userAttributes.get("given_name"));
@@ -218,7 +211,6 @@ public class AuthController {
             for(ObjectError errore : userBindingResult.getGlobalErrors()){
                 messaggi.add(errore.getCode());
             }
-            logger.info("Ecco gli errori: "+messaggi);
             model.addAttribute("userErrors", messaggi);
         }
         if(credentialsBindingResult.getGlobalErrorCount() != 0){
@@ -226,7 +218,6 @@ public class AuthController {
             for(ObjectError errore : credentialsBindingResult.getGlobalErrors()){
                 messaggi.add(errore.getCode());
             }
-            logger.info("Ecco gli errori: "+messaggi);
             model.addAttribute("credentialsErrors", messaggi);
         }
 		return "registerForm";

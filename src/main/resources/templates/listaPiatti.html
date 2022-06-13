@@ -17,7 +17,11 @@
                                 <img th:src="@{${piatto.immaginePath}}" class="rounded-circle" width="140" height="140" style="object-fit: cover;">
                             </a>
                             <h2 class="fw-normal" th:text="${piatto.nome}"></h2>
-                            <p th:text="${piatto.descrizione}"></p>
+                            <div th:text="${piatto.descrizione}"></div>
+                            <p><small class="text-muted">(
+                                <span th:each="ingrediente, itemStat : ${piatto.ingredienti}" 
+                                    th:text="!${itemStat.last} ? ${ingrediente.nome}+', ' : ${ingrediente.nome}+' )'"></span>
+                            </small></p>
                             <div class="btn-group">
                                 <button sec:authorize="hasAuthority('ADMIN')" type="button" class="btn btn-sm btn-outline-dark" data-bs-toggle="modal" th:data-bs-target="'#modal'+${piatto.id}">Elimina</button>
                                 <button sec:authorize="hasAuthority('ADMIN')" type="button" class="btn btn-sm btn-outline-dark" th:data-url="@{'/admin/editPiatto/'+${piatto.id}}" onclick="window.location = this.getAttribute('data-url')">Modifica</button>

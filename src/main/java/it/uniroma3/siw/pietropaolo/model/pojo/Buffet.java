@@ -33,10 +33,18 @@ public class Buffet implements Comparable<Buffet>{
 
 	private String nomeFoto;
 	
+	/**
+	 * La Fetch la lascio di default (Eager) perché quando chiamo la pagina per la lista buffet
+	 * leggo anche i dati degli chef che presentano ogni buffet
+	 */
 	@NotNull
 	@ManyToOne
 	private Chef chef;
 	
+	/**
+	 * La Fetch la lascio di default (Lazy) perché quando chiamo la pagina per la lista buffet
+	 * non devo leggere anche i dati dei piatti
+	 */
 	@ManyToMany
 	private List<Piatto> piatti;
 

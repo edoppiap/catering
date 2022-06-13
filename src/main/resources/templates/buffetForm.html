@@ -24,10 +24,6 @@
 									<div class="invalid-feedback" th:if="${#fields.hasErrors('descr')}" th:errors="*{descr}"></div>
 								</div>
 								<br>
-								<div class="form-group col-mad-4" th:if="${not #lists.isEmpty(buffet.piatti)}">
-									<span>Piatti:</span>
-									<span th:each="piatto : ${buffet.piatti}" th:text="${piatto.nome}">Piatto</span>
-								</div>
 								<br>
 								<div class="form-group col-md-6">
 									<!--Piatti checkbox-->

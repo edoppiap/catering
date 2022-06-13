@@ -35,7 +35,14 @@ public class Chef implements Comparable<Chef>{
 
 	private String nomeFoto;
 	
-	@OneToMany(mappedBy="chef", cascade = CascadeType.ALL)
+	/**
+	 * La Fetch la lascio di default (Lazy) perché quando chiamo la pagina per la lista chef
+	 * non devo leggere anche i dati dei buffet
+	 * 
+	 * Aggiungo una politica cascade per eliminare anche i buffet che venivano presentati
+	 * dallo chef eliminato
+	 */
+	@OneToMany(mappedBy="chef", cascade = CascadeType.REMOVE)
 	private List<Buffet> listaBuffet;
 
 	public String getImmaginePath(){

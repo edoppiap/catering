@@ -4,8 +4,6 @@ import java.io.IOException;
 
 import javax.validation.Valid;
 
-import org.jboss.logging.Logger;
-import org.hibernate.annotations.common.util.impl.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,16 +16,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import it.uniroma3.siw.pietropaolo.service.BuffetService;
 import it.uniroma3.siw.pietropaolo.service.IngredienteService;
 import it.uniroma3.siw.pietropaolo.service.PiattoService;
 import it.uniroma3.siw.pietropaolo.upload.FileUploadUtil;
 import it.uniroma3.siw.pietropaolo.controller.validator.PiattoValidator;
+import it.uniroma3.siw.pietropaolo.model.pojo.Buffet;
 import it.uniroma3.siw.pietropaolo.model.pojo.Piatto;
 
 @Controller
 public class PiattoController {
-
-    Logger logger = LoggerFactory.logger(PiattoController.class);
 
     @Autowired
     private PiattoService piattoService;
@@ -38,19 +36,36 @@ public class PiattoController {
     @Autowired
     private IngredienteService ingredienteService;
 
+    @Autowired
+    private BuffetService buffetService;
+
     @GetMapping("/users/piatto/{id}")
     public String getPiatto(@PathVariable("id") Long id, Model model){
         Piatto piatto = piattoService.findById(id);
         model.addAttribute("piatto", piatto);
         model.addAttribute("listaIngredienti", piatto.getIngredienti());
-        model.addAttribute("listaBuffet", piatto.getListaBuffet());
+        model.addAttribute("listaBuffet", piatto.getBuffets());
         return "piatto";
     }
 
     @GetMapping("/admin/deletePiatto/{id}")
     public String deletePiatto(@PathVariable("id") Long id, Model model) throws IOException{
-		FileUploadUtil.deleteFile(piattoService.findById(id).getImmaginePath());
-        piattoService.deletePiattoById(id);
+        Piatto piatto = piattoService.findById(id);
+		FileUploadUtil.deleteFile(piatto.getImmaginePath());
+
+        /**
+         * Questa logica è obbligata in quanto buffet non è la owned side
+         */
+        for(Buffet buffet : piatto.getBuffets()){
+            buffet.getPiatti().remove(piatto);
+            
+            if(buffet.getPiatti().size() == 0){ //se il buffet rimane senza piatti viene eliminato
+                FileUploadUtil.deleteFile(buffet.getImmaginePath());
+                buffetService.deleteById(buffet.getId());
+            }
+        }
+        piattoService.deletePiattoById(piatto.getId());
+
         model.addAttribute("listaPiatti", piattoService.findAll());
         return "listaPiatti";
     }
@@ -83,7 +98,7 @@ public class PiattoController {
             Piatto salvato = piattoService.save(piatto);
 
             model.addAttribute("actionLink", "/admin/uploadImagePiatto/"+salvato.getId());
-			model.addAttribute("text", "Carica un immagine del piatto'");
+			model.addAttribute("text", "Carica un immagine del piatto "+salvato.getNome());
 			return "uploadImage";
         }else{
             model.addAttribute("listaIngredienti", ingredienteService.findAll());
@@ -104,7 +119,7 @@ public class PiattoController {
 			String caricaCartella = "fotoPiatto/"+ piatto.getId();
 			FileUploadUtil.saveFile(caricaCartella, nomeFoto, multipartFile);
 		}else{
-			ingredienteService.deleteIngredienteById(id);
+			ingredienteService.deleteById(id);
 		}
 
 		model.addAttribute("listaPiatti", piattoService.findAll());

@@ -5,8 +5,6 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,8 +27,6 @@ import it.uniroma3.siw.pietropaolo.upload.FileUploadUtil;
 
 @Controller
 public class ChefController {
-
-	Logger logger = LoggerFactory.getLogger(ChefController.class);
 	
 	@Autowired 
 	private ChefService chefService;
@@ -52,7 +48,7 @@ public class ChefController {
 	@GetMapping("/admin/deleteChef/{id}")
 	public String deleteBuffet(@PathVariable("id") Long id, Model model) throws IOException{
 		FileUploadUtil.deleteFile(chefService.findById(id).getImmaginePath());
-		this.chefService.deleteBuffetById(id);
+		this.chefService.deleteById(id);
 		model.addAttribute("listaChef", this.chefService.findAll());
 		return "listaChef";
 	}
@@ -113,7 +109,6 @@ public class ChefController {
 		if(!bindingResult.hasErrors()) {
 
 			Chef salvato = this.chefService.save(chef);
-			logger.info("Lista buffet da chef: "+ chef.toString());
 			model.addAttribute("actionLink", "/admin/uploadImageChef/"+salvato.getId());
 			model.addAttribute("text", "Carica un immagine dello chef");
 			return "uploadImage";
@@ -135,7 +130,7 @@ public class ChefController {
 			String caricaCartella = "fotoChef/"+ chef.getId();
 			FileUploadUtil.saveFile(caricaCartella, nomeFoto, multipartFile);
 		}else{
-			buffetService.deleteBuffetById(id);
+			buffetService.deleteById(id);
 		}
 
 		model.addAttribute("chef", chef);		
