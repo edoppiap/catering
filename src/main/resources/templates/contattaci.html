@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head th:replace="fragments/base :: head(titolo=#{title.contattaci})"></head>
+	<body>
+		<div th:replace="fragments/base :: header"></div>
+
+        <section style="background-image: url('/images/Ginevra_2018-115.jpg'); background-size: cover; background-position: center; ">
+            <div class="modal modal-lg position-static d-block py-5" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content shadow">
+                        <div class="modal-header p-5 pb-4 border-bottom-0">
+                            <h2 class="fw-bold mb-0">Contattaci</h2>
+                        </div>
+                        <div class="modal-body align-items-center">
+                            <form action="mailto:info@catering.com" method="post" enctyoe="text/plain">
+                                <div class="row">
+                                    <div class="col-5 d-flex flex-wrap align-items-center">
+                                        <img class="shadow rounded-2" src="/images/26_Champagne_Display.jpg" width="100%" height="auto">
+                                    </div>
+                                    <div class="col-7">
+                                            <div class="form-group">
+                                                <label for="input1">Nome:</label>
+                                                <input type="text" class="form-control" placeholder="Il tuo nome"/>                                            
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="input1">Mail:</label>
+                                                <input type="text" class="form-control" placeholder="La tua mail"/>                                            
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="input1">Messaggio:</label>
+                                                <textarea type="text" class="form-control" placeholder="Il tuo messaggio"></textarea>                                            
+                                            </div>
+                                            <br>
+                                            <div class="text-center">
+                                                <button class="btn btn-dark" type="submit">Invia</button>
+                                            </div>
+                                    </div> 
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div th:replace="fragments/base :: footer"></div>
+    </body>
+    <script th:replace="fragments/base :: script"></script>
+</html>

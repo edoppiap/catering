@@ -1,20 +1,23 @@
 package it.uniroma3.siw.pietropaolo.model.pojo;
 
+import java.util.List;
 import java.util.Objects;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
 
 import lombok.Data;
 
 @Entity
 @Data
-public class Chef {
+public class Chef implements Comparable<Chef>{
 	
-	private Chef() {
+	public Chef() {
 		
 	}
 	
@@ -28,8 +31,21 @@ public class Chef {
 	@NotBlank
 	private String cognome;
 	
-	@SuppressWarnings("unused")
 	private String nazionalita;
+
+	private String nomeFoto;
+	
+	@OneToMany(mappedBy="chef", cascade = CascadeType.ALL)
+	private List<Buffet> listaBuffet;
+
+	public String getImmaginePath(){
+		if(getNomeFoto() == null || getId() == null){
+			return null;
+		}
+		StringBuilder builder = new StringBuilder();
+		builder.append("/fotoChef/").append(getId()).append("/").append(getNomeFoto());
+		return builder.toString();
+	}
 
 	@Override
 	public int hashCode() {
@@ -65,5 +81,10 @@ public class Chef {
 		builder.append(nazionalita);
 		builder.append("]");
 		return builder.toString();
+	}
+
+	@Override
+	public int compareTo(Chef that) {
+		return this.getCognome().compareTo(that.getCognome());
 	}
 }

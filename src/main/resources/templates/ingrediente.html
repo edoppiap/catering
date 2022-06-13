@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head th:replace="fragments/base :: head(titolo=#{title.ingrediente}+' '+ ${ingrediente.nome})"></head>
+    <body>
+        <div th:replace="fragments/base :: header"></div>
+
+        <section th:replace="fragments/base :: up-details-section(mainText=|${ingrediente.nome}|, 
+                                                                    minorText=|${ingrediente.descr}|, 
+                                                                    src=#{ingrediente.listSrc}, 
+                                                                    editLink=|@{'/admin/editIngrediente/'+${ingrediente.id}}|, 
+                                                                    modalLink=|#modal${ingrediente.id}|)"></section>
+
+        <div class="album py-5 bg-light">
+            <div class="row">
+                <div class="col text-center">
+                    <img th:src="@{${ingrediente.immaginePath}}" class="rounded-circle" width="140" height="140" style="object-fit: cover;">
+                    <h2>Origine:</h2>
+                    <p class="lead" th:text="${ingrediente.origine}"></p>
+                    <br>
+                    <h2>Tutti i piatti dove è presente:</h2>
+                    <br>
+                </div>
+            </div>
+            <div th:replace="listaPiatti :: listaPiatti"></div>
+        </div>
+
+        <!--Delete Modal -->
+					<div class="modal fade" th:id="'modal'+${ingrediente.id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+						<div class="modal-dialog modal-dialog-centered">
+						<div class="modal-content">
+							<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLabel" th:text="|Sicuro di voler cancellare l'ingrediente: |+${ingrediente.nome}+|?|"></h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+							</div>
+							<div class="modal-body">
+                                Questo cancellerà anche tutti i piatti che usano questo ingrediente
+							</div>
+							<div class="modal-footer">
+							<button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Annulla</button>
+							<button type="button" class="btn btn-dark" th:data-url="@{'/admin/deleteIngrediente/'+${ingrediente.id}}" onclick="window.location = this.getAttribute('data-url')">Elimina</button>
+							</div>
+						</div>
+						</div>
+					</div>
+
+        <div th:replace="fragments/base :: footer"></div>
+    </body>
+    <script th:replace="fragments/base :: script"></script>	
+</html>

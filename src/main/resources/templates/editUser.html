@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head th:replace="fragments/base :: head(titolo=#{title.editUser})"></head>
+    <body>
+        <div th:replace="fragments/base :: header"></div>
+
+        <section style="background-image: url('/images/Ginevra_2018-115.jpg'); background-size: cover; background-position: center;">
+            <div class="modal modal-lg position-static d-block py-5" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content shadow">
+                        <div class="modal-header p-5 pb-4 border-bottom-0">
+                            <h2 class="fw-bold mb-0">Modifica profilo</h2>
+                        </div>
+                        <div class="modal-body p-5 pt-0">
+                            <form th:action="@{/users/updateUser}" method="post" th:object="${user}">
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label for="input1">Nome:</label>
+                                            <input type="text" class="form-control" placeholder="Mario" th:field = "*{nome}" th:classappend="${#fields.hasErrors('nome') ? 'is-invalid' : ' '}"/>
+                                            <span class="invalid-feedback" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="form-group col">
+                                            <label for="input1">Cognome:</label>
+                                            <input type="text" class="form-control" placeholder="Rossi" th:field = "*{cognome}" th:classappend="${#fields.hasErrors('cognome') ? 'is-invalid' : ' '}"/>
+                                            <span class="invalid-feedback" th:if="${#fields.hasErrors('cognome')}" th:errors="*{cognome}"></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <br>
+                                        <label for="input1">Email:</label>
+                                        <input type="email" class="form-control" placeholder="mario@esempio.com" th:field = "*{email}" th:classappend="${#fields.hasErrors('email') ? 'is-invalid' : ' '}"/>
+                                        <span class="invalid-feedback" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+                                    </div>
+                                    <br>
+                                    <div class="text-center">
+                                        <br>
+                                        <!--Field nascosco così durante l'aggiornamento non perdo l'id-->
+                                        <input hidden type="text" th:field="*{id}"/>
+                                        <span th:if="${#authentication.getPrincipal().getClass() == T(org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser)}">
+                                            <button class="btn btn-outline-dark" type="button" 
+                                            th:data-url="@{'/users/profilo/'+${#authentication.getPrincipal().getAttributes().given_name}}" onclick="window.location = this.getAttribute('data-url')">Annulla</button>
+                                        </span>
+
+                                        <span th:if="${#authentication.getPrincipal().getClass() == T(org.springframework.security.core.userdetails.User)}">
+                                            <button class="btn btn-outline-dark" type="button" th:if="${#authentication.getPrincipal().getClass() == T(org.springframework.security.core.userdetails.User)}"
+                                            th:data-url="@{'/users/profilo/'+${#authentication.getPrincipal().getUsername()}}" onclick="window.location = this.getAttribute('data-url')">Annulla</button>
+                                        </span>                                       
+                                        
+                                        <button class="btn btn-dark" type="submit">Conferma</button> 
+                                    </div>
+                                    <div th:if="${#fields.hasGlobalErrors()}">
+                                        <br>
+                                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                            <h4 class="alert-heading">Arcipigna!</h4>
+                                            <div th:each="err : ${#fields.globalErrors()}" th:text="${err}">...</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>  
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div th:replace="fragments/base :: footer"></div>
+    </body>
+    <script th:replace="fragments/base :: script"></script>
+</html>

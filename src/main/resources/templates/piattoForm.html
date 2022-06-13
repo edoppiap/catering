@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head th:replace="fragments/base :: head(titolo=#{title.piattoForm})"></head>
+    <body>
+        <div th:replace="fragments/base :: header"></div>
+
+        <div class="modal modal-signin position-static d-block py-5" tabindex="-1" role="dialog" style="background-image: url('/images/Ginevra_2018-115.jpg'); background-size: cover; background-position: center; ">
+            <div class="modal-dialog modal-xl" role="document">
+                <div class="modal-content shadow rounded-4">
+                    <div class="modal-header p-5 pb-4 border-bottom-0">
+						<h2 class="fw-bold mb-0">Inserisci nuovo piatto</h2>
+					</div>
+                    <form th:action="@{/admin/piatto}" method="post" th:object="${piatto}">
+                        <div class="modal-body p-5 pt-0">
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label>Nome piatto:</label>
+                                    <input type="text" class="form-control" placeholder="Amatriciana" th:field = "${piatto.nome}" th:classappend="${#fields.hasErrors('nome') ? 'is-invalid' : ' '}"/>
+                                    <span class="invalid-feedback" th:if="${#fields.hasErrors('nome')}" th:errors="${piatto.nome}"></span>
+                                </div>
+                                <div class="form-group col-md-8">
+                                    <label>Descrizione:</label>
+                                    <textarea type="text" class="form-control" placeholder="Scrivi qualcosa su questo piatto" th:field = "*{descrizione}" th:classappend="${#fields.hasErrors('descrizione') ? 'is-invalid' : ' '}"></textarea>
+                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('descrizione')}" th:errors="*{descrizione}"></div>
+                                    <br>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>Seleziona il tipo di piatto:</label>
+                                    <select class="form-select" th:field="*{classificazione}" th:classappend="${#fields.hasErrors('classificazione') ? 'is-invalid' : ' '}">
+                                        <option value="" hidden>Seleziona un opzione...</option>
+                                        <option value="" disabled>Seleziona un opzione...</option>
+                                        <option th:each="classificazione : ${T(it.uniroma3.siw.pietropaolo.model.pojo.Classificazione).values()}" th:value="${classificazione}" th:text="${classificazione.value}"></option>
+                                    </select>
+                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('classificazione')}" th:errors="*{classificazione}"></div>
+                                </div>
+                                <div class="form-group col-md-8">
+                                    <label for="ingrediente">Inserisci uno o più ingredienti..</label>
+    
+                                    <div class="list-group mx-0 w-auto overflow-auto" style="height: 200px;">
+                                        <div th:each="ingrediente: ${listaIngredienti}" class="list-group-item d-flex gap-2" >
+                                            <input class="form-check-input flex-shrink-0" type="checkbox" th:value="${ingrediente.id}" th:field="*{ingredienti}"/>
+                                            <span><div th:text="${ingrediente.nome}"></div>
+                                                <small class="d-block text-muted" th:text="${ingrediente.descr}"></small></span>
+                                        </div>
+                                    </div>                                    
+
+                                    <!--Field nascosco così durante l'aggiornamento non perdo l'id-->
+								    <input hidden type="text" th:field="*{id}"/>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="text-center"><button class="btn btn-dark" type = "submit">Conferma</button></div>
+                            <div th:if="${#fields.hasGlobalErrors()}">
+                                <br>
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    <h4 class="alert-heading">Arcipigna!</h4>
+                                    <div th:each="err : ${#fields.globalErrors()}" th:text="${err}">...</div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div th:replace="fragments/base :: footer"></div>
+    </body>
+    <script th:replace="fragments/base :: script"></script>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head th:replace="fragments/base :: head(titolo=#{title.chef}+' '+${chef.nome})"></head>
+	<body>
+		<div th:replace="fragments/base :: header"></div>
+		
+
+		<section th:replace="fragments/base :: up-details-section(mainText=|${chef.nome} ${chef.cognome}|, 
+																minorText=|${chef.nazionalita}|, 
+																src=#{buffet.listSrc},
+																editLink=|@{'/admin/editChef/'+${chef.id}}|, 
+																modalLink=|#modal${chef.id}|)"></section>
+
+		<div class="album py-5 bg-light">
+			<div class="container">
+				<div class="row">
+					<div class="col text-center">
+						<img th:src="@{${chef.immaginePath}}" alt="avatar"
+                                    class="rounded-circle img-fluid" style="width: 150px; height: 150px; object-fit: cover;">
+						<h2>Tutti i suoi buffet</h2>
+						<br>
+					</div>
+				</div>
+				<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+					<div class="col" th:each="buffet:${listaBuffet}">
+						<div th:replace="listaBuffet :: listaBuffet">
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!--Delete Modal -->
+		<div class="modal fade shadow" th:id="'modal'+${chef.id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel" th:text="'Sicuro di voler cancellare lo chef: '+${chef.nome}+' '+${chef.cognome}+'?'">Sei sicuro di voler cancellare lo chef?</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+				Questo cancellerà anche tutti i suoi buffet presentati
+				</div>
+				<div class="modal-footer">
+				<button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Annulla</button>
+				<button type="button" class="btn btn-dark" th:data-url="@{'/admin/deleteChef/'+${chef.id}}" onclick="window.location = this.getAttribute('data-url')">Elimina</button>
+				</div>
+			</div>
+			</div>
+		</div>
+
+		<div th:replace="fragments/base :: footer"></div>
+	</body>
+	<script th:replace="fragments/base :: script"></script>	
+</html>

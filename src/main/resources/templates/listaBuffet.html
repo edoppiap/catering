@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head th:replace="fragments/base :: head(titolo=#{title.listaBuffet})"></head>
+	<body>
+		<div th:replace="fragments/base :: header"></div>
+
+		<section th:replace="fragments/base :: up-section(mainText=#{buffet.listTitle}, minorText=#{buffet.listLead}, src=#{buffet.listSrc})"></section>
+
+		<div class="album py-5 bg-light">
+			<div class="container">
+				<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+					<div class="col" th:each="buffet:${listaBuffet}">
+						<div th:fragment="listaBuffet">
+							<div class="card shadow-lg">
+								<a href="buffet.html" th:href="@{'/users/buffet' + '/' + ${buffet.id}}" style="text-decoration: none; color: inherit;">
+									<img class="card-img-top" style="object-fit: cover;" height="250" aria-label="Placeholder: Thumbnail"
+											th:src="@{${buffet.immaginePath}}">
+									<!--<svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" 
+									aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
+										
+										<title>Nome del buffet</title>
+										<rect width="100%" height="100%" fill="#55595c"></rect>
+										<text x="50%" y="50%" fill="#eceeef" text-anchor="middle" dy=".3em" th:text="${buffet.nome}">Thumbnail</text>
+									</svg>-->
+								</a>
+								<div class="card-body">
+									<h5 class="card-title" title="Nome buffet" th:text="${buffet.nome}"></h5>
+									<p class="card-text text-truncate" title="Descrizione" th:text="${buffet.descr}">Descrizione</p>
+									<a class="link-secondary" href="chef.html" th:href="'/users/chef/'+${buffet.chef.id}" style="text-decoration: none;">
+										<p title="Nome chef" th:text="${buffet.chef.nome}+' '+${buffet.chef.cognome}">Mario Rossi</h5>
+									</a>
+
+									<div class="d-flex justify-content-between align-items-center" >
+										<div class="btn-group">
+											<button sec:authorize="hasAuthority('ADMIN')" type="button" class="btn btn-sm btn-outline-dark" data-bs-toggle="modal" th:data-bs-target="'#modal'+${buffet.id}">Elimina</button>
+											<button sec:authorize="hasAuthority('ADMIN')" type="button" class="btn btn-sm btn-outline-dark" th:data-url="@{'/admin/editBuffet/'+${buffet.id}}" onclick="window.location = this.getAttribute('data-url')">Modifica</button>
+											<button type="button" class="btn btn-sm btn-outline-dark" th:data-url="'/users/buffet/'+${buffet.id}" onclick="window.location = this.getAttribute('data-url')">Vedi</button>
+										</div>
+									</div>
+								</div>
+							</div>
+							
+							<!--Delete Modal -->
+							<div class="modal fade" th:id="'modal'+${buffet.id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+								<div class="modal-dialog modal-dialog-centered">
+								<div class="modal-content">
+									<div class="modal-header">
+									<h5 class="modal-title" id="exampleModalLabel">Attenzione!</h5>
+									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+									</div>
+									<div class="modal-body" th:text="'Sicuro di voler cancellare il buffet: '+${buffet.nome}+'?'"></div>
+									<div class="modal-footer">
+									<button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Annulla</button>
+									<button type="button" class="btn btn-dark"  th:data-url="@{'/admin/deleteBuffet/'+${buffet.id}}" onclick="window.location = this.getAttribute('data-url')">Elimina</button>
+									</div>
+								</div>
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div th:replace="fragments/base :: footer"></div>
+	</body>
+	<script th:replace="fragments/base :: script"></script>
+</html>

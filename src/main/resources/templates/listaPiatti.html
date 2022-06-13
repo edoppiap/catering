@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head th:replace="fragments/base :: head(titolo=#{title.listaPiatti})"></head>
+	<body>
+		<div th:replace="fragments/base :: header"></div>
+
+		<section th:replace="fragments/base :: up-section(mainText=#{piatto.listTitle}, minorText=#{piatto.listLead}, src=#{piatto.listSrc})"></section>
+
+        <div class="album py-5 bg-light" th:fragment="listaPiatti">
+            <div class="container">
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                    <div class="col" th:each="piatto : ${listaPiatti}">
+                        <div class="text-center">
+                            <a th:href="@{'/users/piatto/'+${piatto.id}}">
+                                <!--<svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 140x140" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#777"/><text x="50%" y="50%" fill="#777" dy=".3em">140x140</text></svg>
+                                -->
+                                <img th:src="@{${piatto.immaginePath}}" class="rounded-circle" width="140" height="140" style="object-fit: cover;">
+                            </a>
+                            <h2 class="fw-normal" th:text="${piatto.nome}"></h2>
+                            <p th:text="${piatto.descrizione}"></p>
+                            <div class="btn-group">
+                                <button sec:authorize="hasAuthority('ADMIN')" type="button" class="btn btn-sm btn-outline-dark" data-bs-toggle="modal" th:data-bs-target="'#modal'+${piatto.id}">Elimina</button>
+                                <button sec:authorize="hasAuthority('ADMIN')" type="button" class="btn btn-sm btn-outline-dark" th:data-url="@{'/admin/editPiatto/'+${piatto.id}}" onclick="window.location = this.getAttribute('data-url')">Modifica</button>
+                                <button type="button" class="btn btn-sm btn-outline-dark" th:data-url="'/users/piatto/'+${piatto.id}" onclick="window.location = this.getAttribute('data-url')">Vedi</button>
+                            </div>
+                        </div>                        
+
+                    <!--Delete Modal -->
+					<div class="modal fade" th:id="'modal'+${piatto.id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+						<div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Attenzione!</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body" th:text="'Sicuro di voler cancellare il piatto: '+${piatto.nome}+'?'"></div>
+                                <div class="modal-footer">
+                                <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Annulla</button>
+                                <button type="button" class="btn btn-dark" th:data-url="@{'/admin/deletePiatto/'+${piatto.id}}" onclick="window.location = this.getAttribute('data-url')">Elimina</button>
+                                </div>
+                            </div>
+						</div>
+					</div>
+
+                    </div>
+                </div>
+            </div>            
+        </div>
+        
+		<div th:replace="fragments/base :: footer"></div>
+	</body>
+	<script th:replace="fragments/base :: script"></script>
+</html>

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head th:fragment="head(titolo)">
+        <meta charset="UTF-8" />
+        <link rel="icon" type="image/gif/png" href="/icons/round_local_bar_black_bg_24dp.jpeg"/>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" 
+        rel="stylesheet" 
+        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" 
+        crossorigin="anonymous">
+        <title th:text="${titolo}"></title>
+    </head>
+    <body>
+        <!--Start navbar-->
+        <nav th:fragment="header" class="navbar navbar-expand-sm p-3 sticky-top shadow-lg text-gray" style="background-color: #C0C0C0;">
+            <div class="container">
+                <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+                    <a class="navbar-brand" href="/">
+                        Catering
+                        <img src="/icons/round_local_bar_black_24dp.png" width="25px"/>
+                    </a>
+                </div>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link px-2" href="/">Home</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Scopri
+                              </a>
+                              <ul class="dropdown-menu text-small mx-0 p-2 gap-1" aria-labelledby="operazioniDropdown">
+                                <li>
+                                    <a class="dropdown-item rounded-2" th:href="@{/users/listaBuffet}" href='#'>I Buffet</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item rounded-2" th:href="@{/users/listaChef}" href='#'>Gli Chef</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item rounded-2" th:href="@{/users/listaPiatti}" href='#'>I piatti</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item rounded-2" th:href="@{/users/listaIngredienti}" href='#'>Gli ingredienti</a>
+                                </li>
+                              </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/about" class="nav-link px-2" th:text="#{index.about}"></a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/contactUs" class="nav-link px-2" th:text="#{index.contact}"></a>
+                        </li>
+                        
+                    </ul>
+                    <div class="text-end" sec:authorize="isAnonymous()">
+                        <button type="button" class="btn btn-outline-dark me-2" onclick='window.location.href="/login"' th:text="#{index.login}">Accedi</button>
+                        <button type="button" class="btn btn-dark" onclick='window.location.href="/register"' th:text="#{index.register}">Iscriviti</button>
+                    </div>
+                    <div class="nav-item dropdown text-end" sec:authorize="isAuthenticated()">
+                        <a class="d-block link-dark text-decoration-none dropdown-toggle px-2" id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="true">
+                            <span th:if="${#authentication.getPrincipal().getClass() == T(org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser)}" 
+                                th:text="${#authentication.getPrincipal().getAttributes().given_name}"></span>
+                            
+                            <span th:if="${#authentication.getPrincipal().getClass() == T(org.springframework.security.core.userdetails.User)}" 
+                                th:text="${#authentication.getPrincipal().getUsername()}"></span>
+
+                            <span th:if="${#authentication.getPrincipal().getClass() == T(org.springframework.security.oauth2.core.user.DefaultOAuth2User)}" 
+                                th:text="${#authentication.getPrincipal().getAttributes().login}"></span>
+                            <span sec:authorize="hasAuthority('ADMIN')">[ADMIN]</span>
+                        </a>
+                        <ul class="dropdown-menu text-small mx-0 p-2 gap-1 rounded-2" aria-labelledby="dropdownUser" style="position: absolute; inset: 0px 0px auto auto; margin: 0px; transform: translate(0px, 34px);"
+                            data-popper-placement="bottom-end">
+                            <li th:if="${#authentication.getPrincipal().getClass() == T(org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser)}">
+                                <a class="dropdown-item rounded-2" th:href="@{'/users/profilo/'+ ${#authentication.getPrincipal().getAttributes().given_name}}">Profilo</a>
+                            </li>
+                            <li th:if="${#authentication.getPrincipal().getClass() == T(org.springframework.security.core.userdetails.User)}">
+                                <a class="dropdown-item rounded-2" th:href="@{'/users/profilo/'+ ${#authentication.getPrincipal().getUsername()}}">Profilo</a>
+                            </li>
+                            <li th:if="${#authentication.getPrincipal().getClass() == T(org.springframework.security.oauth2.core.user.DefaultOAuth2User)}">
+                                <a class="dropdown-item rounded-2" th:href="@{'/users/profilo/'+ ${#authentication.getPrincipal().getAttributes().login}}">Profilo</a>
+                            </li>
+                            <li><hr class="dropdwown-divider"></li>
+                            <li sec:authorize="hasAuthority('ADMIN')"><a class="dropdown-item rounded-2" th:href="@{/index}" href='#'><strong>Tutte le operazioni</strong></a></li>
+                            <li sec:authorize="hasAuthority('ADMIN')"><a class="dropdown-item rounded-2" th:href="@{/admin/chefForm}" href='#'>Inserisci Chef</a></li>
+                            <li sec:authorize="hasAuthority('ADMIN')"><a class="dropdown-item rounded-2" th:href="@{/admin/buffetForm}" href='#'>Inserisci Buffet</a></li>
+                            <li sec:authorize="hasAuthority('ADMIN')"><a class="dropdown-item rounded-2" th:href="@{/admin/piattoForm}" href="#">Inserisci Piatto</a></li>
+                            <li sec:authorize="hasAuthority('ADMIN')"><a class="dropdown-item rounded-2" th:href="@{/admin/ingredienteForm}" href="#">Inserisci Ingrediente</a></li>
+                            <li sec:authorize="hasAuthority('ADMIN')"><hr class="dropdwown-divider"></li>
+                            <li><a class="dropdown-item rounded-2" href="/logout">Logout</a></li>
+                        
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <!--End navbar-->
+
+        <!--Start list carousel-->
+        <div id="myCarousel" th:fragment="up-section(mainText, minorText, src)" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active" style="height: 25rem; background-color: black;">
+                    <img th:src="${src}" style="filter: blur(5px) opacity(.7);" class="bd-placeholder-img" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></img>
+                    <div class="container">
+                        <div class="carousel-caption text-center">
+                            <h1 class="text-light" style="text-shadow: 2px 2px 2px black;" th:text="${mainText}"></h1>
+                            <p class="lead text-light" style="text-shadow: 2px 2px 2px black;" th:text="${minorText}"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--End list carousel-->
+
+        <!--Start detailed carousel-->
+        <div id="myCarousel" th:fragment="up-details-section(mainText, minorText, src, editLink, modalLink)" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active" style="height: 25rem; background-color: black;">
+                    <img th:src="${src}" style="filter: blur(5px) opacity(.7);" class="bd-placeholder-img" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></img>
+                    <div class="container">
+                        <div class="carousel-caption text-center">
+                            <h1 class="text-light" style="text-shadow: 2px 2px 2px black;" th:text="${mainText}">Nome Cognome</h1>
+                            <p class="lead text-light" style="text-shadow: 2px 2px 2px black;" th:text="${minorText}">Nazionalita</p>
+                            <div sec:authorize="hasAuthority('ADMIN')">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-sm btn-outline-light" data-bs-toggle="modal" th:data-bs-target="${modalLink}">Elimina</button>
+                                    <button type="button" class="btn btn-sm btn-outline-light" th:data-url="${editLink}" onclick="window.location = this.getAttribute('data-url')">Modifica</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--End detailed carousel-->
+
+        <section class="py-5 text-center">
+            <img src="/images/Breakfast_Buffet_Top_Hero.png" class="bd-placeholder-img" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></img>
+			<div class="container">
+                <div class="row py-lg-5">
+                    <div class="col-lg-6 col-md-8 mx-auto">
+                        <h1 class="fw-light" th:text="${mainText}">Nome Cognome</h1>
+                        <p class="lead text-muted" th:text="${minorText}">Nazionalita</p>
+                    </div>
+                </div>
+            </div>
+		</section>
+
+        <!--Start footer-->
+        <div class="container" th:fragment="footer">
+            <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+              <p class="col-md-4 mb-0 text-muted">&copy; 2022 Catering</p>
+          
+              <a href="/" class="lead col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
+                Catering
+                <img src="/icons/round_local_bar_black_24dp.png" width="25px"/>
+              </a>
+          
+              <ul class="nav col-md-4 justify-content-end">
+                <li class="nav-item"><a href="/" class="nav-link px-2 text-muted">Home</a></li>
+                <li class="nav-item"><a href="/about" class="nav-link px-2 text-muted" th:text="#{index.about}"></a></li>
+                <li class="nav-item"><a href="/contactUs" class="nav-link px-2 text-muted" th:text="#{index.contact}"></a></li>
+              </ul>
+            </footer>
+        </div>
+        <!--End footer-->
+
+        <!--Start footer
+        <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 container">
+            <div class="col-md-4 d-flex align-items-center">
+                <a class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none" href="/">
+                    <svg class="bi me-2" width="40" height="48" role="img" aria-label="catering">
+                        <path d="M11 39H18.5V26.5H29.5V39H37V19.5L24 9.75L11 19.5ZM11 42Q9.75 42 8.875 41.125Q8 40.25 8 39V19.5Q8 18.8 8.325 18.15Q8.65 17.5 9.2 17.1L22.2 7.35Q22.6 7.05 23.05 6.9Q23.5 6.75 24 6.75Q24.5 6.75 24.95 6.9Q25.4 7.05 25.8 7.35L38.8 17.1Q39.35 17.5 39.675 18.15Q40 18.8 40 19.5V39Q40 40.25 39.125 41.125Q38.25 42 37 42H26.5V29.5H21.5V42ZM24 24.35Z"/>
+                    </svg>
+                </a>
+                <span>Catering</span>
+            </div>
+        </footer>
+        End footer-->
+
+        <!--Script fragment-->
+        <script th:fragment="script" src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    </body>
+</html>

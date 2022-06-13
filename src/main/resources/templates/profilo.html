@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="fragments/base :: head(titolo=#{title.profilo})"></head>
+    <body>
+        <div th:replace="fragments/base :: header"></div>
+
+        <section style="background-image: url('/images/Ginevra_2018-115.jpg'); background-size: cover; background-position: center;">
+            <div class="modal modal-lg position-static d-block py-5" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content shadow">
+                        <div class="modal-header p-5 pb-4 border-bottom-0">
+                            <h2 class="fw-bold mb-0">Profilo</h2>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-4 text-center">
+                                    <div th:if="${user.nomeFoto == null}">
+                                        <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar"
+                                        class="rounded-circle img-fluid" style="width: 150px;">
+                                    </div>
+                                    <div th:unless="${user.nomeFoto == null}">
+                                        <img th:src="@{${user.immaginePath}}" alt="avatar" class="rounded-circle img-fluid" style="width: 150px; height: 150px; object-fit: cover;">
+                                    </div>
+                                    <br>
+                                    <div class="btn-group">
+                                        <button th:unless="${user.nomeFoto == null}" type="button" class="btn btn-outline-dark btn-sm"
+                                            data-bs-toggle="modal" data-bs-target="#deleteModal">Elimina</button>
+                                        <button class="btn btn-dark btn-sm" type="button" 
+                                            th:data-url="@{'/users/uploadImageUser/'+${user.id}}" 
+                                            onclick="window.location = this.getAttribute('data-url')">Carica</button>
+                                    </div>
+                                </div>
+                                <div class="col-8">
+                                    <div class="row">
+                                        <div class="col-4">                                    
+                                            <p>Name</p>
+                                        </div>
+                                        <div class="col-8">
+                                            <p class="text-muted" th:text="${user.nome}"></p>
+                                        </div>
+                                        <hr style="width: 90%;">
+                                        <div class="col-4">                                    
+                                            <p>Surname</p>
+                                        </div>
+                                        <div class="col-8">
+                                            <p class="text-muted" th:text="${user.cognome}"></p>
+                                        </div>
+                                        <hr style="width: 90%;">
+                                        <div class="col-4">                                    
+                                            <p>E-mail</p>
+                                        </div>
+                                        <div class="col-8">
+                                            <p class="text-muted" th:text="${user.email}"></p>
+                                        </div>
+                                        <hr style="width: 90%;">
+                                        <div class="col-4">                                    
+                                            <p>Username</p>
+                                        </div>
+                                        <div class="col-8">
+                                            <p class="text-muted" th:text="${credentials.username}"></p>
+                                        </div>
+                                        <hr style="width: 90%;">
+                                        <div class="col-4">
+                                            <p>Role</p>
+                                        </div>
+                                        <div class="col-8">
+                                            <p class="text-muted" th:text="${credentials.role}"></p>
+                                        </div>
+                                    </div>                                 
+                                </div>
+                                <br>
+                                <div class="text-center">
+                                    <button class="btn btn-dark" type="button"
+                                    th:data-url="@{'/users/editUser/'+${credentials.username}}" onclick="window.location = this.getAttribute('data-url')">Modifica</button>
+                                </div>   
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!--Delete Modal -->
+		<div class="modal fade shadow" th:id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Attenzione!</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+                    Sei sicuro di voler eliminare l'immagine?
+				</div>
+				<div class="modal-footer">
+				<button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Annulla</button>
+				<button type="button" class="btn btn-dark" th:data-url="@{'/users/deleteImageUser/'+${user.id}}" onclick="window.location = this.getAttribute('data-url')">Elimina</button>
+				</div>
+			</div>
+			</div>
+		</div>
+
+        <div th:replace="fragments/base :: footer"></div>
+    </body>
+    <script th:replace="fragments/base :: script"></script>
+</html>

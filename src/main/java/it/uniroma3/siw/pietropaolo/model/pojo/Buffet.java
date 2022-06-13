@@ -1,20 +1,24 @@
 package it.uniroma3.siw.pietropaolo.model.pojo;
 
+import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import lombok.Data;
 
 @Entity
 @Data
-public class Buffet {
+public class Buffet implements Comparable<Buffet>{
 	
-	private Buffet() {
+	public Buffet() {
 		
 	}
 	
@@ -25,12 +29,29 @@ public class Buffet {
 	@NotBlank
 	private String nome;
 	
-	@SuppressWarnings("unused")
 	private String descr;
+
+	private String nomeFoto;
+	
+	@NotNull
+	@ManyToOne
+	private Chef chef;
+	
+	@ManyToMany
+	private List<Piatto> piatti;
 
 	@Override
 	public int hashCode() {
 		return Objects.hash(descr, nome);
+	}
+
+	public String getImmaginePath(){
+		if(getNomeFoto() == null || getId() == null){
+			return null;
+		}
+		StringBuilder builder = new StringBuilder();
+		builder.append("/fotoBuffet/").append(getId()).append("/").append(getNomeFoto());
+		return builder.toString();
 	}
 
 	@Override
@@ -60,4 +81,11 @@ public class Buffet {
 		builder.append("]");
 		return builder.toString();
 	}
+
+	@Override
+	public int compareTo(Buffet that) {
+		return this.getNome().compareTo(that.getNome());
+	}
+
+	
 }
