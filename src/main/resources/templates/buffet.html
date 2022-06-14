@@ -6,7 +6,7 @@
 
 		<section th:replace="fragments/base :: up-details-section(mainText=|${buffet.nome}|, 
 																	minorText=|${buffet.descr}|, 
-																	src='/images/Breakfast_Buffet_Top_Hero.png', 
+																	src=#{buffet.listSrc}, 
 																	editLink=|@{'/admin/editBuffet/'+${buffet.id}}|, 
 																	modalLink=|#modal${buffet.id}|)"></section>
 			
@@ -25,7 +25,7 @@
 						<hr width="70%" style="margin: auto;">
 						<div th:each="piatto : ${piattiDelBuffet}">
 							<div th:if="${piatto.classificazione.equals(T(it.uniroma3.siw.pietropaolo.model.pojo.Classificazione).ANTIPASTO)}">
-								<a class="text-decoration-none link-dark" th:href="@{'/users/piatto/'+ ${piatto.id}}"><h5 th:text="${piatto.nome}">Piatto</h5></a>
+								<a class="text-decoration-none link-secondary" th:href="@{'/users/piatto/'+ ${piatto.id}}"><h5 th:text="${piatto.nome}">Piatto</h5></a>
 								<div  class="text-muted" th:text="${piatto.descrizione}">Descrizione</div>
 								<p><small class="text-muted">(
 									<span th:each="ingrediente, itemStat : ${piatto.ingredienti}" 
@@ -51,7 +51,7 @@
 						<hr width="70%" style="margin: auto;">
 						<div th:each="piatto : ${piattiDelBuffet}">
 							<div th:if="${piatto.classificazione.equals(T(it.uniroma3.siw.pietropaolo.model.pojo.Classificazione).SECONDO)}">
-								<a class="text-decoration-none" th:href="@{'/users/piatto/'+ ${piatto.id}}"><h5 th:text="${piatto.nome}">Piatto</h5></a>
+								<a class="text-decoration-none link-secondary" th:href="@{'/users/piatto/'+ ${piatto.id}}"><h5 th:text="${piatto.nome}">Piatto</h5></a>
 								<div class="text-muted" th:text="${piatto.descrizione}">Descrizione</div>
 								<p><small class="text-muted">(
 									<span th:each="ingrediente, itemStat : ${piatto.ingredienti}" 
@@ -63,7 +63,7 @@
 						<hr width="70%" style="margin: auto;">
 						<div th:each="piatto : ${piattiDelBuffet}">
 							<div th:if="${piatto.classificazione.equals(T(it.uniroma3.siw.pietropaolo.model.pojo.Classificazione).CONTORNO)}">
-								<a class="text-decoration-none" th:href="@{'/users/piatto/'+ ${piatto.id}}"><h5 th:text="${piatto.nome}">Piatto</h5></a>
+								<a class="text-decoration-none link-secondary" th:href="@{'/users/piatto/'+ ${piatto.id}}"><h5 th:text="${piatto.nome}">Piatto</h5></a>
 								<div class="text-muted" th:text="${piatto.descrizione}">Descrizione</div>
 								<p><small class="text-muted">(
 									<span th:each="ingrediente, itemStat : ${piatto.ingredienti}" 
@@ -75,7 +75,7 @@
 						<hr width="70%" style="margin: auto;">
 						<div th:each="piatto : ${piattiDelBuffet}">
 							<div th:if="${piatto.classificazione.equals(T(it.uniroma3.siw.pietropaolo.model.pojo.Classificazione).DOLCE)}">
-								<a class="text-decoration-none" th:href="@{'/users/piatto/'+ ${piatto.id}}"><h5 th:text="${piatto.nome}">Piatto</h5></a>
+								<a class="text-decoration-none link-secondary" th:href="@{'/users/piatto/'+ ${piatto.id}}"><h5 th:text="${piatto.nome}">Piatto</h5></a>
 								<div class="text-muted" th:text="${piatto.descrizione}">Descrizione</div>
 								<p><small class="text-muted">(
 									<span th:each="ingrediente, itemStat : ${piatto.ingredienti}" 

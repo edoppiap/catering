@@ -17,7 +17,7 @@
                     <h2>Origine:</h2>
                     <p class="lead" th:text="${ingrediente.origine}"></p>
                     <br>
-                    <h2>Tutti i piatti dove è presente:</h2>
+                    <h2 th:unless="${ingrediente.piatti.empty}">Tutti i piatti dove è presente:</h2>
                     <br>
                 </div>
             </div>

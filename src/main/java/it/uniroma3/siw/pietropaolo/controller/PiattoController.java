@@ -44,7 +44,6 @@ public class PiattoController {
         Piatto piatto = piattoService.findById(id);
         model.addAttribute("piatto", piatto);
         model.addAttribute("listaIngredienti", piatto.getIngredienti());
-        model.addAttribute("listaBuffet", piatto.getBuffets());
         return "piatto";
     }
 

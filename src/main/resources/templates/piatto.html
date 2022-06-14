@@ -20,12 +20,12 @@
 						</div>
 						<div th:replace="listaIngredienti :: ingredienti"></div>
 						<br>
-						<h2>Tutti i buffet dove è presente:</h2>
+						<h2 th:unless="${piatto.buffets.empty}">Tutti i buffet dove è presente:</h2>
 						<br>
 					</div>
 				</div>
 				<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-					<div class="col" th:each="buffet:${listaBuffet}">
+					<div class="col" th:each="buffet:${piatto.buffets}">
 						<div th:replace="listaBuffet :: listaBuffet">
 					</div>
 				</div>

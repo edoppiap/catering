@@ -122,7 +122,7 @@ public class IngredienteController {
 		}
 
 		model.addAttribute("ingrediente", ingrediente);
-            return "ingrediente";
+        return "ingrediente";
 	}
     
 }
