@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import it.uniroma3.siw.pietropaolo.model.pojo.Buffet;
@@ -49,7 +50,7 @@ public class BuffetService {
 	public List<Buffet> findAll() {
 		return StreamSupport.stream(this.buffetRepository.findAll().spliterator(), true)
 			.sorted()
-			.toList();
+			.collect(Collectors.toList());
 	}
 
 	public void deleteById(Long id){

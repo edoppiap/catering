@@ -1,6 +1,7 @@
 package it.uniroma3.siw.pietropaolo.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +41,6 @@ public class IngredienteService {
 
 	public List<Ingrediente> findAll(){
 		return StreamSupport.stream(ingredienteRepository.findAll().spliterator(), true)
-			.toList();
+			.collect(Collectors.toList());
 	}
 }

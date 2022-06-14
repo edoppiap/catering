@@ -1,6 +1,7 @@
 package it.uniroma3.siw.pietropaolo.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +37,7 @@ public class ChefService {
 	
 	public List<Chef> findAll(){
 		return StreamSupport.stream(chefRepository.findAll().spliterator(), true)
-			.sorted().toList();
+			.sorted().collect(Collectors.toList());
 	}
 
     public void deleteById(Long id) {

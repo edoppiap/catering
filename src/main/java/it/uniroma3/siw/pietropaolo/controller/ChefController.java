@@ -2,6 +2,7 @@ package it.uniroma3.siw.pietropaolo.controller;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -41,7 +42,7 @@ public class ChefController {
 	private String getBuffet(@PathVariable("id") Long id, Model model) {
 		Chef chef = chefService.findById(id);
 		model.addAttribute("chef", chef);
-		model.addAttribute("listaBuffet", chef.getListaBuffet().parallelStream().sorted().toList());
+		model.addAttribute("listaBuffet", chef.getListaBuffet().parallelStream().sorted().collect(Collectors.toList()));
 		return "chef";
 	}
 
