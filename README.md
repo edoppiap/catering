@@ -12,4 +12,4 @@ Progetto d'esame Sistemi Informativi su Web.
 - Usa [Apache Commons Lang 3](https://www.baeldung.com/java-commons-lang-3) per generare una stringa casuale da usare come password per gli utenti loggati con google o github. Non è una buona pratica permettere il salvataggio di user senza password perché potrebbero venir usati per accedere al sistema in maniera illecita.
 - Sfrutta [Lombok](https://projectlombok.org/) per la scrittura dei metodi getter e setter. 
 - Permette il caricamento di immagini da parte dell'admin durante la aggiunta/modifica di una entity. L'user può caricare una sua immagine profilo.
-- Il sistema è consultabile al sito: [catering](http://siwcatering-env.eba-rap4upxh.us-east-1.elasticbeanstalk.com/). Purtroppo in questa versione le funzionalità per il caricamento delle immagini delle entity non funziona
+- Il sistema è consultabile al sito: [catering](http://siwcatering-env.eba-rap4upxh.us-east-1.elasticbeanstalk.com/). Purtroppo in questa versione la funzionalità per il caricamento delle immagini delle entity non funziona
