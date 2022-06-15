@@ -25,9 +25,7 @@ public class UserValidator implements Validator{
     @Override
     public void validate(Object target, Errors errors) {
         User user =(User) target;
-        if(userService.alreadyExists(user)){
-            errors.reject("user.duplicato");
-        }
+        
         if(userService.existsByEmail(user)){
             errors.reject("user.email.duplicato");
         }
