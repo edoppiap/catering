@@ -10,7 +10,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class MvcConfig implements WebMvcConfigurer{
 
-    @Override
+    /*@Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         getCartella("fotoBuffet", registry);
         getCartella("fotoChef", registry);
@@ -28,6 +28,6 @@ public class MvcConfig implements WebMvcConfigurer{
         }
 
         registry.addResourceHandler("/"+nomeCartella+"/**").addResourceLocations("file:/"+caricaPath+"/");
-    }
+    }*/
     
 }
