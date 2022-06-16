@@ -44,12 +44,12 @@
 									</div>
 								</div>
 							</div>
-							<div class="text-center">
-								<div class="btn-group">
-									<button sec:authorize="hasAuthority('ADMIN')" type="button" class="btn btn-sm btn-outline-dark" data-bs-toggle="modal" th:data-bs-target="'#modal'+${chef.id}">Elimina</button>
-									<button sec:authorize="hasAuthority('ADMIN')" type="button" class="btn btn-sm btn-outline-dark" th:data-url="@{'/admin/editChef/'+${chef.id}}" onclick="window.location = this.getAttribute('data-url')">Modifica</button>
-									<button type="button" class="btn btn-sm btn-outline-dark" th:data-url="@{'/users/chef' + '/' + ${chef.id}}" onclick="window.location = this.getAttribute('data-url')">Vedi</button>
-								</div>
+						</div>
+						<div class="card-footer border-top-0 bg-light">
+							<div class="btn-group">
+								<button sec:authorize="hasAuthority('ADMIN')" type="button" class="btn btn-sm btn-outline-dark" data-bs-toggle="modal" th:data-bs-target="'#modal'+${chef.id}">Elimina</button>
+								<button sec:authorize="hasAuthority('ADMIN')" type="button" class="btn btn-sm btn-outline-dark" th:data-url="@{'/admin/editChef/'+${chef.id}}" onclick="window.location = this.getAttribute('data-url')">Modifica</button>
+								<button type="button" class="btn btn-sm btn-outline-dark" th:data-url="@{'/users/chef' + '/' + ${chef.id}}" onclick="window.location = this.getAttribute('data-url')">Vedi</button>
 							</div>
 						</div>
 					</div>

@@ -29,13 +29,12 @@
 									<a class="link-secondary" href="chef.html" th:href="'/users/chef/'+${buffet.chef.id}" style="text-decoration: none;">
 										<p title="Nome chef" th:text="${buffet.chef.nome}+' '+${buffet.chef.cognome}">Mario Rossi</h5>
 									</a>
-
-									<div class="d-flex justify-content-between align-items-center" >
-										<div class="btn-group">
-											<button sec:authorize="hasAuthority('ADMIN')" type="button" class="btn btn-sm btn-outline-dark" data-bs-toggle="modal" th:data-bs-target="'#modal'+${buffet.id}">Elimina</button>
-											<button sec:authorize="hasAuthority('ADMIN')" type="button" class="btn btn-sm btn-outline-dark" th:data-url="@{'/admin/editBuffet/'+${buffet.id}}" onclick="window.location = this.getAttribute('data-url')">Modifica</button>
-											<button type="button" class="btn btn-sm btn-outline-dark" th:data-url="'/users/buffet/'+${buffet.id}" onclick="window.location = this.getAttribute('data-url')">Vedi</button>
-										</div>
+								</div>
+								<div class="card-footer border-top-0 bg-light">
+									<div class="btn-group">
+										<button sec:authorize="hasAuthority('ADMIN')" type="button" class="btn btn-sm btn-outline-dark" data-bs-toggle="modal" th:data-bs-target="'#modal'+${buffet.id}">Elimina</button>
+										<button sec:authorize="hasAuthority('ADMIN')" type="button" class="btn btn-sm btn-outline-dark" th:data-url="@{'/admin/editBuffet/'+${buffet.id}}" onclick="window.location = this.getAttribute('data-url')">Modifica</button>
+										<button type="button" class="btn btn-sm btn-outline-dark" th:data-url="'/users/buffet/'+${buffet.id}" onclick="window.location = this.getAttribute('data-url')">Vedi</button>
 									</div>
 								</div>
 							</div>

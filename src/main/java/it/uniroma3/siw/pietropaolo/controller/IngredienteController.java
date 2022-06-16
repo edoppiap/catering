@@ -122,6 +122,7 @@ public class IngredienteController {
 		}
 
 		model.addAttribute("ingrediente", ingrediente);
+        model.addAttribute("listaPiatti", ingrediente.getPiatti());
         return "ingrediente";
 	}
     

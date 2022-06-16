@@ -6,67 +6,57 @@
 
 		<section th:replace="fragments/base :: up-section(mainText=#{ingrediente.listTitle}, minorText=#{ingrediente.listLead}, src=#{ingrediente.listSrc})"></section>
 
-        <div  th:fragment="ingredienti"  class="album py-5 bg-light">
-            <div class="list-group container">
-                <div class="list-group-item" style="background-color: #C0C0C0;">
-                    <div class="row">
-                        <div class="col-2">
-                            <h5>Nome:</h5>
-                        </div>
-                        <div class="col-5">
-                            <h5>Descrizione:</h5>
-                        </div>
-                        <div class="col-2">
-                            <h5>Origine:</h5>
-                        </div>
-                        <div class="col-3">
-    
-                        </div>
-                    </div>
-                </div>
-                <div th:each="ingrediente : ${listaIngredienti}" class="list-group-item">
-                    <div class="row">
-                        <div class="col-2">
-                            <span th:text="${ingrediente.nome}"></span>
-                        </div>
-                        <div class="col-5">
-                            <span th:text="${ingrediente.descr}"></span>
-                        </div>
-                        <div class="col-2">
-                            <span th:text="${ingrediente.origine}"></span>
-                        </div>
-                        <div class="col-3">
-                            <div class="btn-group">
-                                <button sec:authorize="hasAuthority('ADMIN')" type="button" class="btn btn-sm btn-outline-dark" data-bs-toggle="modal" th:data-bs-target="'#modal'+${ingrediente.id}">Elimina</button>
-                                <button sec:authorize="hasAuthority('ADMIN')" type="button" class="btn btn-sm btn-outline-dark" th:data-url="@{'/admin/editIngrediente/'+${ingrediente.id}}" onclick="window.location = this.getAttribute('data-url')">Modifica</button>
-                                <button type="button" class="btn btn-sm btn-outline-dark" th:data-url="'/users/ingrediente/'+${ingrediente.id}" onclick="window.location = this.getAttribute('data-url')">Vedi</button>
+        <div th:fragment="ingredienti" class="album py-5 bg-light">
+			<div class="container">
+				<div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3">
+                    <div class="col" th:each="ingrediente : ${listaIngredienti}">
+                        <div class="card shadow" style="height: 12rem;">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-3">
+                                        <a th:href="'/users/ingrediente/'+${ingrediente.id}">
+                                            <img th:src="@{${ingrediente.immaginePath}}" class="rounded-2" width="70" height="70" style="object-fit: cover;">
+                                        </a>
+                                    </div>
+                                    <div class="col-9">
+                                            <h5 class="card-title" title="Nome" th:text="${ingrediente.nome}">Nome</h5>
+                                            <h6 class="card-subtitle mb-2 text-muted" title="Origine" th:text="${ingrediente.origine}">Origine</h6>
+                                            <p class="card-text text-truncate" title="Descrizione" th:text="${ingrediente.descr}">Descrizione</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer border-top-0 bg-light">
+                                <div class="btn-group">
+                                    <button sec:authorize="hasAuthority('ADMIN')" type="button" class="btn btn-sm btn-outline-dark" data-bs-toggle="modal" th:data-bs-target="'#modal'+${ingrediente.id}">Elimina</button>
+                                    <button sec:authorize="hasAuthority('ADMIN')" type="button" class="btn btn-sm btn-outline-dark" th:data-url="@{'/admin/editIngrediente/'+${ingrediente.id}}" onclick="window.location = this.getAttribute('data-url')">Modifica</button>
+                                    <button type="button" class="btn btn-sm btn-outline-dark" th:data-url="'/users/ingrediente/'+${ingrediente.id}" onclick="window.location = this.getAttribute('data-url')">Vedi</button>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <!--Delete Modal -->
-					<div class="modal fade" th:id="'modal'+${ingrediente.id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-						<div class="modal-dialog modal-dialog-centered">
-						<div class="modal-content">
-							<div class="modal-header">
-							<h5 class="modal-title" id="exampleModalLabel" th:text="|Sicuro di voler cancellare l'ingrediente: |+${ingrediente.nome}+|?|"></h5>
-							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-							</div>
-							<div class="modal-body">
-                                Questo cancellerà anche tutti i piatti che usano questo ingrediente
-							</div>
-							<div class="modal-footer">
-							<button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Annulla</button>
-							<button type="button" class="btn btn-dark" th:data-url="@{'/admin/deleteIngrediente/'+${ingrediente.id}}" onclick="window.location = this.getAttribute('data-url')">Elimina</button>
-							</div>
-						</div>
-						</div>
-					</div>
+                        <!--Delete Modal -->
+                        <div class="modal fade" th:id="'modal'+${ingrediente.id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel" th:text="|Sicuro di voler cancellare l'ingrediente: |+${ingrediente.nome}+|?|"></h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    Questo cancellerà anche tutti i piatti che usano questo ingrediente
+                                </div>
+                                <div class="modal-footer">
+                                <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Annulla</button>
+                                <button type="button" class="btn btn-dark" th:data-url="@{'/admin/deleteIngrediente/'+${ingrediente.id}}" onclick="window.location = this.getAttribute('data-url')">Elimina</button>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
 
+                    </div>                        
                 </div>
             </div>
-        </div>
-        
+        </div>        
 
         <div th:replace="fragments/base :: footer"></div>
 	</body>

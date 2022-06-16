@@ -16,9 +16,9 @@
                                 -->
                                 <img th:src="@{${piatto.immaginePath}}" class="rounded-circle" width="140" height="140" style="object-fit: cover;">
                             </a>
-                            <h2 class="fw-normal" th:text="${piatto.nome}"></h2>
-                            <div th:text="${piatto.descrizione}"></div>
-                            <p><small class="text-muted">(
+                            <h2 class="fw-normal" title="Nome" th:text="${piatto.nome}"></h2>
+                            <div title="Descrizione" th:text="${piatto.descrizione}"></div>
+                            <p title="Ingredienti"><small class="text-muted">(
                                 <span th:each="ingrediente, itemStat : ${piatto.ingredienti}" 
                                     th:text="!${itemStat.last} ? ${ingrediente.nome}+', ' : ${ingrediente.nome}+' )'"></span>
                             </small></p>

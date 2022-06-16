@@ -16,11 +16,13 @@
 					<div class="col">
 						<div class="text-center">
 							<img th:src="@{${piatto.immaginePath}}" class="rounded-circle" width="140" height="140" style="object-fit: cover;">
-							<h2>Ingredienti:</h2>
+							<h2>Ingredienti</h2>
 						</div>
 						<div th:replace="listaIngredienti :: ingredienti"></div>
 						<br>
-						<h2 th:unless="${piatto.buffets.empty}">Tutti i buffet dove è presente:</h2>
+						<div class="text-center">
+							<h2 th:unless="${piatto.buffets.empty}">Tutti i buffet dove è presente</h2>
+						</div>
 						<br>
 					</div>
 				</div>
